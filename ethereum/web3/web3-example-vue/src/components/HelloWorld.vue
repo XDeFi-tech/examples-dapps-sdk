@@ -31,6 +31,35 @@
         <div>resp: {{ resp }}</div>
         <div>err: {{ err }}</div>
       </div>
+
+      <div>
+        <h2>personal_sign</h2>
+        <input v-model="personalSign" />
+        <br />
+        <button @click="personalSignHandler">Personal Sign</button>
+        <br />
+        {{ personalSignResp }}
+        {{ personalSignErr }}
+      </div>
+
+      <div>
+        <h2>eth_sign</h2>
+        <input v-model="ethSign" />
+        <br />
+        <button @click="ethSignHandler">eth Sign</button>
+        <br />
+        {{ ethSignResp }}
+        {{ ethSignErr }}
+      </div>
+
+      <div>
+        <h2>eth_signTransaction</h2>
+        <pre>{{ signTxInfo }}</pre>
+        <button @click="ethSignTransactionHandler">eth Sign Transaction</button>
+        <br />
+        {{ ethSignResp }}
+        {{ ethSignErr }}
+      </div>
     </div>
   </div>
 </template>
@@ -39,14 +68,14 @@
 import Web3 from "web3";
 import erc20abi from "../assets/erc20abi.json";
 
-const _exampleCallback = (err, resp) => {
-  if (err) {
-    console.error("failed to erc20 send", err);
-    return;
-  }
-  console.log("send successfully erc20", resp);
-};
-console.log(_exampleCallback);
+// const _exampleCallback = (err, resp) => {
+//   if (err) {
+//     console.error("failed to erc20 send", err);
+//     return;
+//   }
+//   console.log("send successfully erc20", resp);
+// };
+// console.log(_exampleCallback);
 export default {
   name: "HelloWorld",
   props: {
@@ -62,6 +91,18 @@ export default {
       recipientAddress: "0x26E7Ef2D05793c6D47c678f1F4B246856236F089",
       erc20amount: 3,
       decimals: null,
+
+      personalSign: "hello",
+      personalSignResp: null,
+      personalSignErr: null,
+
+      ethSign: "helloethsign",
+      ethSignResp: null,
+      ethSignErr: null,
+
+      ethSignTransactionResp: null,
+      ethSignTransactionErr: null,
+      signTxInfo: null,
 
       resp: null,
       err: null,
@@ -94,6 +135,55 @@ export default {
           console.error("failed send", err);
           alert("failed", err);
           this.err = err;
+        });
+    },
+    personalSignHandler() {
+      console.log("personalSignHandler", this.web3);
+      this.web3.eth.personal
+        .sign(this.personalSign, this.web3Accounts[0])
+        .then((res) => {
+          console.log("res");
+          this.personalSignResp = res;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.personalSignErr = err;
+        });
+    },
+    ethSignHandler() {
+      console.log("ethSignHandler", this.web3);
+      this.web3.eth
+        .sign(this.ethSign, this.web3Accounts[0])
+        .then((res) => {
+          console.log("res");
+          this.ethSignResp = res;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.ethSignErr = err;
+        });
+    },
+    ethSignTransactionHandler() {
+      console.log("ethSignTransactionHandler", this.web3);
+      this.signTxInfo = {
+        from: this.web3Accounts[0],
+        gasPrice: "20000000000",
+        gas: "21000",
+        nonce: "0x42",
+        to: "0x3535353535353535353535353535353535353535",
+        value: "1000000000000000000",
+        data: "0xdeadbeef",
+      };
+      // https://web3js.readthedocs.io/en/v1.2.11/web3-eth-personal.html#id23
+      this.web3.eth
+        .signTransaction(this.signTxInfo)
+        .then((res) => {
+          console.log("res");
+          this.ethSignTransactionResp = res;
+        })
+        .catch((err) => {
+          console.error(err);
+          this.ethSignTransactionErr = err;
         });
     },
   },
