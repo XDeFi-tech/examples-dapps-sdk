@@ -57,8 +57,8 @@
         <pre>{{ signTxInfo }}</pre>
         <button @click="ethSignTransactionHandler">eth Sign Transaction</button>
         <br />
-        {{ ethSignResp }}
-        {{ ethSignErr }}
+        {{ ethSignTransactionResp }}
+        {{ ethSignTransactionErr }}
       </div>
     </div>
   </div>
