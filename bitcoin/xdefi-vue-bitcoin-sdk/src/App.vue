@@ -21,6 +21,28 @@
       </div>
     </div>
     <br /><br /><br />
+
+    <div>
+      <h1>transfer</h1>
+      <input type="text" v-model="transferFrom" placeholder="Transfer From" />
+      <input type="text" v-model="transferTo" placeholder="Transfer To" />
+      <input
+        type="number"
+        v-model="transferAmount"
+        placeholder="Transfer Amount in Satoshis"
+      />
+      <input
+        type="number"
+        v-model="transferFeeRate"
+        placeholder="Transfer Fee Rate"
+      />
+      <button @click="transfer">Transfer</button>
+      <div>
+        TxHash: <br />
+        {{ returnValueTransfer }}
+      </div>
+    </div>
+    <br /><br /><br />
   </div>
 </template>
 
@@ -44,6 +66,15 @@ export default {
       returnedAccounts: [],
 
       returnedUTXOS: null,
+
+      /**
+       * Transfer form data
+       */
+      returnValueTransfer: null,
+      transferFrom: "",
+      transferTo: "",
+      transferAmount: 133,
+      transferFeeRate: 1,
     };
   },
 
@@ -64,6 +95,20 @@ export default {
         .then((utxos) => {
           console.log(utxos);
           this.returnedUTXOS = utxos;
+        })
+        .catch(console.error);
+    },
+    transfer() {
+      this.xdefiBitcoin
+        ?.transfer(
+          this.transferFrom,
+          this.transferTo,
+          this.transferAmount,
+          this.transferFeeRate
+        )
+        .then((respHash) => {
+          console.log(respHash);
+          this.returnValueTransfer = respHash;
         })
         .catch(console.error);
     },
