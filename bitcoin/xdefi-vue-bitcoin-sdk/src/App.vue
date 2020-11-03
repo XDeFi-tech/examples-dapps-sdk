@@ -43,6 +43,21 @@
       </div>
     </div>
     <br /><br /><br />
+
+    <div>
+      <h1>signTransaction</h1>
+      <div v-if="returnedUTXOS.length === 0">
+        no utxos, get unspent utxos first
+      </div>
+      <div v-else>
+        <div>
+          <button @click="signTransaction">Sign Transaction</button>
+        </div>
+
+        <div>Result: {{ resultSignature }}</div>
+      </div>
+    </div>
+    <br /><br /><br />
   </div>
 </template>
 
@@ -50,6 +65,8 @@
 // import HelloWorld from "./components/HelloWorld.vue";
 
 import XDEFIBitcoin from "@xdefi/bitcoin";
+
+import * as Bitcoin from "bitcoinjs-lib";
 
 export default {
   name: "App",
@@ -65,7 +82,7 @@ export default {
 
       returnedAccounts: [],
 
-      returnedUTXOS: null,
+      returnedUTXOS: [],
 
       /**
        * Transfer form data
@@ -75,6 +92,11 @@ export default {
       transferTo: "",
       transferAmount: 133,
       transferFeeRate: 1,
+
+      /**
+       * SignTransaction Result
+       */
+      resultSignature: null,
     };
   },
 
@@ -109,6 +131,32 @@ export default {
         .then((respHash) => {
           console.log(respHash);
           this.returnValueTransfer = respHash;
+        })
+        .catch(console.error);
+    },
+    signTransaction() {
+      const valueOut = 1;
+      // generate Pbst for demo
+      const psbt = new Bitcoin.Psbt({ network: Bitcoin.networks.testnet }); // Network-specific
+      this.returnedUTXOS.forEach((UTXO) => {
+        let formattedWitnessUtxo = {
+          script: Buffer.from(UTXO.witnessUtxo.script),
+          value: UTXO.witnessUtxo.value,
+        };
+        psbt.addInput({
+          hash: UTXO.hash,
+          index: UTXO.index,
+          witnessUtxo: formattedWitnessUtxo,
+        });
+      });
+      psbt.addOutput({ address: this.returnedAccounts[1], value: valueOut }); // Add output {address, value}
+      const hexPbst = psbt.toHex();
+      console.log("pbsthex", hexPbst)
+      this.xdefiBitcoin
+        ?.signTransaction(this.returnedAccounts[0], hexPbst)
+        .then((resultSignature) => {
+          console.log(resultSignature);
+          this.resultSignature = resultSignature;
         })
         .catch(console.error);
     },
