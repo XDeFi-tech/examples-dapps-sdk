@@ -4,7 +4,23 @@
     <div>
       <h1>getAccounts</h1>
       <button @click="getAccounts" type="submit">getAccounts</button>
+      <div>{{ returnedAccounts }}</div>
     </div>
+    <br /><br /><br />
+
+    <div>
+      <h1>getUnspentUTXOs</h1>
+      <div v-if="this.returnedAccounts.length === 0">
+        No accounts, getAccounts first
+      </div>
+      <button v-else @click="getUnspentUTXOs" type="submit">
+        getUnspentUTXOs first account
+      </button>
+      <div>
+        {{ returnedUTXOS }}
+      </div>
+    </div>
+    <br /><br /><br />
   </div>
 </template>
 
@@ -24,6 +40,10 @@ export default {
       bitcoinProvider: null,
 
       xdefiBitcoin: null,
+
+      returnedAccounts: [],
+
+      returnedUTXOS: null,
     };
   },
 
@@ -31,7 +51,20 @@ export default {
     getAccounts() {
       this.xdefiBitcoin
         ?.getAccounts()
-        .then(console.log)
+        .then((acc) => {
+          console.log(acc);
+          this.returnedAccounts = acc;
+        })
+        .catch(console.error);
+    },
+    getUnspentUTXOs() {
+      console.log(this.returnedAccounts);
+      this.xdefiBitcoin
+        ?.getUnspentUTXOs(this.returnedAccounts[0])
+        .then((utxos) => {
+          console.log(utxos);
+          this.returnedUTXOS = utxos;
+        })
         .catch(console.error);
     },
   },
