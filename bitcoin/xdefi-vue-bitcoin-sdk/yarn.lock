@@ -1513,6 +1513,11 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
+"@xdefi/bitcoin@^0.0.1-alpha":
+  version "0.0.1-alpha"
+  resolved "https://registry.yarnpkg.com/@xdefi/bitcoin/-/bitcoin-0.0.1-alpha.tgz#aede33800a70067d970dcae9639f500f01267e10"
+  integrity sha512-r08cj2x61mzRP4Z5amUSLfrawZqsjYN434Qi9errEzK2jMkBloPfUOnKottVBzXzDNZqTU344PviTJzXr9FzmQ==
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
