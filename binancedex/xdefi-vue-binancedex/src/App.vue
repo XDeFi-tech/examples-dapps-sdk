@@ -161,7 +161,7 @@ export default {
   },
 
   mounted() {
-    window.addEventListener("load", (event) => {
+    window.addEventListener("load", () => {
       // console.log("running bitcoin provider detection", event);
       // console.log("window.xfi", window.xfi);
       if (window.xfi?.binance) {
