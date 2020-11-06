@@ -123,7 +123,7 @@ export default {
     // },
 
     setAccount(address) {
-      console.log("setAccount", address);
+      // console.log("setAccount", address);
       this.binanceClient.setSigningDelegate(
         this.xdefiBinance.defaultSigningDelegate(address)
       );
@@ -138,7 +138,7 @@ export default {
     },
 
     transfer() {
-      console.log("transfer");
+      // console.log("transfer");
 
       this.binanceClient
         .transfer(
@@ -162,14 +162,14 @@ export default {
 
   mounted() {
     window.addEventListener("load", (event) => {
-      console.log("running bitcoin provider detection", event);
-      console.log("window.xfi", window.xfi);
+      // console.log("running bitcoin provider detection", event);
+      // console.log("window.xfi", window.xfi);
       if (window.xfi?.binance) {
         alert("Bitcoin provider XDEFI detected");
-        console.log("window.xfi.binance", window.xfi.binance);
+        // console.log("window.xfi.binance", window.xfi.binance);
         this.xdefiBinance = new XDEFIBinanceDex(window.xfi.binance);
 
-        console.log("xdefiBinance loaded", this.xdefiBinance);
+        // console.log("xdefiBinance loaded", this.xdefiBinance);
 
         this.binanceClient = new BncClient(api);
         this.binanceClient.initChain();
