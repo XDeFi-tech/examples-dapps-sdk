@@ -142,7 +142,7 @@ export default {
       this.web3.eth.personal
         .sign(this.personalSign, this.web3Accounts[0])
         .then((res) => {
-          console.log("res");
+          console.log("res", res);
           this.personalSignResp = res;
         })
         .catch((err) => {
@@ -155,7 +155,7 @@ export default {
       this.web3.eth
         .sign(this.ethSign, this.web3Accounts[0])
         .then((res) => {
-          console.log("res");
+          console.log("res", res);
           this.ethSignResp = res;
         })
         .catch((err) => {
@@ -178,7 +178,7 @@ export default {
       this.web3.eth
         .signTransaction(this.signTxInfo)
         .then((res) => {
-          console.log("res");
+          console.log("res", res);
           this.ethSignTransactionResp = res;
         })
         .catch((err) => {
@@ -200,9 +200,9 @@ export default {
         window.web3 = new Web3(window.ethereum);
         this.web3 = window.web3;
         try {
-          window.ethereum.enable().then((accounts) => {
+          window.ethereum.enable().then(async (accounts) => {
             console.log("accounts", accounts);
-            this.web3Accounts = accounts;
+            this.web3Accounts = await this.web3.eth.getAccounts();
 
             this.web3contract = new this.web3.eth.Contract(
               erc20abi,
