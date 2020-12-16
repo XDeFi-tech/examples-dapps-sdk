@@ -1518,10 +1518,15 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@xdefi/bitcoin@^0.0.11-alpha":
-  version "0.0.11-alpha"
-  resolved "https://registry.yarnpkg.com/@xdefi/bitcoin/-/bitcoin-0.0.11-alpha.tgz#a2dc3e8336cda9b01fe89de976e74c518365d2a5"
-  integrity sha512-8ZqYp4iC9B7OkEEP8gp9QOj2LPcbSkKxXuUAKv+6i2PZSTqmPzzXeDr/R4Z8Cq3N50yUHWiweagWInXJ1CY3wg==
+"@xdefi/bitcoin-provider@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@xdefi/bitcoin-provider/-/bitcoin-provider-0.1.0.tgz#39c68897b3d507d9c127ab4f46d5fc570f75903d"
+  integrity sha512-SYra3USkpK/086LOFdEqZghLPhkT3F0z+XBp77N/gfG0D/8uY+qNeZyhyfArjrI8Q8UjRihN0eSul2HLHX0GPA==
+
+"@xdefi/bitcoin@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@xdefi/bitcoin/-/bitcoin-0.1.0.tgz#2ef9b385ac61a90bc61d67c727bc67abc93bd3de"
+  integrity sha512-p6odHVlgxPc8bikShGL29hQyj7TAnkEDBy2oCXrbBysPtHsV3biHDGmMWDDYX6dXkgCcf9FaEBQh4Y53G4mtpw==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
