@@ -20,5 +20,8 @@
   "homepage": "https://github.com/XDeFi-tech/examples-dapps-sdk#readme",
   "dependencies": {
     "serve": "^11.3.2"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
