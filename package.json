@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/XDeFi-tech/examples-dapps-sdk#readme",
   "dependencies": {
+    "@vue/cli": "^4.5.11",
     "serve": "^11.3.2"
   },
   "engines": {
