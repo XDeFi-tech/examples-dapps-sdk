@@ -5,4 +5,5 @@ module.exports = {
       title: "XDEFI Web3 Vue Example",
     },
   },
+  publicPath: process.env.PUBLIC_PATH || "/",
 };
