@@ -1,0 +1,29 @@
+{
+  "name": "examples-dapps-sdk",
+  "version": "1.0.0",
+  "description": "repository contains examples on how to interact with the xDeFi dApps SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sh scripts/build.sh",
+    "serve": "serve serving_directory/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XDeFi-tech/examples-dapps-sdk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XDeFi-tech/examples-dapps-sdk/issues"
+  },
+  "homepage": "https://github.com/XDeFi-tech/examples-dapps-sdk#readme",
+  "dependencies": {
+    "@vue/cli": "^4.5.11",
+    "serve": "^11.3.2"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "heroku-prebuild": "yarn global add @vue/cli-service"
+}
