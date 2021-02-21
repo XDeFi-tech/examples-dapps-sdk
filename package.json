@@ -25,5 +25,5 @@
   "engines": {
     "node": "14.x"
   },
-  "heroku-prebuild": "npm install -g @vue/cli-service"
+  "heroku-prebuild": "yarn global add @vue/cli-service"
 }
