@@ -1523,10 +1523,10 @@
   resolved "https://registry.yarnpkg.com/@xdefi/bitcoin-provider/-/bitcoin-provider-0.1.0.tgz#39c68897b3d507d9c127ab4f46d5fc570f75903d"
   integrity sha512-SYra3USkpK/086LOFdEqZghLPhkT3F0z+XBp77N/gfG0D/8uY+qNeZyhyfArjrI8Q8UjRihN0eSul2HLHX0GPA==
 
-"@xdefi/bitcoin@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@xdefi/bitcoin/-/bitcoin-0.1.0.tgz#2ef9b385ac61a90bc61d67c727bc67abc93bd3de"
-  integrity sha512-p6odHVlgxPc8bikShGL29hQyj7TAnkEDBy2oCXrbBysPtHsV3biHDGmMWDDYX6dXkgCcf9FaEBQh4Y53G4mtpw==
+"@xdefi/bitcoin@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@xdefi/bitcoin/-/bitcoin-0.1.1.tgz#a80a97afbcaa8cceaa9ac31a6d708dbb5319ab36"
+  integrity sha512-7/4EOEHtMOexguoyMWoHsvEEz1XvBDq1OBJw/BKa+g/XPiqU8y2yBYx7QaeXMdkMhPD3oR2wywpL6bP8TrGHkA==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
