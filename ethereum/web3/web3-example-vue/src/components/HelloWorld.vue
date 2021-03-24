@@ -87,7 +87,7 @@ export default {
       web3Connected: false,
       web3Accounts: [],
       web3contract: null,
-      erc20address: "0xc3dbf84Abb494ce5199D5d4D815b10EC29529ff8",
+      erc20address: "0xad6d458402f60fd3bd25163575031acdce07538d",
       recipientAddress: "0x26E7Ef2D05793c6D47c678f1F4B246856236F089",
       erc20amount: 3,
       decimals: null,
