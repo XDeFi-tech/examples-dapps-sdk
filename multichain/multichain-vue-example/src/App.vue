@@ -19,22 +19,49 @@
       <div>
         window.xfi.binance:
         {{ xfiObject.binance ? "detected" : "not detected" }}
+        <div>
+          <button @click="request(xfiObject.binance, 'request_accounts', [])">
+            Retrieve Accounts
+          </button>
+        </div>
       </div>
       <div>
         window.xfi.bitcoin:
         {{ xfiObject.bitcoin ? "detected" : "not detected" }}
+        <div>
+          <button @click="request(xfiObject.bitcoin, 'request_accounts', [])">
+            Retrieve Accounts
+          </button>
+        </div>
       </div>
       <div>
         window.xfi.bitcoincash:
         {{ xfiObject.bitcoincash ? "detected" : "not detected" }}
+        <div>
+          <button
+            @click="request(xfiObject.bitcoincash, 'request_accounts', [])"
+          >
+            Retrieve Accounts
+          </button>
+        </div>
       </div>
       <div>
         window.xfi.litecoin:
         {{ xfiObject.litecoin ? "detected" : "not detected" }}
+        <div>
+          <button @click="request(xfiObject.litecoin, 'request_accounts', [])">
+            Retrieve Accounts
+          </button>
+        </div>
       </div>
       <div>
         window.xfi.thorchain:
         {{ xfiObject.thorchain ? "detected" : "not detected" }}
+        <div>
+          <button @click="request(xfiObject.thorchain, 'request_accounts', [])">
+            Retrieve Accounts
+          </button>
+        </div>
       </div>
 
       <br /><br />
@@ -75,14 +102,16 @@ export default {
   },
   methods: {
     request(object, method, params) {
+      console.debug({ object, method, params });
       try {
         object.request(
           {
             method,
             params: params,
           },
-          (result) => {
-            this.lastResult = result;
+          (error, result) => {
+            console.debug("callback", error, result);
+            this.lastResult = { error, result };
           }
         );
       } catch (e) {
