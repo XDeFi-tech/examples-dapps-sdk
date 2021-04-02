@@ -244,24 +244,24 @@ export default {
 
         this.currentNetwork = window.xfi.bitcoin.network;
 
-        window.xfi.bitcoin.on("chainChanged", (network) => {
-          console.info("network", network);
-          // this.currentNetwork = network.network;
-          console.log("get", window.xfi.bitcoin.chainId);
-          console.log("get", window.xfi.bitcoin.network);
-        });
-        window.xfi.bitcoincash.on("chainChanged", (result) => {
-          console.info("bch", result);
-          this.currentNetwork = result.network;
-        });
-        window.xfi.binance.on("chainChanged", (result) => {
-          console.info("binance", result);
-        });
-        window.xfi.litecoin.on("chainChanged", (result) => {
-          console.info("ltc", result);
-        });
-        window.xfi.thorchain.on("chainChanged", (result) => {
-          console.info("thorchain", result);
+        const objects = [
+          "bitcoin",
+          "bitcoincash",
+          "binance",
+          "litecoin",
+          "thorchain",
+          "binance",
+        ];
+        objects.forEach((chainId) => {
+          if (window.xfi && window.xfi[chainId]) {
+            const provider = window.xfi[chainId];
+            provider.on("chainChanged", (obj) => {
+              console.log(`chainChanged::${chainId}`, obj);
+            });
+            provider.on("accountsChanged", (obj) => {
+              console.log(`accountsChanged::${chainId}`, obj);
+            });
+          }
         });
       }
     });
