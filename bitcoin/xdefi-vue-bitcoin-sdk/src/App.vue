@@ -150,6 +150,7 @@ export default {
         });
       });
       psbt.addOutput({ address: this.returnedAccounts[1], value: valueOut }); // Add output {address, value}
+      console.log(psbt)
       const hexPbst = psbt.toHex();
       console.log("pbsthex", hexPbst)
       this.xdefiBitcoin
