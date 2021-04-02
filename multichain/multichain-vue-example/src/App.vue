@@ -37,6 +37,13 @@
         {{ xfiObject.thorchain ? "detected" : "not detected" }}
       </div>
 
+      <br /><br />
+      <div v-if="lastResult">
+        <b>Last Result:</b>
+        <br />
+        {{ lastResult }}
+        <br />
+      </div>
     </div>
   </div>
 </template>
@@ -50,17 +57,39 @@ export default {
     // HelloWorld
   },
   mounted() {
-    if ("xfi" in window) {
-      console.log(window.xfi);
-      this.ethereum = window.ethereum;
-      this.xfiObject = window.xfi;
-    }
+    window.addEventListener("load", (_event) => {
+      console.debug(_event);
+      if ("xfi" in window) {
+        console.log(window.xfi);
+        this.ethereum = window.ethereum;
+        this.xfiObject = window.xfi;
+      }
+    });
   },
   data() {
     return {
       ethereum: undefined,
       xfiObject: null,
+      lastResult: undefined,
     };
+  },
+  methods: {
+    request(object, method, params) {
+      try {
+        object.request(
+          {
+            method,
+            params: params,
+          },
+          (result) => {
+            this.lastResult = result;
+          }
+        );
+      } catch (e) {
+        console.error(e);
+        this.lastResult = `Error: ${e.message}`;
+      }
+    },
   },
 };
 </script>
