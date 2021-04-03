@@ -242,7 +242,11 @@ export default {
         this.ethereum = window.ethereum;
         this.xfiObject = window.xfi;
 
-        this.currentNetwork = window.xfi.bitcoin.network;
+        try {
+          this.currentNetwork = window.xfi.bitcoin.network;
+        } catch (e) {
+          console.error(e);
+        }
 
         const objects = [
           "bitcoin",
