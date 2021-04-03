@@ -235,41 +235,42 @@ export default {
     // HelloWorld
   },
   mounted() {
-    window.addEventListener("load", (_event) => {
-      console.debug(_event);
-      if ("xfi" in window) {
-        console.log(window.xfi);
-        this.ethereum = window.ethereum;
-        this.xfiObject = window.xfi;
+    document.onreadystatechange = () => {
+      if (document.readyState == "complete") {
+        if ("xfi" in window) {
+          console.log(window.xfi);
+          this.ethereum = window.ethereum;
+          this.xfiObject = window.xfi;
 
-        try {
-          this.currentNetwork = window.xfi.bitcoin.network;
-        } catch (e) {
-          console.error(e);
-        }
-
-        const objects = [
-          "bitcoin",
-          "bitcoincash",
-          "binance",
-          "litecoin",
-          "thorchain",
-          "binance",
-        ];
-        objects.forEach((chainId) => {
-          if (window.xfi && window.xfi[chainId]) {
-            const provider = window.xfi[chainId];
-            provider.on("chainChanged", (obj) => {
-              console.log(`chainChanged::${chainId}`, obj);
-              this.currentNetwork = obj.network || obj._network;
-            });
-            provider.on("accountsChanged", (obj) => {
-              console.log(`accountsChanged::${chainId}`, obj);
-            });
+          try {
+            this.currentNetwork = window.xfi.bitcoin.network;
+          } catch (e) {
+            console.error(e);
           }
-        });
+
+          const objects = [
+            "bitcoin",
+            "bitcoincash",
+            "binance",
+            "litecoin",
+            "thorchain",
+            "binance",
+          ];
+          objects.forEach((chainId) => {
+            if (window.xfi && window.xfi[chainId]) {
+              const provider = window.xfi[chainId];
+              provider.on("chainChanged", (obj) => {
+                console.log(`chainChanged::${chainId}`, obj);
+                this.currentNetwork = obj.network || obj._network;
+              });
+              provider.on("accountsChanged", (obj) => {
+                console.log(`accountsChanged::${chainId}`, obj);
+              });
+            }
+          });
+        }
       }
-    });
+    };
   },
   data() {
     return {
