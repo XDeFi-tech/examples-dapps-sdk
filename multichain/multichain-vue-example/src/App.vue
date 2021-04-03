@@ -351,12 +351,13 @@ export default {
     },
     submitThorBased() {
       console.debug("submitThorBased", this.thorbasedInput, this.selectedChain);
-      const { from, to, amount, memo } = this.thorbasedInput;
+      const { from, to, amount, memo, asset } = this.thorbasedInput;
       this.xfiObject[this.selectedChain.chain].request(
         {
           method: "deposit",
           params: [
             {
+              asset,
               from,
               to,
               amount,
