@@ -257,6 +257,7 @@ export default {
             const provider = window.xfi[chainId];
             provider.on("chainChanged", (obj) => {
               console.log(`chainChanged::${chainId}`, obj);
+              this.currentNetwork = obj.network || obj._network;
             });
             provider.on("accountsChanged", (obj) => {
               console.log(`accountsChanged::${chainId}`, obj);
