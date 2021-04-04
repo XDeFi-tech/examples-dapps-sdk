@@ -435,7 +435,7 @@ export default {
             {
               asset,
               from,
-              to,
+              recipient: to,
               amount,
               memo,
             },
