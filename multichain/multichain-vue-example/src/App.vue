@@ -408,7 +408,7 @@ export default {
           params: [
             {
               from,
-              to,
+              recipient: to,
               feeRate,
               amount,
               memo,
