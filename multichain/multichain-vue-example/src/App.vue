@@ -422,11 +422,7 @@ export default {
       );
     },
     submitBinance() {
-      console.debug(
-        "submitBinance",
-        this.binanceInput,
-        this.selectedChain
-      );
+      console.debug("submitBinance", this.binanceInput, this.selectedChain);
       const { from, to, asset, amount, memo } = this.binanceInput;
       this.xfiObject[this.selectedChain.chain].request(
         {
