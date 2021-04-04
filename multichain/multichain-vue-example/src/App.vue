@@ -26,11 +26,11 @@
       <div>
         window.xfi.binance:
         {{ xfiObject.binance ? "detected" : "not detected" }}
-        <!-- <div>
+        <div>
           <button @click="request(xfiObject.binance, 'request_accounts', [])">
             Retrieve Accounts
           </button>
-        </div> -->
+        </div>
       </div>
       <div>
         window.xfi.bitcoin:
@@ -80,6 +80,7 @@
           <select v-model="selectedChain">
             <!-- inline object literal -->
             <option v-bind:value="undefined"></option>
+            <option v-bind:value="{ chain: 'binance' }">binanceDex</option>
             <option v-bind:value="{ chain: 'bitcoin' }">bitcoin</option>
             <option v-bind:value="{ chain: 'litecoin' }">litecoin</option>
             <option v-bind:value="{ chain: 'bitcoincash' }">bitcoincash</option>
@@ -90,6 +91,72 @@
           Selected chain: {{ selectedChain }}
           <br />
           <br />
+          <div
+            v-if="['binance'].includes(selectedChain && selectedChain.chain)"
+          >
+            <h3>Asset:</h3>
+            <br />
+            Chain
+            <input
+              type="text"
+              v-model="binanceInput.asset.chain"
+              placeholder="chain"
+            />
+            <br />
+            Symbol:
+
+            <input
+              type="text"
+              v-model="binanceInput.asset.symbol"
+              placeholder="Symbol"
+            />
+            <br />
+            Ticker:
+
+            <input
+              type="text"
+              v-model="binanceInput.asset.ticker"
+              placeholder="Ticker"
+            />
+            <br />
+            <br />
+            From Address:
+            <input
+              type="text"
+              v-model="binanceInput.from"
+              placeholder="From Address"
+            />
+            <br />
+            Target address:
+            <input
+              type="text"
+              v-model="binanceInput.to"
+              placeholder="To Address"
+            />
+            <br />
+            Amount:
+            <input
+              v-model="binanceInput.amount.amount"
+              type="number"
+              placeholder="Amount (smallest unit value)"
+            />
+            <br />
+            Decimals:
+            <input
+              v-model="binanceInput.amount.decimals"
+              type="number"
+              placeholder="Decimals"
+            />
+            <br />
+            Memo(optional):
+            <input
+              v-model="binanceInput.memo"
+              type="text"
+              placeholder="Memo (optional)"
+            />
+            <br />
+            <button @click="submitBinance">Submit</button>
+          </div>
           <div
             v-if="
               ['bitcoin', 'litecoin', 'bitcoincash'].includes(
@@ -128,7 +195,7 @@
             <br />
             Decimals:
             <input
-              v-model="thorbasedInput.amount.decimals"
+              v-model="bitcoinbasedInput.amount.decimals"
               type="number"
               placeholder="Decimals"
             />
@@ -178,15 +245,6 @@
               v-model="thorbasedInput.from"
               placeholder="From Address"
             />
-            <br />
-            To Address:
-
-            <input
-              type="text"
-              v-model="thorbasedInput.to"
-              placeholder="From Address"
-            />
-
             <br />
             Amount:
             <input
@@ -302,6 +360,20 @@ export default {
         },
         memo: "",
       },
+      binanceInput: {
+        asset: {
+          chain: "BNB",
+          symbol: "BNB",
+          ticker: "BNB",
+        },
+        from: "",
+        to: "",
+        amount: {
+          amount: 2,
+          decimals: 8,
+        },
+        memo: "hi",
+      },
     };
   },
   methods: {
@@ -349,9 +421,35 @@ export default {
         }
       );
     },
+    submitBinance() {
+      console.debug(
+        "submitBinance",
+        this.binanceInput,
+        this.selectedChain
+      );
+      const { from, to, asset, amount, memo } = this.binanceInput;
+      this.xfiObject[this.selectedChain.chain].request(
+        {
+          method: "transfer",
+          params: [
+            {
+              asset,
+              from,
+              to,
+              amount,
+              memo,
+            },
+          ],
+        },
+        (error, result) => {
+          console.debug(error, result);
+          this.lastResult = { error, result };
+        }
+      );
+    },
     submitThorBased() {
       console.debug("submitThorBased", this.thorbasedInput, this.selectedChain);
-      const { from, to, amount, memo, asset } = this.thorbasedInput;
+      const { from, amount, memo, asset } = this.thorbasedInput;
       this.xfiObject[this.selectedChain.chain].request(
         {
           method: "deposit",
@@ -359,7 +457,6 @@ export default {
             {
               asset,
               from,
-              to,
               amount,
               memo,
             },
