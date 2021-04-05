@@ -1,4 +1,4 @@
-# xdefi-vue-bitcoin-sdk
+# multichain-vue-example
 
 ## Project setup
 ```
