@@ -1,5 +1,5 @@
 {
-  "name": "xdefi-vue-bitcoin-sdk",
+  "name": "multichain-vue-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,9 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@xdefi/bitcoin": "^0.1.1",
-    "@xdefi/bitcoin-provider": "^0.1.0",
-    "bitcoinjs-lib": "^5.2.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
   },
@@ -41,8 +38,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "engines": {
-    "node": "14.x"
-  }
+  ]
 }
