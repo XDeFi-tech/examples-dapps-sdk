@@ -212,6 +212,12 @@
           <div
             v-if="['thorchain'].includes(selectedChain && selectedChain.chain)"
           >
+            <select v-model="thorbasedInput.type">
+              <!-- inline object literal -->
+              <option v-bind:value="'deposit'">deposit</option>
+              <option v-bind:value="'transfer'">transfer</option>
+            </select>
+            {{ thorbasedInput }}
             <h3>Asset:</h3>
             <br />
             Chain
@@ -245,6 +251,18 @@
               v-model="thorbasedInput.from"
               placeholder="From Address"
             />
+            <br />
+            <div v-if="thorbasedInput.type === 'transfer'">
+              To Address:
+
+              <input
+                type="text"
+                v-model="thorbasedInput.recipient"
+                placeholder="To Address"
+              />
+
+              <br /><br />
+            </div>
             <br />
             Amount:
             <input
@@ -354,6 +372,8 @@ export default {
           ticker: "RUNE",
         },
         from: "",
+        recipient: "",
+        type: "deposit",
         amount: {
           amount: 123,
           decimals: 8,
@@ -445,14 +465,22 @@ export default {
     },
     submitThorBased() {
       console.debug("submitThorBased", this.thorbasedInput, this.selectedChain);
-      const { from, amount, memo, asset } = this.thorbasedInput;
+      const {
+        from,
+        amount,
+        memo,
+        asset,
+        type,
+        recipient,
+      } = this.thorbasedInput;
       this.xfiObject[this.selectedChain.chain].request(
         {
-          method: "deposit",
+          method: type,
           params: [
             {
               asset,
               from,
+              recipient: recipient || undefined,
               amount,
               memo,
             },
