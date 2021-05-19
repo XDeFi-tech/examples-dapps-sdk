@@ -60,6 +60,13 @@
         {{ ethSignTransactionResp }}
         {{ ethSignTransactionErr }}
       </div>
+
+      <div>
+        <h2>eth_getBalance</h2>
+        <button @click="ethBalanceHandler">eth Get Balance</button>
+        <br />
+        {{ ethBalance ? `Balance: ${ethBalance}` : '' }}
+      </div>
     </div>
   </div>
 </template>
@@ -99,6 +106,8 @@ export default {
       ethSign: "helloethsign",
       ethSignResp: null,
       ethSignErr: null,
+
+      ethBalance: null,
 
       ethSignTransactionResp: null,
       ethSignTransactionErr: null,
@@ -162,6 +171,10 @@ export default {
           console.error(err);
           this.ethSignErr = err;
         });
+    },
+    async ethBalanceHandler() {
+      console.log("ethBalanceHandler", this.web3);
+      this.ethBalance = await this.web3.eth.getBalance(this.web3Accounts[0]);
     },
     ethSignTransactionHandler() {
       console.log("ethSignTransactionHandler", this.web3);
