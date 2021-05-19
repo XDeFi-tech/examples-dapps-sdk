@@ -173,6 +173,7 @@ export default {
         });
     },
     async ethBalanceHandler() {
+      console.log("ethBalanceHandler", this.web3);
       this.ethBalance = await this.web3.eth.getBalance(this.web3Accounts[0]);
     },
     ethSignTransactionHandler() {
