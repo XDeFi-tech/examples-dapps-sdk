@@ -67,6 +67,12 @@
         <br />
         {{ ethBalance ? `Balance: ${ethBalance}` : '' }}
       </div>
+
+      <div>
+        <h2>eth_chainId</h2>
+        <br />
+        ChainId: {{ chainId }}
+      </div>
     </div>
   </div>
 </template>
@@ -98,6 +104,7 @@ export default {
       recipientAddress: "0x26E7Ef2D05793c6D47c678f1F4B246856236F089",
       erc20amount: 3,
       decimals: null,
+      chainId: null,
 
       personalSign: "hello",
       personalSignResp: null,
@@ -176,6 +183,9 @@ export default {
       console.log("ethBalanceHandler", this.web3);
       this.ethBalance = await this.web3.eth.getBalance(this.web3Accounts[0]);
     },
+    handleChainId(id) {
+      this.chainId = id;
+    },
     ethSignTransactionHandler() {
       console.log("ethSignTransactionHandler", this.web3);
       this.signTxInfo = {
@@ -216,6 +226,10 @@ export default {
           window.ethereum.enable().then(async (accounts) => {
             console.log("accounts", accounts);
             this.web3Accounts = await this.web3.eth.getAccounts();
+
+            this.web3.eth.getChainId().then(this.handleChainId);
+
+            window.ethereum.on('chainIdChanged', this.handleChainId);
 
             this.web3contract = new this.web3.eth.Contract(
               erc20abi,
