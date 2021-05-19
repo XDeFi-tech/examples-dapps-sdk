@@ -229,7 +229,7 @@ export default {
 
             this.web3.eth.getChainId().then(this.handleChainId);
 
-            window.ethereum.on('chainChanged', this.handleChainId);
+            window.ethereum.on('chainIdChanged', this.handleChainId);
 
             this.web3contract = new this.web3.eth.Contract(
               erc20abi,
