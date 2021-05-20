@@ -314,11 +314,13 @@ export default {
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
         if ("xfi" in window) {
-          console.log(window.xfi);
+          // Detecting the XDeFi providers: xfi and ethereum
+          console.log(window.xfi, window.ethereum);
           this.ethereum = window.ethereum;
           this.xfiObject = window.xfi;
 
           try {
+            // Setting current network to bitcoin
             this.currentNetwork = window.xfi.bitcoin.network;
           } catch (e) {
             console.error(e);
@@ -336,10 +338,13 @@ export default {
             if (window.xfi && window.xfi[chainId]) {
               const provider = window.xfi[chainId];
               provider.on("chainChanged", (obj) => {
+                // Subscription to chain changes
                 console.log(`chainChanged::${chainId}`, obj);
+                // When chain is changed, its respective network is set as current
                 this.currentNetwork = obj.network || obj._network;
               });
               provider.on("accountsChanged", (obj) => {
+                // Subscription to account changes
                 console.log(`accountsChanged::${chainId}`, obj);
               });
             }
@@ -397,15 +402,33 @@ export default {
     };
   },
   methods: {
+    // This method utilises the request method of the selected provider
     request(object, method, params) {
       console.debug({ object, method, params });
       try {
+        // provider request method takes in 2 parameters: method and params
+        // method can have values of 'transfer', 'deposit' and 'request_accounts'
+        /* params are: 
+              from - the address from which the request is coming
+
+              recipient - the address on which the request is targeted
+
+              feeRate - units per transaction size, 
+                        http://docs.xchainjs.org/xchain-client/overview.html?highlight=feeRate#transfer
+
+              amount - request transaction amount
+
+              memo - text hint for the request
+
+              type (in thor chain case) - either transfer or deposit
+        */
         object.request(
           {
             method,
             params: params,
           },
           (error, result) => {
+            // request result handling
             console.debug("callback", error, result);
             this.lastResult = { error, result };
           }
