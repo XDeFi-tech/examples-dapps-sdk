@@ -3,9 +3,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 
-    <div>
-      XDEFI Injected Chains Providers:
-    </div>
+    <div>XDEFI Injected Chains Providers:</div>
     <br />
     <div>window.xfi {{ xfiObject ? "detected" : "not detected" }}</div>
 
@@ -72,6 +70,16 @@
       </div>
 
       <div>
+        window.xfi.dogecoin:
+        {{ xfiObject.dogecoin ? "detected" : "not detected" }}
+        <div>
+          <button @click="request(xfiObject.dogecoin, 'request_accounts', [])">
+            Retrieve Accounts
+          </button>
+        </div>
+      </div>
+
+      <div>
         <h1>Transfer/Deposit</h1>
 
         <div>
@@ -85,6 +93,7 @@
             <option v-bind:value="{ chain: 'litecoin' }">litecoin</option>
             <option v-bind:value="{ chain: 'bitcoincash' }">bitcoincash</option>
             <option v-bind:value="{ chain: 'thorchain' }">thorchain</option>
+            <option v-bind:value="{ chain: 'dogecoin' }">dogecoin</option>
           </select>
 
           <br />
@@ -159,7 +168,7 @@
           </div>
           <div
             v-if="
-              ['bitcoin', 'litecoin', 'bitcoincash'].includes(
+              ['bitcoin', 'litecoin', 'bitcoincash', 'dogecoin'].includes(
                 selectedChain && selectedChain.chain
               )
             "
@@ -313,43 +322,48 @@ export default {
   mounted() {
     document.onreadystatechange = () => {
       if (document.readyState == "complete") {
-        if ("xfi" in window) {
-          // Detecting the XDeFi providers: xfi and ethereum
-          console.log(window.xfi, window.ethereum);
-          this.ethereum = window.ethereum;
-          this.xfiObject = window.xfi;
 
-          try {
-            // Setting current network to bitcoin
-            this.currentNetwork = window.xfi.bitcoin.network;
-          } catch (e) {
-            console.error(e);
-          }
+        const check = () => {
+          if ("xfi" in window) {
+            // Detecting the XDeFi providers: xfi and ethereum
+            console.log(window.xfi, window.ethereum);
+            this.ethereum = window.ethereum;
+            this.xfiObject = window.xfi;
 
-          const objects = [
-            "bitcoin",
-            "bitcoincash",
-            "binance",
-            "litecoin",
-            "thorchain",
-            "binance",
-          ];
-          objects.forEach((chainId) => {
-            if (window.xfi && window.xfi[chainId]) {
-              const provider = window.xfi[chainId];
-              provider.on("chainChanged", (obj) => {
-                // Subscription to chain changes
-                console.log(`chainChanged::${chainId}`, obj);
-                // When chain is changed, its respective network is set as current
-                this.currentNetwork = obj.network || obj._network;
-              });
-              provider.on("accountsChanged", (obj) => {
-                // Subscription to account changes
-                console.log(`accountsChanged::${chainId}`, obj);
-              });
+            try {
+              // Setting current network to bitcoin
+              this.currentNetwork = window.xfi.bitcoin?.network;
+            } catch (e) {
+              console.error(e);
             }
-          });
-        }
+
+            const objects = [
+              "bitcoin",
+              "bitcoincash",
+              "binance",
+              "litecoin",
+              "thorchain",
+              "binance",
+              "dogecoin",
+            ];
+            objects.forEach((chainId) => {
+              if (window.xfi && window.xfi[chainId]) {
+                const provider = window.xfi[chainId];
+                provider.on("chainChanged", (obj) => {
+                  // Subscription to chain changes
+                  console.log(`chainChanged::${chainId}`, obj);
+                  // When chain is changed, its respective network is set as current
+                  this.currentNetwork = obj.network || obj._network;
+                });
+                provider.on("accountsChanged", (obj) => {
+                  // Subscription to account changes
+                  console.log(`accountsChanged::${chainId}`, obj);
+                });
+              }
+            });
+          }
+        };
+        setTimeout(() => check(), 1000);
       }
     };
   },
@@ -488,14 +502,8 @@ export default {
     },
     submitThorBased() {
       console.debug("submitThorBased", this.thorbasedInput, this.selectedChain);
-      const {
-        from,
-        amount,
-        memo,
-        asset,
-        type,
-        recipient,
-      } = this.thorbasedInput;
+      const { from, amount, memo, asset, type, recipient } =
+        this.thorbasedInput;
       this.xfiObject[this.selectedChain.chain].request(
         {
           method: type,
