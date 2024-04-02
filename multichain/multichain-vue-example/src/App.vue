@@ -27,7 +27,7 @@
         window.xfi.binance:
         {{ xfiObject.binance ? "detected" : "not detected" }}
         <div>
-          <button @click="request(xfiObject.binance, 'request_accounts', [])">
+          <button @click="request('binance', 'request_accounts', [])">
             Retrieve Accounts
           </button>
         </div>
@@ -36,7 +36,7 @@
         window.xfi.bitcoin:
         {{ xfiObject.bitcoin ? "detected" : "not detected" }}
         <div>
-          <button @click="request(xfiObject.bitcoin, 'request_accounts', [])">
+          <button @click="request('bitcoin', 'request_accounts', [])">
             Retrieve Accounts
           </button>
         </div>
@@ -45,7 +45,7 @@
         window.xfi.bitcoincash:
         {{ xfiObject.bitcoincash ? "detected" : "not detected" }}
         <div>
-          <button @click="request(xfiObject.bitcoincash, 'request_accounts', [])">
+          <button @click="request('bitcoincash', 'request_accounts', [])">
             Retrieve Accounts
           </button>
         </div>
@@ -54,7 +54,7 @@
         window.xfi.litecoin:
         {{ xfiObject.litecoin ? "detected" : "not detected" }}
         <div>
-          <button @click="request(xfiObject.litecoin, 'request_accounts', [])">
+          <button @click="request('litecoin', 'request_accounts', [])">
             Retrieve Accounts
           </button>
         </div>
@@ -63,7 +63,7 @@
         window.xfi.thorchain:
         {{ xfiObject.thorchain ? "detected" : "not detected" }}
         <div>
-          <button @click="request(xfiObject.thorchain, 'request_accounts', [])">
+          <button @click="request('thorchain', 'request_accounts', [])">
             Retrieve Accounts
           </button>
         </div>
@@ -73,7 +73,7 @@
         window.xfi.dogecoin:
         {{ xfiObject.dogecoin ? "detected" : "not detected" }}
         <div>
-          <button @click="request(xfiObject.dogecoin, 'request_accounts', [])">
+          <button @click="request('dogecoin', 'request_accounts', [])">
             Retrieve Accounts
           </button>
         </div>
@@ -272,7 +272,6 @@ export default {
               "thorchain",
               "binance",
               "dogecoin",
-              "solana"
             ];
             objects.forEach((chainId) => {
               if (window.xfi && window.xfi[chainId]) {
@@ -346,8 +345,8 @@ export default {
   },
   methods: {
     // This method utilises the request method of the selected provider
-    async request(object, method, params) {
-      console.debug({ object, method, params });
+    async request(chain, method, params) {
+      console.debug({ chain, method, params });
       try {
         // provider request method takes in 2 parameters: method and params
         // method can have values of 'transfer', 'deposit' and 'request_accounts'
@@ -365,7 +364,8 @@ export default {
 
               type (in thor chain case) - either transfer or deposit
         */
-        const [account] = await object.request(
+
+        const account = await this.xfiObject[chain].request(
           {
             method,
             params: params ?? [],
@@ -380,6 +380,9 @@ export default {
     },
     async requestTron() {
       try {
+        if (!window.xfi.tron) {
+          throw new Error("Tron Provider not found!")
+        }
         const account = (await window.xfi.tron.tronWeb.createRandom()).address
 
         this.account = account
@@ -390,7 +393,7 @@ export default {
     },
     async requestSolana() {
       try {
-        const account = (await window.xfi.solana.solana.connect([])).publicKey.publicKey
+        const account = (await window.xfi.solana.connect()).publicKey.toString()
 
         this.account = account
       } catch (e) {
