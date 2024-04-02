@@ -12,8 +12,6 @@
       <br />
       <h1>Chains / Accounts</h1>
 
-      <h3>{{ account }}</h3>
-
       <div>
         Network selected:
         <br />
@@ -80,26 +78,6 @@
       </div>
 
       <div>
-        window.xfi.solana:
-        {{ xfiObject.solana ? "detected" : "not detected" }}
-        <div>
-          <button @click="requestSolana()">
-            Retrieve Accounts
-          </button>
-        </div>
-      </div>
-
-      <div>
-        window.xfi.tron:
-        {{ xfiObject.tron ? "detected" : "not detected" }}
-        <div>
-          <button @click="requestTron()">
-            Retrieve Accounts
-          </button>
-        </div>
-      </div>
-
-      <div>
         <h1>Transfer/Deposit</h1>
 
         <div>
@@ -120,65 +98,127 @@
           Selected chain: {{ selectedChain }}
           <br />
           <br />
-          <div v-if="['binance'].includes(selectedChain && selectedChain.chain)">
+          <div
+            v-if="['binance'].includes(selectedChain && selectedChain.chain)"
+          >
             <h3>Asset:</h3>
             <br />
             Chain
-            <input type="text" v-model="binanceInput.asset.chain" placeholder="chain" />
+            <input
+              type="text"
+              v-model="binanceInput.asset.chain"
+              placeholder="chain"
+            />
             <br />
             Symbol:
 
-            <input type="text" v-model="binanceInput.asset.symbol" placeholder="Symbol" />
+            <input
+              type="text"
+              v-model="binanceInput.asset.symbol"
+              placeholder="Symbol"
+            />
             <br />
             Ticker:
 
-            <input type="text" v-model="binanceInput.asset.ticker" placeholder="Ticker" />
+            <input
+              type="text"
+              v-model="binanceInput.asset.ticker"
+              placeholder="Ticker"
+            />
             <br />
             <br />
             From Address:
-            <input type="text" v-model="binanceInput.from" placeholder="From Address" />
+            <input
+              type="text"
+              v-model="binanceInput.from"
+              placeholder="From Address"
+            />
             <br />
             Target address:
-            <input type="text" v-model="binanceInput.to" placeholder="To Address" />
+            <input
+              type="text"
+              v-model="binanceInput.to"
+              placeholder="To Address"
+            />
             <br />
             Amount:
-            <input v-model="binanceInput.amount.amount" type="number" placeholder="Amount (smallest unit value)" />
+            <input
+              v-model="binanceInput.amount.amount"
+              type="number"
+              placeholder="Amount (smallest unit value)"
+            />
             <br />
             Decimals:
-            <input v-model="binanceInput.amount.decimals" type="number" placeholder="Decimals" />
+            <input
+              v-model="binanceInput.amount.decimals"
+              type="number"
+              placeholder="Decimals"
+            />
             <br />
             Memo(optional):
-            <input v-model="binanceInput.memo" type="text" placeholder="Memo (optional)" />
+            <input
+              v-model="binanceInput.memo"
+              type="text"
+              placeholder="Memo (optional)"
+            />
             <br />
             <button @click="submitBinance">Submit</button>
           </div>
-          <div v-if="
+          <div
+            v-if="
               ['bitcoin', 'litecoin', 'bitcoincash', 'dogecoin'].includes(
                 selectedChain && selectedChain.chain
               )
-            ">
+            "
+          >
             <br />
             From Address:
-            <input type="text" v-model="bitcoinbasedInput.from" placeholder="From Address" />
+            <input
+              type="text"
+              v-model="bitcoinbasedInput.from"
+              placeholder="From Address"
+            />
             <br />
             Target address:
-            <input type="text" v-model="bitcoinbasedInput.to" placeholder="To Address" />
+            <input
+              type="text"
+              v-model="bitcoinbasedInput.to"
+              placeholder="To Address"
+            />
             <br />
             Fee Rate:
-            <input v-model="bitcoinbasedInput.feeRate" type="number" placeholder="Fee Rate" />
+            <input
+              v-model="bitcoinbasedInput.feeRate"
+              type="number"
+              placeholder="Fee Rate"
+            />
             <br />
             Amount:
-            <input v-model="bitcoinbasedInput.amount.amount" type="number" placeholder="Amount (smallest unit value)" />
+            <input
+              v-model="bitcoinbasedInput.amount.amount"
+              type="number"
+              placeholder="Amount (smallest unit value)"
+            />
             <br />
             Decimals:
-            <input v-model="bitcoinbasedInput.amount.decimals" type="number" placeholder="Decimals" />
+            <input
+              v-model="bitcoinbasedInput.amount.decimals"
+              type="number"
+              placeholder="Decimals"
+            />
             <br />
             Memo(optional):
-            <input v-model="bitcoinbasedInput.memo" type="text" placeholder="Memo (optional)" />
+            <input
+              v-model="bitcoinbasedInput.memo"
+              type="text"
+              placeholder="Memo (optional)"
+            />
             <br />
             <button @click="submitBitcoinBased">Submit</button>
           </div>
-          <div v-if="['thorchain'].includes(selectedChain && selectedChain.chain)">
+          <div
+            v-if="['thorchain'].includes(selectedChain && selectedChain.chain)"
+          >
             <select v-model="thorbasedInput.type">
               <!-- inline object literal -->
               <option v-bind:value="'deposit'">deposit</option>
@@ -188,39 +228,70 @@
             <h3>Asset:</h3>
             <br />
             Chain
-            <input type="text" v-model="thorbasedInput.asset.chain" placeholder="chain" />
+            <input
+              type="text"
+              v-model="thorbasedInput.asset.chain"
+              placeholder="chain"
+            />
             <br />
             Symbol:
 
-            <input type="text" v-model="thorbasedInput.asset.symbol" placeholder="Symbol" />
+            <input
+              type="text"
+              v-model="thorbasedInput.asset.symbol"
+              placeholder="Symbol"
+            />
             <br />
             Ticker:
 
-            <input type="text" v-model="thorbasedInput.asset.ticker" placeholder="Ticker" />
+            <input
+              type="text"
+              v-model="thorbasedInput.asset.ticker"
+              placeholder="Ticker"
+            />
             <br />
             <br />
             From Address:
 
-            <input type="text" v-model="thorbasedInput.from" placeholder="From Address" />
+            <input
+              type="text"
+              v-model="thorbasedInput.from"
+              placeholder="From Address"
+            />
             <br />
             <div v-if="thorbasedInput.type === 'transfer'">
               To Address:
 
-              <input type="text" v-model="thorbasedInput.recipient" placeholder="To Address" />
+              <input
+                type="text"
+                v-model="thorbasedInput.recipient"
+                placeholder="To Address"
+              />
 
               <br /><br />
             </div>
             <br />
             Amount:
-            <input v-model="thorbasedInput.amount.amount" type="number"
-              placeholder="Amount (smallest unit value)" /><br />
+            <input
+              v-model="thorbasedInput.amount.amount"
+              type="number"
+              placeholder="Amount (smallest unit value)"
+            /><br />
             Decimals:
 
-            <input v-model="thorbasedInput.amount.decimals" type="number" placeholder="Decimals" />
+            <input
+              v-model="thorbasedInput.amount.decimals"
+              type="number"
+              placeholder="Decimals"
+            />
             <br />
             Memo:
 
-            <input v-model="thorbasedInput.memo" type="text" placeholder="Memo" />
+            <input
+              v-model="thorbasedInput.memo"
+              type="text"
+              placeholder="Memo"
+            />
             <br />
             <button @click="submitThorBased">Submit</button>
           </div>
@@ -296,7 +367,6 @@ export default {
   },
   data() {
     return {
-      account: "",
       ethereum: undefined,
       xfiObject: null,
       lastResult: undefined,
@@ -368,7 +438,12 @@ export default {
         const account = await this.xfiObject[chain].request(
           {
             method,
-            params: params ?? [],
+            params: params,
+          },
+          (error, result) => {
+            // request result handling
+            console.debug("callback", error, result);
+            this.lastResult = { error, result };
           }
         );
 
