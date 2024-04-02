@@ -346,7 +346,7 @@ export default {
   },
   methods: {
     // This method utilises the request method of the selected provider
-    async request(chain, method, params) {
+    request(chain, method, params) {
       console.debug({ chain, method, params });
       try {
         // provider request method takes in 2 parameters: method and params
@@ -366,14 +366,18 @@ export default {
               type (in thor chain case) - either transfer or deposit
         */
 
-        const account = await this.xfiObject[chain].request(
+        this.xfiObject[chain].request(
           {
             method,
             params: params ?? [],
+          },
+          (error, result) => {
+            // request result handling
+            console.debug("callback", error, result);
+            this.account = result[0]
+            this.lastResult = { error, result };
           }
         );
-
-        this.account = account
       } catch (e) {
         console.error(e);
         this.lastResult = `Error: ${e.message}`;
