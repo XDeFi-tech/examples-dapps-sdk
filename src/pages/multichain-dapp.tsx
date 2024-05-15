@@ -42,8 +42,23 @@ const MultichainDappExample: NextPage = () => {
       status: 'not detected',
     },
     {
+      key: 'ethereum',
+      name: 'Ethereum',
+      status: 'not detected',
+    },
+    {
+      key: 'keplr',
+      name: 'Keplr',
+      status: 'not detected',
+    },
+    {
       key: 'litecoin',
       name: 'Litecoin',
+      status: 'not detected',
+    },
+    {
+      key: 'mayachain',
+      name: 'Maya',
       status: 'not detected',
     },
     {
@@ -52,13 +67,17 @@ const MultichainDappExample: NextPage = () => {
       status: 'not detected',
     },
     {
-      key: 'solana',
-      name: 'Solana',
-      status: 'not detected',
+      key: 'terra',
+      name: 'Terra',
     },
     {
       key: 'tron',
       name: 'Tron',
+      status: 'not detected',
+    },
+    {
+      key: 'solana',
+      name: 'Solana',
       status: 'not detected',
     },
   ];
@@ -118,13 +137,15 @@ const MultichainDappExample: NextPage = () => {
       chains.forEach((chain) => {
         if (window.xfi && window.xfi[chain.key]) {
           const provider = window.xfi[chain.key];
-          provider.on('chainChanged', (obj: any) => {
-            setCurrentNetwork(obj.network || obj._network);
-          });
+          if (provider.on) {
+            provider.on('chainChanged', (obj: any) => {
+              setCurrentNetwork(obj.network || obj._network);
+            });
 
-          provider.on('accountsChanged', (obj: any) => {
-            console.log(`accountsChanged::${chain.key}`, obj);
-          });
+            provider.on('accountsChanged', (obj: any) => {
+              console.log(`accountsChanged::${chain.key}`, obj);
+            });
+          }
         }
       });
     }
@@ -159,21 +180,40 @@ const MultichainDappExample: NextPage = () => {
       },
       memo: 'memo',
     });
-    setThorbasedInput({
-      asset: {
-        chain: 'THOR',
-        symbol: 'RUNE',
-        ticker: 'RUNE',
-      },
-      from: '',
-      recipient: '',
-      type: 'deposit',
-      amount: {
-        amount: 123,
-        decimals: 8,
-      },
-      memo: 'memo',
-    });
+    if (selectedChain === 'thorchain') {
+      setThorbasedInput({
+        asset: {
+          chain: 'THOR',
+          symbol: 'RUNE',
+          ticker: 'RUNE',
+        },
+        from: '',
+        recipient: '',
+        type: 'deposit',
+        amount: {
+          amount: 123,
+          decimals: 8,
+        },
+        memo: 'memo',
+      });
+    }
+    if (selectedChain === 'mayachain') {
+      setThorbasedInput({
+        asset: {
+          chain: 'MAYA',
+          symbol: 'MAYA',
+          ticker: 'MAYA',
+        },
+        from: '',
+        recipient: '',
+        type: 'deposit',
+        amount: {
+          amount: 123,
+          decimals: 8,
+        },
+        memo: 'memo',
+      });
+    }
   };
 
   useEffect(() => {
@@ -181,20 +221,41 @@ const MultichainDappExample: NextPage = () => {
   }, [selectedChain]);
 
   const request = async (chain: string, method: string, params: any) => {
-    try {
-      await xfiObject[chain].request(
-        {
-          method,
-          params: params ?? [],
-        },
-        (error: any, result: any) => {
-          setAccount(result[0]);
-          setLastResult({ result });
+    switch (chain) {
+      case 'ethereum':
+        await xfiObject[chain].getaccounts().then((accounts: any) => {
+          setAccount(accounts[0]);
+          setLastResult({ result: accounts });
+        });
+        return;
+      case 'keplr':
+        setAccount('');
+        setLastResult({
+          error: 'Keplr is not support request_accounts now!',
+        });
+        return;
+      case 'terra':
+        setAccount('');
+        setLastResult({
+          error: 'Terra is not support request_accounts now!',
+        });
+        return;
+      default:
+        try {
+          await xfiObject[chain].request(
+            {
+              method,
+              params: params ?? [],
+            },
+            (error: any, result: any) => {
+              setAccount(result[0]);
+              setLastResult({ result });
+            }
+          );
+        } catch (error) {
+          setAccount('');
+          setLastResult({ error });
         }
-      );
-    } catch (error) {
-      console.error(error);
-      setLastResult({ error });
     }
   };
 
@@ -203,7 +264,9 @@ const MultichainDappExample: NextPage = () => {
       if (!window.xfi.tron) throw new Error('Tron Provider not found!');
       const account = (await window.xfi.tron.tronWeb.createRandom()).address;
       setAccount(account);
+      setLastResult({ result: account });
     } catch (error: any) {
+      setAccount('');
       setLastResult({ error: `Error: ${error.message}` });
     }
   };
@@ -212,7 +275,9 @@ const MultichainDappExample: NextPage = () => {
     try {
       const account = (await window.xfi.solana.connect()).publicKey.toString();
       setAccount(account);
+      setLastResult({ result: account });
     } catch (error: any) {
+      setAccount('');
       setLastResult({ error: `Error: ${error.message}` });
     }
   };
@@ -240,7 +305,9 @@ const MultichainDappExample: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <h2 className="text-center text-3xl font-semibold">Multichain Dapp Example</h2>
+      <h2 className="text-center text-3xl font-semibold">
+        Multichain Dapp Example
+      </h2>
       <div>
         <span className="font-medium italic">Reference documentation:</span>{' '}
         <Link
@@ -257,7 +324,7 @@ const MultichainDappExample: NextPage = () => {
       </div>
 
       {xfiObject && (
-        <div className="mt-3 grid grid-cols-2 gap-2">
+        <div className="mt-3 grid grid-cols-2 gap-5">
           <div className="">
             <div className="text-[20px] font-medium">I. Accounts request</div>
             <div className="text-[16px]">
@@ -267,12 +334,11 @@ const MultichainDappExample: NextPage = () => {
               - Current network:{' '}
               <span className="italic">{currentNetwork}</span>
             </div>
-            <table className="table-auto mt-3">
+            <table className="table-auto w-full mt-3">
               <thead>
                 <tr>
                   <th className="border px-4 py-2">xfi Object</th>
                   <th className="border px-4 py-2">Status</th>
-                  <th className="border px-4 py-2">Network</th>
                   <th className="border px-4 py-2"></th>
                 </tr>
               </thead>
@@ -282,9 +348,6 @@ const MultichainDappExample: NextPage = () => {
                     <td className="border px-4 py-2">window.xfi.{chain.key}</td>
                     <td className="border px-4 py-2">
                       {xfiObject[chain.key] ? 'detected' : 'not detected'}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {xfiObject[chain.key]?.network}
                     </td>
                     <td className="border px-4 py-2">
                       <button
@@ -344,16 +407,16 @@ const MultichainDappExample: NextPage = () => {
                     submitBitcoinBased={submitBitcoinBased}
                   />
                 )}
-              {selectedChain === 'thorchain' && (
+              {['thorchain', 'mayachain'].includes(selectedChain) && (
                 <ThorChain
                   thorbasedInput={thorbasedInput}
                   setThorbasedInput={setThorbasedInput}
                   submitThorBased={submitThorBased}
                 />
               )}
-              {selectedChain === 'solana' && (
-                <div className="text-center italic">Coming Soon!</div>
-              )}
+              {['ethereum', 'keplr', 'terra', 'tron', 'solana'].includes(
+                selectedChain
+              ) && <div className="text-center italic">Coming Soon!</div>}
             </div>
           </div>
         </div>
