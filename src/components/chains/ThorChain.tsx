@@ -17,6 +17,28 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
     memo: 'memo',
   });
 
+  useEffect(() => {
+    if (chain === 'mayachain') {
+      setThorbasedInput({
+        ...thorbasedInput,
+        asset: {
+          chain: 'MAYA',
+          symbol: 'MAYA',
+          ticker: 'MAYA',
+        },
+      });
+    } else {
+      setThorbasedInput({
+        ...thorbasedInput,
+        asset: {
+          chain: 'THOR',
+          symbol: 'RUNE',
+          ticker: 'RUNE',
+        },
+      });
+    }
+  }, [chain]);
+
   const submitThorBased = () => {
     const { from, amount, memo, asset, type, recipient } = thorbasedInput;
     window.xfi[chain].request(
