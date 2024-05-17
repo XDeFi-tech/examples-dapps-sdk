@@ -17,6 +17,8 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
     memo: 'memo',
   });
 
+  const [response, setResponse] = useState<Object>({});
+
   useEffect(() => {
     if (chain === 'mayachain') {
       setThorbasedInput({
@@ -246,6 +248,18 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+              <div className="px-5 border-b border-[#e2e2e3]">
+                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                  Response
+                </span>
+              </div>
+              <pre className="p-5 ">{JSON.stringify(response, null, 2)}</pre>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   );
