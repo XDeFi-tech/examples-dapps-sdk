@@ -45,7 +45,10 @@ const BNBChain = ({ account }: { account: string }) => {
       <div className="italic">
         Note: Binance won't be supported in Summer 2024
       </div>
-      <table className="table-auto w-full mt-2">
+      <div className="text-[18px] text-center font-semibold mt-2">
+        Transfer/Deposit Request
+      </div>
+      <table className="table-auto w-full mt-3">
         <tbody>
           <tr>
             <td rowSpan={4} className="border px-4 py-2">
