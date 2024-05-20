@@ -7,6 +7,8 @@ import DetectProvider from '@/components/DetectProvider';
 import BNBChain from '@/components/chains/BNBChain';
 import BaseChain from '@/components/chains/BaseChain';
 import ThorChain from '@/components/chains/ThorChain';
+import EVMChain from '@/components/chains/EVMChain';
+import CosmosChain from '@/components/chains/CosmosChain';
 
 import chainsProvider from '@/utils/chainsProvider';
 import chainsSupported from '@/utils/chainsSupported';
@@ -187,9 +189,6 @@ const DAppExample: NextPage = () => {
                     <div className="text-[16px] mt-2">
                       - account: <span className="italic">{account}</span>
                     </div>
-                    <div className="text-[18px] text-center font-semibold mt-2">
-                      Transfer/Deposit
-                    </div>
                     {[
                       'bitcoin',
                       'bitcoincash',
@@ -206,8 +205,16 @@ const DAppExample: NextPage = () => {
                     )}
                     {chainsSupported.find(
                       (chain) =>
-                        chain.chain === selectedChain && chain.baseChain
-                    ) && <div className="text-center italic">Coming Soon!</div>}
+                        chain.chain === selectedChain &&
+                        chain.baseChain === 'EVM'
+                    ) && <EVMChain account={account} chain={selectedChain} />}
+                    {chainsSupported.find(
+                      (chain) =>
+                        chain.chain === selectedChain &&
+                        chain.baseChain === 'CosmosChain'
+                    ) && (
+                      <CosmosChain account={account} chain={selectedChain} />
+                    )}
                   </>
                 )}
               </div>

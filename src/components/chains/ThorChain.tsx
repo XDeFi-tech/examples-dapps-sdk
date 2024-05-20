@@ -64,11 +64,14 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
 
   return (
     <div className="mt-3">
-      <div className="italic">
+      <div className="text-[18px] text-center font-semibold">
+        Transfer/Deposit Request
+      </div>
+      <div className="italic mt-2">
         Note: With Thorchain, if you not input recipient address, Submit button
         will call deposit method, otherwise it will call transfer method.
       </div>
-      <table className="table-auto w-full mt-2">
+      <table className="table-auto w-full mt-3">
         <tbody>
           <tr>
             <td className="border px-4 py-2 text-center" rowSpan={4}>
