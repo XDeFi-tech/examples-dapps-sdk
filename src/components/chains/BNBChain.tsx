@@ -42,13 +42,22 @@ const BNBChain = ({ account }: { account: string }) => {
 
   return (
     <div className="mt-3">
-      <div className="italic">
-        Note: Binance won't be supported in Summer 2024
-      </div>
-      <div className="text-[18px] text-center font-semibold mt-2">
-        Transfer/Deposit Request
-      </div>
-      <table className="table-auto w-full mt-3">
+      <table className="table-auto w-full">
+      <thead>
+          <tr>
+            <th
+              colSpan={3}
+              className="border px-4 py-2 text-[18px] text-center font-semibold"
+            >
+              Transfer/Deposit Request
+            </th>
+          </tr>
+          <tr>
+            <td colSpan={3} className="border px-4 py-2 italic">
+            Note: Binance won't be supported in Summer 2024
+            </td>
+          </tr>
+        </thead>
         <tbody>
           <tr>
             <td rowSpan={4} className="border px-4 py-2">
@@ -230,11 +239,12 @@ const BNBChain = ({ account }: { account: string }) => {
                   Response
                 </span>
               </div>
-              <pre className="p-5 ">{JSON.stringify(response, null, 2)}</pre>
+              <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
             </td>
           </tr>
         </tfoot>
       </table>
+      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };

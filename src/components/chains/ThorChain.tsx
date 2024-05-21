@@ -64,23 +64,33 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
 
   return (
     <div className="mt-3">
-      <div className="text-[18px] text-center font-semibold">
-        Transfer/Deposit Request
-      </div>
-      <div className="italic mt-2">
-        Note: With Thorchain, if you not input recipient address, Submit button
-        will call deposit method, otherwise it will call transfer method.
-      </div>
-      <table className="table-auto w-full mt-3">
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th
+              colSpan={3}
+              className="border px-4 py-2 text-[18px] text-center font-semibold"
+            >
+              Transfer/Deposit Request
+            </th>
+          </tr>
+          <tr>
+            <td colSpan={3} className="border px-4 py-2 italic">
+              Note: With Thorchain, if you not input recipient address, Submit
+              button will call deposit method, otherwise it will call transfer
+              method.
+            </td>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <td className="border px-4 py-2 text-center" rowSpan={4}>
+            <td className="border px-4 py-2" rowSpan={4}>
               Asset
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Chain</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Chain</td>
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -99,8 +109,8 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Symbol</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Symbol</td>
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -119,8 +129,8 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Ticker</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Ticker</td>
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -139,10 +149,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center" colSpan={2}>
+            <td className="border px-4 py-2" colSpan={2}>
               From Address
             </td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -159,10 +169,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center" colSpan={2}>
+            <td className="border px-4 py-2" colSpan={2}>
               To Address
             </td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -178,10 +188,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center" colSpan={2}>
+            <td className="border px-4 py-2" colSpan={2}>
               Amount
             </td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">
               <input
                 type="number"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -200,10 +210,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center" colSpan={2}>
+            <td className="border px-4 py-2" colSpan={2}>
               Decimals
             </td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">
               <input
                 type="number"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -222,10 +232,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center" colSpan={2}>
+            <td className="border px-4 py-2" colSpan={2}>
               Memo (optional)
             </td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -259,11 +269,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                   Response
                 </span>
               </div>
-              <pre className="p-5 ">{JSON.stringify(response, null, 2)}</pre>
+              <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
             </td>
           </tr>
         </tfoot>
       </table>
+      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };
