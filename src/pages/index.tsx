@@ -121,31 +121,32 @@ const DAppExample: NextPage = () => {
   };
 
   useEffect(() => {
-    const chainData = chainsSupported.find(
+    const tokenData = chainsSupported.find(
       (chain) => chain.chain === selectedChain
     );
-    if (chainData) {
-      if (chainData.chain === 'solana') {
+
+    if (tokenData) {
+      if (tokenData.chain === 'solana') {
         connectSolana();
         return;
       }
-      if (chainData.chain === 'near') {
+      if (tokenData.chain === 'near') {
         connectNear();
         return;
       }
-      if (chainData.baseChain === 'CosmosChain') {
-        connentKeplr(chainData.chainId);
-      } else if (chainData.baseChain === 'EVM') {
+      if (tokenData.baseChain === 'CosmosChain') {
+        connentKeplr(tokenData.chainId);
+      } else if (tokenData.baseChain === 'EVM') {
         connectEthereum();
       } else {
-        connectBaseChain(chainData.chain);
+        connectBaseChain(tokenData.chain);
       }
     }
   }, [selectedChain]);
 
   return (
     <DefaultLayout>
-      <h2 className="text-center text-3xl font-semibold">DApp Example</h2>
+      <h2 className="text-center text-3xl font-semibold">Multichain DApp Example</h2>
       <div className="mt-3">
         <span className="font-medium italic">* Reference documentation:</span>{' '}
         <Link
@@ -207,14 +208,19 @@ const DAppExample: NextPage = () => {
                       (chain) =>
                         chain.chain === selectedChain &&
                         chain.baseChain === 'EVM'
-                    ) && <EVMChain account={account} chain={selectedChain} />}
+                    ) && <EVMChain account={account} token={selectedChain} />}
                     {chainsSupported.find(
                       (chain) =>
                         chain.chain === selectedChain &&
                         chain.baseChain === 'CosmosChain'
                     ) && (
-                      <CosmosChain account={account} chain={selectedChain} />
+                      <CosmosChain chain={selectedChain} />
                     )}
+                    {
+                      ['solana', 'near', 'terra'].includes(selectedChain) && (
+                        <div className='mt-3 text-center'>Coming soon!</div>
+                      )
+                    }
                   </>
                 )}
               </div>

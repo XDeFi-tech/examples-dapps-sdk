@@ -10,19 +10,19 @@ const chainsSupported = [
     chain: 'arbitrum',
     name: 'Arbitrum',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1'
   },
   {
     chain: 'aurora',
     name: 'Aurora',
     baseChain: 'EVM',
-    constract: '',
+    constract: '0xAaAAAA20D9E0e2461697782ef11675f668207961',
   },
   {
     chain: 'avalanche',
     name: 'Avalanche',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0x93567d6B6553bDe2b652FB7F197a229b93813D3f',
   },
   {
     chain: 'axelar',
@@ -40,7 +40,7 @@ const chainsSupported = [
     chain: 'binanceSmartChain',
     name: 'Binance Smart Chain',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0x0b95993a39a363d99280ac950f5e4536ab5c5566',
   },
   {
     chain: 'bitcoin',
@@ -56,7 +56,7 @@ const chainsSupported = [
     chain: 'cantoEVM',
     name: 'Canto',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0x4e71A2E537B7f9D9413D3991D37958c0b5e1e503',
   },
   {
     chain: 'cosmos',
@@ -76,7 +76,7 @@ const chainsSupported = [
     chain: 'cronosEVM',
     name: 'Cronos',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0xddf993bebbd397f2a42de7c39f09f9c8e34ef322',
   },
   {
     chain: 'dogecoin',
@@ -87,13 +87,13 @@ const chainsSupported = [
     chain: 'ethereum',
     name: 'Ethereum',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0xad6d458402f60fd3bd25163575031acdce07538d',
   },
   {
     chain: 'fantom',
     name: 'Fantom',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0xcc2cdacec2e8bccd3b3201e744bdf51628d00184b7cb420f41e25ee0d6853',
   },
   {
     chain: 'juno',
@@ -143,7 +143,7 @@ const chainsSupported = [
     chain: 'optimism',
     name: 'Optimism',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0x7cade2beb25ede5f8590602b1b24c4f610fde605',
   },
   {
     chain: 'osmosis',
@@ -156,7 +156,7 @@ const chainsSupported = [
     chain: 'polygon',
     name: 'Polygon',
     baseChain: 'EVM',
-    contract: '',
+    contract: '0x455e53CBB86018Ac2B8092FdCd39d8444aFFC3F6',
   },
   {
     chain: 'solana',

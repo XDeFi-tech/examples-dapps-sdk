@@ -37,14 +37,16 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
 
   return (
     <div className="mt-3">
-      <div className="text-[18px] text-center font-semibold">
-        Transfer/Deposit Request
-      </div>
-      <table className="table-auto w-full mt-3">
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th colSpan={2} className="border px-4 py-2 text-[18px] text-center font-semibold">Transfer/Deposit Request</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <td className="border px-4 py-2 text-center">From Address</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">From Address</td>
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -55,8 +57,8 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">To Address</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">To Address</td>
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -72,8 +74,8 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Fee Rate</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Fee Rate</td>
+            <td className="border px-4 py-2">
               <input
                 type="number"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -89,8 +91,8 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Amount</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Amount</td>
+            <td className="border px-4 py-2">
               <input
                 type="number"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -109,8 +111,8 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Decimals</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Decimals</td>
+            <td className="border px-4 py-2">
               <input
                 type="number"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -129,8 +131,8 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 text-center">Memo (optional)</td>
-            <td className="border px-4 py-2 text-center">
+            <td className="border px-4 py-2">Memo (optional)</td>
+            <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
@@ -164,11 +166,12 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                   Response
                 </span>
               </div>
-              <pre className="p-5 ">{JSON.stringify(response, null, 2)}</pre>
+              <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
             </td>
           </tr>
         </tfoot>
       </table>
+      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };
