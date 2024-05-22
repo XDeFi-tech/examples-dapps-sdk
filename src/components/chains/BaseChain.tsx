@@ -35,6 +35,19 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
     );
   };
 
+  useEffect(() => {
+    setBaseChainInput({
+      from: '',
+      to: '',
+      feeRate: 5,
+      amount: {
+        amount: 123,
+        decimals: 8,
+      },
+      memo: 'memo',
+    });
+  }, [chain]);
+
   return (
     <div className="mt-3">
       <table className="table-auto w-full">
