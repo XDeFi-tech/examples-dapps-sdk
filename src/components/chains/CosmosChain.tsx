@@ -46,7 +46,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
             <td className="border px-4 py-2 text-center">
               <button
                 onClick={getAccount}
-                className="bg-[#2770CB] text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-1 rounded"
               >
                 Get
               </button>
@@ -57,7 +57,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
           <tr>
             <td colSpan={2} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
