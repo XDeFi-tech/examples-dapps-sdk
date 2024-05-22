@@ -34,7 +34,7 @@ const SolanaChain = () => {
               colSpan={2}
               className="border px-4 py-2 text-[18px] text-center font-semibold"
             >
-              connect / getPublicKey
+              connect/getPublicKey
             </th>
           </tr>
         </thead>
