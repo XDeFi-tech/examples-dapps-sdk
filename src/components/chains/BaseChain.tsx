@@ -6,7 +6,7 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
     to: '',
     feeRate: 5,
     amount: {
-      amount: 123,
+      amount: 1234,
       decimals: 8,
     },
     memo: 'memo',
@@ -41,7 +41,7 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
       to: '',
       feeRate: 5,
       amount: {
-        amount: 123,
+        amount: 1234,
         decimals: 8,
       },
       memo: 'memo',
