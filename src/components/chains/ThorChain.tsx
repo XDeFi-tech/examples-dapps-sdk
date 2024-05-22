@@ -11,7 +11,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
     recipient: '',
     type: 'deposit',
     amount: {
-      amount: 123,
+      amount: 1234,
       decimals: 8,
     },
     memo: 'memo',

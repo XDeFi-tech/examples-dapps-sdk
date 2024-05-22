@@ -212,7 +212,7 @@ const DAppExample: NextPage = () => {
                   ) && <CosmosChain chain={selectedChain} />}
                   {selectedChain === 'solana' && <SolanaChain />}
                   {['near', 'terra'].includes(selectedChain) && (
-                    <div className="mt-3 text-center">To Deprecated in Summer 2024!</div>
+                    <div className="mt-3 text-center italic">To Deprecated in Summer 2024!</div>
                   )}
                 </>
               )}
