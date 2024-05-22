@@ -146,7 +146,9 @@ const DAppExample: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <h2 className="text-center text-3xl font-semibold">Multichain DApp Example</h2>
+      <h2 className="text-center text-3xl font-semibold">
+        Multichain DApp Example
+      </h2>
       <div className="mt-3">
         <span className="font-medium italic">* Reference documentation:</span>{' '}
         <Link
@@ -184,46 +186,34 @@ const DAppExample: NextPage = () => {
                   ))}
                 </select>
               </div>
-              <div>
-                {selectedChain && (
-                  <>
-                    <div className="text-[16px] mt-2">
-                      - account: <span className="italic">{account}</span>
-                    </div>
-                    {[
-                      'bitcoin',
-                      'bitcoincash',
-                      'dogecoin',
-                      'litecoin',
-                    ].includes(selectedChain) && (
-                      <BaseChain account={account} chain={selectedChain} />
-                    )}
-                    {selectedChain === 'binance' && (
-                      <BNBChain account={account} />
-                    )}
-                    {['thorchain', 'mayachain'].includes(selectedChain) && (
-                      <ThorChain account={account} chain={selectedChain} />
-                    )}
-                    {chainsSupported.find(
-                      (chain) =>
-                        chain.chain === selectedChain &&
-                        chain.baseChain === 'EVM'
-                    ) && <EVMChain account={account} token={selectedChain} />}
-                    {chainsSupported.find(
-                      (chain) =>
-                        chain.chain === selectedChain &&
-                        chain.baseChain === 'CosmosChain'
-                    ) && (
-                      <CosmosChain chain={selectedChain} />
-                    )}
-                    {
-                      ['solana', 'near', 'terra'].includes(selectedChain) && (
-                        <div className='mt-3 text-center'>Coming soon!</div>
-                      )
-                    }
-                  </>
-                )}
-              </div>
+              {selectedChain && (
+                <>
+                  <div className="text-[16px] mt-2">
+                    - account: <span className="italic">{account}</span>
+                  </div>
+                  {['bitcoin', 'bitcoincash', 'dogecoin', 'litecoin'].includes(
+                    selectedChain
+                  ) && <BaseChain account={account} chain={selectedChain} />}
+                  {selectedChain === 'binance' && (
+                    <BNBChain account={account} />
+                  )}
+                  {['thorchain', 'mayachain'].includes(selectedChain) && (
+                    <ThorChain account={account} chain={selectedChain} />
+                  )}
+                  {chainsSupported.find(
+                    (chain) =>
+                      chain.chain === selectedChain && chain.baseChain === 'EVM'
+                  ) && <EVMChain account={account} token={selectedChain} />}
+                  {chainsSupported.find(
+                    (chain) =>
+                      chain.chain === selectedChain &&
+                      chain.baseChain === 'CosmosChain'
+                  ) && <CosmosChain chain={selectedChain} />}
+                  {['solana', 'near', 'terra'].includes(selectedChain) && (
+                    <div className="mt-3 text-center">Coming soon!</div>
+                  )}
+                </>
+              )}
             </div>
           </>
         )}

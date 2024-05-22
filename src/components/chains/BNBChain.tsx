@@ -43,7 +43,7 @@ const BNBChain = ({ account }: { account: string }) => {
   return (
     <div className="mt-3">
       <table className="table-auto w-full">
-      <thead>
+        <thead>
           <tr>
             <th
               colSpan={3}
@@ -54,7 +54,7 @@ const BNBChain = ({ account }: { account: string }) => {
           </tr>
           <tr>
             <td colSpan={3} className="border px-4 py-2 italic">
-            Note: Binance won't be supported in Summer 2024
+              Note: Binance won't be supported in Summer 2024
             </td>
           </tr>
         </thead>
