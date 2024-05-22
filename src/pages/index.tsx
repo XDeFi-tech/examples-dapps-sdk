@@ -147,28 +147,50 @@ const DAppExample: NextPage = () => {
 
   return (
     <DefaultLayout>
-      <h2 className="text-center text-3xl font-semibold">
+      <h2 className="text-center text-2xl md:text-3xl font-semibold">
         Multichain DApp Example
       </h2>
-      <div className="mt-3">
-        <span className="font-medium italic">* Reference documentation:</span>{' '}
-        <Link
-          className="text-blue-500 underline"
-          href="https://developers.xdefi.io/developers/extension-wallet"
-        >
-          XDEFI Dev Docs
-        </Link>
-      </div>
+      <ul className="mt-3">
+        <li>
+          <span className="font-medium italic">* Repository: </span>
+          <Link
+            className="text-blue-500 underline"
+            href="https://github.com/XDeFi-tech/examples-dapps-sdk"
+          >
+            GitHub
+          </Link>
+        </li>
+        <li>
+          <span className="font-medium italic">
+            * Reference documentation:{' '}
+          </span>
+          <Link
+            className="text-blue-500 underline"
+            href="https://developers.xdefi.io/developers/extension-wallet"
+          >
+            XDEFI Dev Docs
+          </Link>
+        </li>
+        <li>
+          <span className="font-medium italic">* To get support: </span>
+          <Link
+            className="text-blue-500 underline"
+            href="https://discord.com/channels/826110375639646228/837305087197315082"
+          >
+            Discord
+          </Link>
+        </li>
+      </ul>
       <div className="mt-3 grid grid-cols-3 gap-5">
         {xfiObject && (
           <>
-            <div className="col-span-1">
+            <div className="col-span-3 md:col-span-1">
               <DetectProvider
                 xfiObject={xfiObject}
                 currentNetwork={currentNetwork}
               />
             </div>
-            <div className="col-span-2">
+            <div className="col-span-3 md:col-span-2">
               <div className="flex items-center gap-2">
                 <span className="">Chain </span>
                 <select
@@ -212,7 +234,9 @@ const DAppExample: NextPage = () => {
                   ) && <CosmosChain chain={selectedChain} />}
                   {selectedChain === 'solana' && <SolanaChain />}
                   {['near', 'terra'].includes(selectedChain) && (
-                    <div className="mt-3 text-center italic">To Deprecated in Summer 2024!</div>
+                    <div className="mt-3 text-center italic">
+                      To Deprecated in Summer 2024!
+                    </div>
                   )}
                 </>
               )}
