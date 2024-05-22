@@ -9,6 +9,7 @@ import BaseChain from '@/components/chains/BaseChain';
 import ThorChain from '@/components/chains/ThorChain';
 import EVMChain from '@/components/chains/EVMChain';
 import CosmosChain from '@/components/chains/CosmosChain';
+import SolanaChain from '@/components/chains/SolanaChain';
 
 import chainsProvider from '@/utils/chainsProvider';
 import chainsSupported from '@/utils/chainsSupported';
@@ -209,7 +210,8 @@ const DAppExample: NextPage = () => {
                       chain.chain === selectedChain &&
                       chain.baseChain === 'CosmosChain'
                   ) && <CosmosChain chain={selectedChain} />}
-                  {['solana', 'near', 'terra'].includes(selectedChain) && (
+                  {selectedChain === 'solana' && <SolanaChain />}
+                  {['near', 'terra'].includes(selectedChain) && (
                     <div className="mt-3 text-center">Coming soon!</div>
                   )}
                 </>

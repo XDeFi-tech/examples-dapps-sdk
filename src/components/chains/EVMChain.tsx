@@ -243,7 +243,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
             <td colSpan={2} className="border px-4 py-2 text-center">
               <button
                 onClick={sendHandler}
-                className="bg-[#2770CB] text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-1 rounded"
               >
                 Send
               </button>
@@ -254,7 +254,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td colSpan={2} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
@@ -312,7 +312,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td colSpan={2} className="border px-4 py-2 text-center w-[100px]">
               <button
-                className="bg-[#2770CB] text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={personalSignHandler}
               >
                 Sign
@@ -324,7 +324,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
@@ -359,7 +359,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
             </td>
             <td className="border px-4 py-2 text-center w-[100px]">
               <button
-                className="bg-[#2770CB] text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={ethSignHandler}
               >
                 Sign
@@ -371,7 +371,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
@@ -483,7 +483,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td colSpan={2} className="border px-4 py-2 text-center w-[100px]">
               <button
-                className="bg-[#2770CB] text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={ethSignTransactionHandler}
               >
                 Sign
@@ -495,7 +495,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
@@ -518,7 +518,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td className="border px-4 py-2 text-center">
               <button
-                className="bg-[#2770CB] text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-1 rounded"
                 onClick={ethBalanceHandler}
               >
                 Get Balance
@@ -530,7 +530,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           <tr>
             <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-[#3451b2] dark:border-[#a8b1ff] text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
