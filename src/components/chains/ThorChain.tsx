@@ -57,7 +57,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
         ],
       },
       (error: any, result: any) => {
-        console.log({ error, result });
+        setResponse(result);
       }
     );
   };

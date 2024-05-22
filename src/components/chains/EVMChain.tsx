@@ -17,24 +17,23 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
   const [web3, setWeb3] = useState<any>(null);
   const [chainId, setChainId] = useState<any>(null);
   const [erc20Input, setErc20Input] = useState<any>({
-    contract: undefined,
+    contract: '',
     fromAddress: account,
-    recipientAddress: undefined,
-    amount: undefined,
-    decimals: undefined,
+    recipientAddress: '',
+    amount: '',
+    decimals: '',
   });
   const [tokenData, setTokenData] = useState<any>({});
-
   const [erc20SendResp, setErc20SendResp] = useState<Object>({});
 
-  const [personalSign, setPersonalSign] = useState<string>('hello');
+  const [personalSign, setPersonalSign] = useState<any>({
+    data: 'hello',
+    passphase: 'passphase',
+  });
   const [personalSignResp, setPersonalSignResp] = useState<any>({});
 
-  const [ethSign, setEthSign] = useState<string>('helloethsign');
+  const [ethSign, setEthSign] = useState<string>('hello');
   const [ethSignResp, setEthSignResp] = useState<any>({});
-
-  const [ethBalance, setEthBalance] = useState<any>(null);
-  const [ethSignTransactionResp, setEthSignTransactionResp] = useState<any>({});
 
   const [signTxInfo, setSignTxInfo] = useState<any>({
     from: account,
@@ -45,6 +44,9 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
     value: '1000',
     data: '0xdeadbeef',
   });
+  const [ethSignTransactionResp, setEthSignTransactionResp] = useState<any>({});
+
+  const [ethBalance, setEthBalance] = useState<any>(null);
 
   useEffect(() => {
     const data = chainsSupported.find((c) => c.chain === token);
@@ -53,9 +55,9 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
       setErc20Input({
         contract: data.contract,
         fromAddress: account,
-        recipientAddress: undefined,
-        amount: undefined,
-        decimals: undefined,
+        recipientAddress: '',
+        amount: '',
+        decimals: '',
       });
 
       const initWeb3 = async () => {
@@ -126,7 +128,11 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
 
   const personalSignHandler = async () => {
     try {
-      const response = await web3.eth.personal.sign(personalSign, account);
+      const response = await web3.eth.personal.sign(
+        personalSign.data,
+        account,
+        personalSign.passphase
+      );
       setPersonalSignResp(response);
     } catch (error) {
       setPersonalSignResp(error);
@@ -135,7 +141,8 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
 
   const ethSignHandler = async () => {
     try {
-      const response = await web3.eth.sign(ethSign, account);
+      const msgHash = await web3.eth.accounts.hashMessage(ethSign);
+      const response = await web3.eth.sign(msgHash, account, 'hex');
       setEthSignResp(response);
     } catch (error) {
       setEthSignResp(error);
@@ -175,26 +182,14 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
             <td className="border px-4 py-2">
               <input
                 type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={tokenData.contract}
+                className="w-full bg-gray-200 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                defaultValue={tokenData.contract}
                 disabled
               />
             </td>
           </tr>
           <tr>
-            <td className="border px-4 py-2 w-[220px]">From Address</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={account}
-                onChange={(e) => {}}
-                disabled
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2">To Address</td>
+            <td className="border px-4 py-2 w-[220px]">To Address</td>
             <td className="border px-4 py-2">
               <input
                 type="text"
@@ -283,16 +278,39 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
         </thead>
         <tbody>
           <tr>
-            <td className="border px-4 py-2 w-[150px]">Message</td>
+            <td className="border px-4 py-2 w-[150px]">Data</td>
             <td className="border px-4 py-2">
               <input
                 type="text"
                 className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={personalSign}
-                onChange={(e) => setPersonalSign(e.target.value)}
+                value={personalSign.data}
+                onChange={(e) =>
+                  setPersonalSign({
+                    ...personalSign,
+                    data: e.target.value,
+                  })
+                }
               />
             </td>
-            <td className="border px-4 py-2 text-center w-[100px]">
+          </tr>
+          <tr>
+            <td className="border px-4 py-2 w-[150px]">Passphase</td>
+            <td className="border px-4 py-2">
+              <input
+                type="text"
+                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                value={personalSign.passphase}
+                onChange={(e) =>
+                  setPersonalSign({
+                    ...personalSign,
+                    passphase: e.target.value,
+                  })
+                }
+              />
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={2} className="border px-4 py-2 text-center w-[100px]">
               <button
                 className="bg-[#2770CB] text-white px-2 py-1 rounded"
                 onClick={personalSignHandler}
@@ -375,17 +393,6 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">From Address</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={account}
-                disabled
-              />
-            </td>
-          </tr>
           <tr>
             <td className="border px-4 py-2 w-[150px]">To Address</td>
             <td className="border px-4 py-2">

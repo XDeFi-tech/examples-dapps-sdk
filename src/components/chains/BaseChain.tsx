@@ -40,7 +40,12 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
       <table className="table-auto w-full">
         <thead>
           <tr>
-            <th colSpan={2} className="border px-4 py-2 text-[18px] text-center font-semibold">Transfer/Deposit Request</th>
+            <th
+              colSpan={2}
+              className="border px-4 py-2 text-[18px] text-center font-semibold"
+            >
+              Transfer/Deposit Request
+            </th>
           </tr>
         </thead>
         <tbody>
