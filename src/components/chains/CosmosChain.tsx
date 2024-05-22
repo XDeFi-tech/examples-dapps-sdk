@@ -37,7 +37,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               colSpan={2}
               className="border px-4 py-2 text-[18px] text-center font-semibold"
             >
-              Get Address / Public Key
+              Get Address/Public Key
             </th>
           </tr>
         </thead>
