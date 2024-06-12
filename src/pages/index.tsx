@@ -185,7 +185,10 @@ const DAppExample: NextPage = () => {
           </Link>
         </li>
       </ul>
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin
       <div className="mt-3 grid grid-cols-3 gap-5">
         {xfiObject && (
           <>
