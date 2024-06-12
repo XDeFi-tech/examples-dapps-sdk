@@ -52,6 +52,10 @@ const DAppExample: NextPage = () => {
             }
           }
         });
+      } else {
+        alert(
+          'No extension installed. Please install XDEFI Wallet at https://chromewebstore.google.com/detail/xdefi-wallet/hmeobnfnfcmdkdcmlblgagmfpfboieaf'
+        );
       }
     };
 
@@ -181,6 +185,7 @@ const DAppExample: NextPage = () => {
           </Link>
         </li>
       </ul>
+
       <div className="mt-3 grid grid-cols-3 gap-5">
         {xfiObject && (
           <>
