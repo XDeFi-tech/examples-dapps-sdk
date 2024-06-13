@@ -26,6 +26,7 @@ const DAppExample: NextPage = () => {
   const [currentNetwork, setCurrentNetwork] = useState<any>('');
   const [account, setAccount] = useState<string>('');
   const [selectedChain, setSelectedChain] = useState<any>(undefined);
+  const [isInstallWallet, setIsInstallWallet] = useState(true);
 
   useEffect(() => {
     const checkXfiObject = () => {
@@ -53,9 +54,7 @@ const DAppExample: NextPage = () => {
           }
         });
       } else {
-        alert(
-          'No extension installed. Please install XDEFI Wallet at https://chromewebstore.google.com/detail/xdefi-wallet/hmeobnfnfcmdkdcmlblgagmfpfboieaf'
-        );
+        setIsInstallWallet(false);
       }
     };
 
@@ -186,6 +185,18 @@ const DAppExample: NextPage = () => {
         </li>
       </ul>
       <div className="mt-3 grid grid-cols-3 gap-5">
+        {!isInstallWallet && (
+          <div className="col-span-3 text-center">
+            No extension installed. Please{' '}
+            <a
+              href="https://xdefi.io/"
+              target="_blank"
+              className="text-blue-500 underline"
+            >
+              install XDEFI wallet
+            </a>
+          </div>
+        )}
         {xfiObject && (
           <>
             <div className="col-span-3 md:col-span-1">
