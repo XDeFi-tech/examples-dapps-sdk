@@ -12,6 +12,7 @@ const chainsProvider = [
   'solana',
   'terra',
   'thorchain',
+  'tron',
 ];
 
 export default chainsProvider;

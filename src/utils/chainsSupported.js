@@ -189,6 +189,11 @@ const chainsSupported = [
     name: 'THORChain',
     contract: '',
   },
+  {
+    chain: 'tron',
+    name: 'Tron',
+    contract: '',
+  },
 ];
 
 export default chainsSupported;
