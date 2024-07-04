@@ -14,7 +14,6 @@ const TronChain = () => {
       const account = await window.xfi.tron.request({
         method: 'eth_requestAccounts',
       });
-      console.log(account);
       setAccount(account[0]);
     } catch (error) {
       setAccount('');
