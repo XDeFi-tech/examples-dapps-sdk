@@ -47,7 +47,8 @@ const TronChain = () => {
 
   return (
     <div className="mt-3">
-      <table className="table-auto w-full">
+      <div className="mt-3 text-center italic">Tron support is currently not available. It will be available from v30 (end of Q3 2024).</div>
+      <table className="table-auto w-full mt-3">
         <thead>
           <tr>
             <th
