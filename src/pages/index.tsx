@@ -10,6 +10,7 @@ import ThorChain from '@/components/chains/ThorChain';
 import EVMChain from '@/components/chains/EVMChain';
 import CosmosChain from '@/components/chains/CosmosChain';
 import SolanaChain from '@/components/chains/SolanaChain';
+import TronChain from '@/components/chains/TronChain';
 
 import chainsProvider from '@/utils/chainsProvider';
 import chainsSupported from '@/utils/chainsSupported';
@@ -124,6 +125,17 @@ const DAppExample: NextPage = () => {
     }
   };
 
+  const connectTron = async () => {
+    try {
+      const account = await window.xfi.tron.request({
+        method: 'eth_requestAccounts',
+      });
+      setAccount(account[0]);
+    } catch (error) {
+      setAccount('');
+    }
+  };
+
   useEffect(() => {
     const tokenData = chainsSupported.find(
       (chain) => chain.chain === selectedChain
@@ -136,6 +148,10 @@ const DAppExample: NextPage = () => {
       }
       if (tokenData.chain === 'near') {
         connectNear();
+        return;
+      }
+      if (tokenData.chain === 'tron') {
+        connectTron();
         return;
       }
       if (tokenData.baseChain === 'CosmosChain') {
@@ -253,6 +269,7 @@ const DAppExample: NextPage = () => {
                       To Deprecated in Summer 2024!
                     </div>
                   )}
+                  {selectedChain === 'tron' && <TronChain />}
                 </>
               )}
             </div>

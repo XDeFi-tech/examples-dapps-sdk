@@ -165,380 +165,409 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
 
   return (
     <div className="mt-3">
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            <th
-              colSpan={2}
-              className="border px-4 py-2 text-[18px] text-center font-semibold"
-            >
-              Send ERC20 Request
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2">Token Address (Contract)</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-200 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                defaultValue={tokenData.contract}
-                disabled
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[220px]">To Address</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={erc20Input.recipientAddress}
-                onChange={(e) =>
-                  setErc20Input({
-                    ...erc20Input,
-                    recipientAddress: e.target.value,
-                  })
-                }
-                placeholder="To Address"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2">Amount</td>
-            <td className="border px-4 py-2">
-              <input
-                type="number"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={erc20Input.amount}
-                onChange={(e) =>
-                  setErc20Input({
-                    ...erc20Input,
-                    amount: e.target.value,
-                  })
-                }
-                placeholder="Amount"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2">Decimals</td>
-            <td className="border px-4 py-2">
-              <input
-                type="number"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={erc20Input.decimals}
-                onChange={(e) =>
-                  setErc20Input({
-                    ...erc20Input,
-                    decimals: e.target.value,
-                  })
-                }
-                placeholder="Decimals"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={2} className="border px-4 py-2 text-center">
-              <button
-                onClick={sendHandler}
-                className="bg-blue-500 text-white px-2 py-1 rounded"
+      <div className="overflow-auto">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th
+                colSpan={2}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                Send
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={2} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
-              <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
-                  Response
-                </span>
-              </div>
-              <pre className="p-5">
-                {JSON.stringify(erc20SendResp, null, 2)}
-              </pre>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-      <table className="table-auto w-full mt-3">
-        <thead>
-          <tr>
-            <th
-              colSpan={3}
-              className="border px-4 py-2 text-[18px] text-center font-semibold"
-            >
-              personal_sign Request
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Data</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={personalSign.data}
-                onChange={(e) =>
-                  setPersonalSign({
-                    ...personalSign,
-                    data: e.target.value,
-                  })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Passphase</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={personalSign.passphase}
-                onChange={(e) =>
-                  setPersonalSign({
-                    ...personalSign,
-                    passphase: e.target.value,
-                  })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={2} className="border px-4 py-2 text-center w-[100px]">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
-                onClick={personalSignHandler}
+                Send ERC20 Request
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2">Token Address (Contract)</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-200 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  defaultValue={tokenData.contract}
+                  disabled
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[220px]">To Address</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={erc20Input.recipientAddress}
+                  onChange={(e) =>
+                    setErc20Input({
+                      ...erc20Input,
+                      recipientAddress: e.target.value,
+                    })
+                  }
+                  placeholder="To Address"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2">Amount</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="number"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={erc20Input.amount}
+                  onChange={(e) =>
+                    setErc20Input({
+                      ...erc20Input,
+                      amount: e.target.value,
+                    })
+                  }
+                  placeholder="Amount"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2">Decimals</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="number"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={erc20Input.decimals}
+                  onChange={(e) =>
+                    setErc20Input({
+                      ...erc20Input,
+                      decimals: e.target.value,
+                    })
+                  }
+                  placeholder="Decimals"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan={2} className="border px-4 py-2 text-center">
+                <button
+                  onClick={sendHandler}
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                >
+                  Send
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={2}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
-                Sign
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
-              <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
-                  Response
-                </span>
-              </div>
-              <pre className="p-5">
-                {JSON.stringify(personalSignResp, null, 2)}
-              </pre>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-      <table className="table-auto w-full mt-3">
-        <thead>
-          <tr>
-            <th
-              colSpan={3}
-              className="border px-4 py-2 text-[18px] text-center font-semibold"
-            >
-              eth_sign Request
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2 w-[180px]">Message</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={ethSign}
-                onChange={(e) => setEthSign(e.target.value)}
-              />
-            </td>
-            <td className="border px-4 py-2 text-center w-[100px]">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
-                onClick={ethSignHandler}
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">
+                  {JSON.stringify(erc20SendResp, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={3}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                Sign
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
-              <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
-                  Response
-                </span>
-              </div>
-              <pre className="p-5">{JSON.stringify(ethSignResp, null, 2)}</pre>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-
-      <table className="table-auto w-full mt-3">
-        <thead>
-          <tr>
-            <th
-              colSpan={3}
-              className="border px-4 py-2 text-[18px] text-center font-semibold"
-            >
-              eth_signTransaction Request
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">To Address</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={signTxInfo.to}
-                onChange={(e) =>
-                  setSignTxInfo({ ...signTxInfo, to: e.target.value })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Amount</td>
-            <td className="border px-4 py-2">
-              <input
-                type="number"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={signTxInfo.value}
-                onChange={(e) =>
-                  setSignTxInfo({
-                    ...signTxInfo,
-                    value: e.target.value,
-                  })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Gas Price</td>
-            <td className="border px-4 py-2">
-              <input
-                type="number"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={signTxInfo.gasPrice}
-                onChange={(e) =>
-                  setSignTxInfo({
-                    ...signTxInfo,
-                    gasPrice: e.target.value,
-                  })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Gas</td>
-            <td className="border px-4 py-2">
-              <input
-                type="number"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={signTxInfo.gas}
-                onChange={(e) =>
-                  setSignTxInfo({
-                    ...signTxInfo,
-                    gas: e.target.value,
-                  })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Nonce</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={signTxInfo.nonce}
-                onChange={(e) =>
-                  setSignTxInfo({ ...signTxInfo, nonce: e.target.value })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 w-[150px]">Data</td>
-            <td className="border px-4 py-2">
-              <input
-                type="text"
-                className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                value={signTxInfo.data}
-                onChange={(e) =>
-                  setSignTxInfo({ ...signTxInfo, data: e.target.value })
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <td colSpan={2} className="border px-4 py-2 text-center w-[100px]">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
-                onClick={ethSignTransactionHandler}
+                personal_sign Request
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Data</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={personalSign.data}
+                  onChange={(e) =>
+                    setPersonalSign({
+                      ...personalSign,
+                      data: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Passphase</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={personalSign.passphase}
+                  onChange={(e) =>
+                    setPersonalSign({
+                      ...personalSign,
+                      passphase: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td
+                colSpan={2}
+                className="border px-4 py-2 text-center w-[100px]"
               >
-                Sign
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={3} className="border my-4 bg-[#F6F6F7] text-[#24292E]">
-              <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
-                  Response
-                </span>
-              </div>
-              <pre className="p-5">
-                {JSON.stringify(ethSignTransactionResp, null, 2)}
-              </pre>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-      <table className="table-auto w-full mt-3">
-        <thead>
-          <tr>
-            <th className="border px-4 py-2 text-[18px] text-center font-semibold">
-              eth_getBalance Request
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="border px-4 py-2 text-center">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
-                onClick={ethBalanceHandler}
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={personalSignHandler}
+                >
+                  Sign
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={3}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
-                Get Balance
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
-              <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
-                  Response
-                </span>
-              </div>
-              <pre className="p-5">{ethBalance}</pre>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">
+                  {JSON.stringify(personalSignResp, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={3}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                eth_sign Request
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[180px]">Message</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={ethSign}
+                  onChange={(e) => setEthSign(e.target.value)}
+                />
+              </td>
+              <td className="border px-4 py-2 text-center w-[100px]">
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={ethSignHandler}
+                >
+                  Sign
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={3}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
+              >
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">
+                  {JSON.stringify(ethSignResp, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={3}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                eth_signTransaction Request
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">To Address</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={signTxInfo.to}
+                  onChange={(e) =>
+                    setSignTxInfo({ ...signTxInfo, to: e.target.value })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Amount</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="number"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={signTxInfo.value}
+                  onChange={(e) =>
+                    setSignTxInfo({
+                      ...signTxInfo,
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Gas Price</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="number"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={signTxInfo.gasPrice}
+                  onChange={(e) =>
+                    setSignTxInfo({
+                      ...signTxInfo,
+                      gasPrice: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Gas</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="number"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={signTxInfo.gas}
+                  onChange={(e) =>
+                    setSignTxInfo({
+                      ...signTxInfo,
+                      gas: e.target.value,
+                    })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Nonce</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={signTxInfo.nonce}
+                  onChange={(e) =>
+                    setSignTxInfo({ ...signTxInfo, nonce: e.target.value })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Data</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={signTxInfo.data}
+                  onChange={(e) =>
+                    setSignTxInfo({ ...signTxInfo, data: e.target.value })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td
+                colSpan={2}
+                className="border px-4 py-2 text-center w-[100px]"
+              >
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={ethSignTransactionHandler}
+                >
+                  Sign
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={3}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
+              >
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">
+                  {JSON.stringify(ethSignTransactionResp, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                eth_getBalance Request
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={ethBalanceHandler}
+                >
+                  Get Balance
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{ethBalance}</pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
       <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
