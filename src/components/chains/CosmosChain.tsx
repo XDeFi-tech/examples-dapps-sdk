@@ -47,7 +47,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               <td className="border px-4 py-2 text-center">
                 <button
                   onClick={getAccount}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-900 text-white px-2 py-1 rounded"
                 >
                   Get
                 </button>

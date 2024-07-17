@@ -170,7 +170,7 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
               <td colSpan={2} className="border px-4 py-2 text-center">
                 <button
                   onClick={submitBaseChainInput}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-900 text-white px-2 py-1 rounded"
                 >
                   Submit
                 </button>
