@@ -28,12 +28,14 @@ const EVMChain = ({
     data: 'hello',
   });
   const [txData, setTxData] = useState<any>({});
+  const [txHash, setTxHash] = useState<string>('');
   const [typedDataV4, setTypedDataV4] = useState<any>({});
 
   const [accounts, setAccounts] = useState<any>({});
   const [ethBalance, setEthBalance] = useState<any>(null);
   const [personalSignResp, setPersonalSignResp] = useState<any>({});
   const [signTransactionResp, setSignTransactionResp] = useState<any>({});
+  const [transactionByHashResp, setTransactionByHashResp] = useState<any>({});
   const [signDataV4Resp, setSignDataV4Resp] = useState<string>('');
 
   useEffect(() => {
@@ -42,7 +44,9 @@ const EVMChain = ({
     setAccounts([]);
     setEthBalance(null);
     setPersonalSignResp({});
-    
+    setTxHash('');
+    setSignTransactionResp({});
+    setTransactionByHashResp({});
     setSignDataV4Resp('');
 
     if (data) {
@@ -171,6 +175,18 @@ const EVMChain = ({
       setSignTransactionResp(response);
     } catch (error) {
       setSignTransactionResp(error);
+    }
+  };
+
+  const getTransactionByHash = async () => {
+    try {
+      const response = await window.ethereum.request({
+        method: 'eth_getTransactionByHash',
+        params: [txHash],
+      });
+      setTransactionByHashResp(response);
+    } catch (error) {
+      setTransactionByHashResp(error);
     }
   };
 
@@ -441,6 +457,65 @@ const EVMChain = ({
                 </div>
                 <pre className="p-5">
                   {JSON.stringify(signTransactionResp, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={3}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                eth_getTransactionByHash
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[160px]">Transaction Hash</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  value={txHash}
+                  onChange={(e) =>
+                    setTxHash(e.target.value,)
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td
+                colSpan={2}
+                className="border px-4 py-2 text-center w-[100px]"
+              >
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={getTransactionByHash}
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={3}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
+              >
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">
+                  {JSON.stringify(transactionByHashResp, null, 2)}
                 </pre>
               </td>
             </tr>
