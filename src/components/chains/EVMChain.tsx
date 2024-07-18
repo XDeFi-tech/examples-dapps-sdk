@@ -9,55 +9,104 @@ declare global {
   interface Window {
     ethereum: any;
     web3: any;
+    xfi: any;
   }
 }
 
-const EVMChain = ({ account, token }: { account: string; token: string }) => {
+const EVMChain = ({
+  account,
+  token,
+  currentNetwork,
+}: {
+  account: string;
+  token: string;
+  currentNetwork: string;
+}) => {
   const [web3contract, setWeb3contract] = useState<any>(null);
   const [web3, setWeb3] = useState<any>(null);
-  const [chainId, setChainId] = useState<any>(null);
-  const [erc20Input, setErc20Input] = useState<any>({
-    contract: '',
-    fromAddress: account,
-    recipientAddress: '',
-    amount: '',
-    decimals: '',
-  });
-  const [tokenData, setTokenData] = useState<any>({});
-  const [erc20SendResp, setErc20SendResp] = useState<Object>({});
-
   const [personalSign, setPersonalSign] = useState<any>({
     data: 'hello',
-    passphase: 'passphase',
   });
-  const [personalSignResp, setPersonalSignResp] = useState<any>({});
+  const [txData, setTxData] = useState<any>({});
+  const [typedDataV4, setTypedDataV4] = useState<any>({});
 
-  const [ethSign, setEthSign] = useState<string>('hello');
-  const [ethSignResp, setEthSignResp] = useState<any>({});
-
-  const [signTxInfo, setSignTxInfo] = useState<any>({
-    from: account,
-    gasPrice: '200000',
-    gas: '2100',
-    nonce: '0x42',
-    to: '0x3535353535353535353535353535353535353535',
-    value: '1000',
-    data: '0xdeadbeef',
-  });
-  const [ethSignTransactionResp, setEthSignTransactionResp] = useState<any>({});
-
+  const [accounts, setAccounts] = useState<any>({});
   const [ethBalance, setEthBalance] = useState<any>(null);
+  const [personalSignResp, setPersonalSignResp] = useState<any>({});
+  const [signTransactionResp, setSignTransactionResp] = useState<any>({});
+  const [signDataV4Resp, setSignDataV4Resp] = useState<string>('');
 
   useEffect(() => {
     const data = chainsSupported.find((c) => c.chain === token);
-    setTokenData(data);
+
+    setAccounts([]);
+    setEthBalance(null);
+    setPersonalSignResp({});
+    
+    setSignDataV4Resp('');
+
     if (data) {
-      setErc20Input({
-        contract: data.contract,
-        fromAddress: account,
-        recipientAddress: '',
-        amount: '',
-        decimals: '',
+      setTxData({
+        from: account,
+        gasPrice: '0x4a817c800',
+        gas: '0x76c0',
+        nonce: '0x42',
+        to: account,
+        value: '0x8ac7230489e80000',
+        data: '0x',
+      });
+
+      setTypedDataV4({
+        domain: {
+          chainId: window.xfi.ethereum.chainId,
+          name: 'Ether Mail',
+          verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+          version: '1',
+        },
+        message: {
+          contents: 'Hello, Bob!',
+          from: {
+            name: 'Cow',
+            wallets: [
+              '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+              '0xDeaDbeefdEAdbeefdEadbEEFdeadbeEFdEaDbeeF',
+            ],
+          },
+          to: [
+            {
+              name: 'Bob',
+              wallets: [
+                '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+                '0xB0BdaBea57B0BDABeA57b0bdABEA57b0BDabEa57',
+                '0xB0B0b0b0b0b0B000000000000000000000000000',
+              ],
+            },
+          ],
+          attachment: '0x',
+        },
+        primaryType: 'Mail',
+        types: {
+          EIP712Domain: [
+            { name: 'name', type: 'string' },
+            { name: 'version', type: 'string' },
+            { name: 'chainId', type: 'uint256' },
+            { name: 'verifyingContract', type: 'address' },
+          ],
+          Group: [
+            { name: 'name', type: 'string' },
+            { name: 'members', type: 'Person[]' },
+          ],
+          Mail: [
+            { name: 'from', type: 'Person' },
+            { name: 'to', type: 'Person[]' },
+            { name: 'contents', type: 'string' },
+            { name: 'attachment', type: 'bytes' },
+          ],
+          Person: [
+            { name: 'name', type: 'string' },
+            { name: 'wallets', type: 'address[]' },
+          ],
+        },
       });
 
       const initWeb3 = async () => {
@@ -66,20 +115,12 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
           setWeb3(window.web3);
           try {
             await window.ethereum.enable();
-            const chainId = await window.web3.eth.getChainId();
-            setChainId(chainId);
             const contract = new window.web3.eth.Contract(
               erc20abi,
               data.contract
             );
 
             setWeb3contract(contract);
-            const decimals = await contract.methods.decimals().call();
-            setErc20Input({
-              ...erc20Input,
-              decimals: new BigNumber(decimals || 0).toNumber(),
-            });
-            window.ethereum.on('chainChanged', handleChainId);
           } catch (error) {
             console.error('Error while enabling ethereum', error);
           }
@@ -89,182 +130,125 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
       };
 
       initWeb3();
-
-      return () => {
-        if (window.ethereum) {
-          window.ethereum.removeListener('chainChanged', handleChainId);
-        }
-      };
     }
-  }, [account, token]);
-
-  const handleChainId = (id: string) => {
-    setChainId(id);
-  };
-
-  const sendHandler = async () => {
-    if (!web3contract) {
-      return alert('web3contract not initialized');
-    }
-
-    const amountBN = new BigNumber(10).pow(erc20Input.decimals || 0);
-    const total = new BigNumber(erc20Input.amount || 0)
-      .mul(amountBN)
-      .toString();
-
-    try {
-      const response = await web3contract.methods
-        .transfer(erc20Input.recipientAddress, total)
-        .send({
-          from: account,
-        });
-      setErc20SendResp(response);
-      alert('Success! ' + JSON.stringify(response));
-    } catch (error: any) {
-      console.error('Failed to send', error);
-      setErc20SendResp(error);
-    }
-  };
-
-  const personalSignHandler = async () => {
-    try {
-      const response = await web3.eth.personal.sign(
-        personalSign.data,
-        account,
-        personalSign.passphase
-      );
-      setPersonalSignResp(response);
-    } catch (error) {
-      setPersonalSignResp(error);
-    }
-  };
-
-  const ethSignHandler = async () => {
-    try {
-      const msgHash = await web3.eth.accounts.hashMessage(ethSign);
-      const response = await web3.eth.sign(msgHash, account, 'hex');
-      setEthSignResp(response);
-    } catch (error) {
-      setEthSignResp(error);
-    }
-  };
-
-  const ethSignTransactionHandler = async () => {
-    try {
-      const response = await web3.eth.signTransaction(signTxInfo);
-      setEthSignTransactionResp(response);
-    } catch (error) {
-      setEthSignTransactionResp(error);
-    }
-  };
+  }, [account, token, currentNetwork]);
 
   const ethBalanceHandler = async () => {
     const balance = await web3.eth.getBalance(account);
     setEthBalance(new BigNumber(balance || 0).toString());
   };
 
+  const requestAccounts = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+        params: [],
+      });
+      setAccounts(accounts);
+    } catch (error) {
+      setAccounts(error);
+    }
+  };
+
+  const personalSignHandler = async () => {
+    try {
+      const response = await window.xfi.ethereum.request({
+        method: 'personal_sign',
+        params: [account, personalSign.data],
+      });
+      setPersonalSignResp(response);
+    } catch (error) {
+      setPersonalSignResp(error);
+    }
+  };
+
+  const ethSignTransactionHandler = async () => {
+    try {
+      const response = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [txData],
+      });
+      setSignTransactionResp(response);
+    } catch (error) {
+      setSignTransactionResp(error);
+    }
+  };
+
+  const signTypedDataV4 = async () => {
+    const sign = await window.xfi.ethereum.request({
+      method: 'eth_signTypedData_v4',
+      params: [account, JSON.stringify(typedDataV4)],
+    });
+    setSignDataV4Resp(sign);
+  };
+
   return (
     <div className="mt-3">
       <div className="overflow-auto">
-        <table className="table-auto w-full">
+        <table className="table-auto w-full mt-3">
           <thead>
             <tr>
-              <th
-                colSpan={2}
-                className="border px-4 py-2 text-[18px] text-center font-semibold"
-              >
-                Send ERC20 Request
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                eth_requestAccounts / eth_accounts
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2">Token Address (Contract)</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  className="w-full bg-gray-200 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  defaultValue={tokenData.contract}
-                  disabled
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2 w-[220px]">To Address</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={erc20Input.recipientAddress}
-                  onChange={(e) =>
-                    setErc20Input({
-                      ...erc20Input,
-                      recipientAddress: e.target.value,
-                    })
-                  }
-                  placeholder="To Address"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2">Amount</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={erc20Input.amount}
-                  onChange={(e) =>
-                    setErc20Input({
-                      ...erc20Input,
-                      amount: e.target.value,
-                    })
-                  }
-                  placeholder="Amount"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2">Decimals</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={erc20Input.decimals}
-                  onChange={(e) =>
-                    setErc20Input({
-                      ...erc20Input,
-                      decimals: e.target.value,
-                    })
-                  }
-                  placeholder="Decimals"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan={2} className="border px-4 py-2 text-center">
+              <td className="border px-4 py-2 text-center">
                 <button
-                  onClick={sendHandler}
                   className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={requestAccounts}
                 >
-                  Send
+                  Send Request
                 </button>
               </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td
-                colSpan={2}
-                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
-              >
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
                 <div className="px-5 border-b border-[#e2e2e3]">
                   <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
-                  {JSON.stringify(erc20SendResp, null, 2)}
-                </pre>
+                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                eth_getBalance
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={ethBalanceHandler}
+                >
+                  Get Balance
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{ethBalance}</pre>
               </td>
             </tr>
           </tfoot>
@@ -278,7 +262,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                 colSpan={3}
                 className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                personal_sign Request
+                personal_sign
               </th>
             </tr>
           </thead>
@@ -294,22 +278,6 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                     setPersonalSign({
                       ...personalSign,
                       data: e.target.value,
-                    })
-                  }
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2 w-[150px]">Passphase</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={personalSign.passphase}
-                  onChange={(e) =>
-                    setPersonalSign({
-                      ...personalSign,
-                      passphase: e.target.value,
                     })
                   }
                 />
@@ -356,59 +324,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                 colSpan={3}
                 className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                eth_sign Request
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-4 py-2 w-[180px]">Message</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={ethSign}
-                  onChange={(e) => setEthSign(e.target.value)}
-                />
-              </td>
-              <td className="border px-4 py-2 text-center w-[100px]">
-                <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
-                  onClick={ethSignHandler}
-                >
-                  Sign
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td
-                colSpan={3}
-                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
-              >
-                <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
-                    Response
-                  </span>
-                </div>
-                <pre className="p-5">
-                  {JSON.stringify(ethSignResp, null, 2)}
-                </pre>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
-          <thead>
-            <tr>
-              <th
-                colSpan={3}
-                className="border px-4 py-2 text-[18px] text-center font-semibold"
-              >
-                eth_signTransaction Request
+                eth_sendTransaction
               </th>
             </tr>
           </thead>
@@ -419,23 +335,21 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signTxInfo.to}
-                  onChange={(e) =>
-                    setSignTxInfo({ ...signTxInfo, to: e.target.value })
-                  }
+                  value={txData.to}
+                  onChange={(e) => setTxData({ ...txData, to: e.target.value })}
                 />
               </td>
             </tr>
             <tr>
-              <td className="border px-4 py-2 w-[150px]">Amount</td>
+              <td className="border px-4 py-2 w-[150px]">Value</td>
               <td className="border px-4 py-2">
                 <input
-                  type="number"
+                  type="string"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signTxInfo.value}
+                  value={txData.value}
                   onChange={(e) =>
-                    setSignTxInfo({
-                      ...signTxInfo,
+                    setTxData({
+                      ...txData,
                       value: e.target.value,
                     })
                   }
@@ -446,12 +360,12 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
               <td className="border px-4 py-2 w-[150px]">Gas Price</td>
               <td className="border px-4 py-2">
                 <input
-                  type="number"
+                  type="string"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signTxInfo.gasPrice}
+                  value={txData.gasPrice}
                   onChange={(e) =>
-                    setSignTxInfo({
-                      ...signTxInfo,
+                    setTxData({
+                      ...txData,
                       gasPrice: e.target.value,
                     })
                   }
@@ -462,12 +376,12 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
               <td className="border px-4 py-2 w-[150px]">Gas</td>
               <td className="border px-4 py-2">
                 <input
-                  type="number"
+                  type="string"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signTxInfo.gas}
+                  value={txData.gas}
                   onChange={(e) =>
-                    setSignTxInfo({
-                      ...signTxInfo,
+                    setTxData({
+                      ...txData,
                       gas: e.target.value,
                     })
                   }
@@ -480,9 +394,9 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signTxInfo.nonce}
+                  value={txData.nonce}
                   onChange={(e) =>
-                    setSignTxInfo({ ...signTxInfo, nonce: e.target.value })
+                    setTxData({ ...txData, nonce: e.target.value })
                   }
                 />
               </td>
@@ -493,9 +407,9 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signTxInfo.data}
+                  value={txData.data}
                   onChange={(e) =>
-                    setSignTxInfo({ ...signTxInfo, data: e.target.value })
+                    setTxData({ ...txData, data: e.target.value })
                   }
                 />
               </td>
@@ -509,7 +423,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                   className="bg-blue-500 text-white px-2 py-1 rounded"
                   onClick={ethSignTransactionHandler}
                 >
-                  Sign
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -526,7 +440,7 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
                   </span>
                 </div>
                 <pre className="p-5">
-                  {JSON.stringify(ethSignTransactionResp, null, 2)}
+                  {JSON.stringify(signTransactionResp, null, 2)}
                 </pre>
               </td>
             </tr>
@@ -537,32 +451,46 @@ const EVMChain = ({ account, token }: { account: string; token: string }) => {
         <table className="table-auto w-full mt-3">
           <thead>
             <tr>
-              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
-                eth_getBalance Request
+              <th
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+                colSpan={2}
+              >
+                eth_signTypedData_v4
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 text-center">
+              <td className="border px-4 py-2 w-[150px]">Data</td>
+              <td className="border px-4 py-2 bg-[#F6F6F7] text-[#24292E]">
+                <pre className="p-5">
+                  {JSON.stringify(typedDataV4, null, 2)}
+                </pre>
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 text-center" colSpan={2}>
                 <button
                   className="bg-blue-500 text-white px-2 py-1 rounded"
-                  onClick={ethBalanceHandler}
+                  onClick={signTypedDataV4}
                 >
-                  Get Balance
+                  Sign Typed Data
                 </button>
               </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+              <td
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
+                colSpan={2}
+              >
                 <div className="px-5 border-b border-[#e2e2e3]">
                   <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{ethBalance}</pre>
+                <pre className="p-5">{signDataV4Resp}</pre>
               </td>
             </tr>
           </tfoot>
