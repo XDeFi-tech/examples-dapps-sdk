@@ -24,10 +24,16 @@ const EVMChain = ({
 }) => {
   const [web3contract, setWeb3contract] = useState<any>(null);
   const [web3, setWeb3] = useState<any>(null);
-  const [personalSign, setPersonalSign] = useState<any>({
-    data: 'hello',
+  const [message, setMessage] = useState<any>('hello');
+  const [txData, setTxData] = useState<any>({
+    from: account,
+    gasPrice: '0x4a817c800',
+    gas: '0x76c0',
+    nonce: '0x42',
+    to: account,
+    value: '0x8ac7230489e80000',
+    data: '0x',
   });
-  const [txData, setTxData] = useState<any>({});
   const [txHash, setTxHash] = useState<string>('');
   const [typedDataV4, setTypedDataV4] = useState<any>({});
 
@@ -158,7 +164,7 @@ const EVMChain = ({
     try {
       const response = await window.xfi.ethereum.request({
         method: 'personal_sign',
-        params: [account, personalSign.data],
+        params: [account, message],
       });
       setPersonalSignResp(response);
     } catch (error) {
@@ -213,7 +219,7 @@ const EVMChain = ({
             <tr>
               <td className="border px-4 py-2 text-center">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={requestAccounts}
                 >
                   Send Request
@@ -248,7 +254,7 @@ const EVMChain = ({
             <tr>
               <td className="border px-4 py-2 text-center">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={ethBalanceHandler}
                 >
                   Get Balance
@@ -284,17 +290,14 @@ const EVMChain = ({
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 w-[150px]">Data</td>
+              <td className="border px-4 py-2 w-[150px]">Message</td>
               <td className="border px-4 py-2">
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={personalSign.data}
+                  value={message}
                   onChange={(e) =>
-                    setPersonalSign({
-                      ...personalSign,
-                      data: e.target.value,
-                    })
+                    setMessage(e.target.value)
                   }
                 />
               </td>
@@ -305,7 +308,7 @@ const EVMChain = ({
                 className="border px-4 py-2 text-center w-[100px]"
               >
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={personalSignHandler}
                 >
                   Sign
@@ -360,7 +363,7 @@ const EVMChain = ({
               <td className="border px-4 py-2 w-[150px]">Value</td>
               <td className="border px-4 py-2">
                 <input
-                  type="string"
+                  type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
                   value={txData.value}
                   onChange={(e) =>
@@ -376,7 +379,7 @@ const EVMChain = ({
               <td className="border px-4 py-2 w-[150px]">Gas Price</td>
               <td className="border px-4 py-2">
                 <input
-                  type="string"
+                  type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
                   value={txData.gasPrice}
                   onChange={(e) =>
@@ -392,7 +395,7 @@ const EVMChain = ({
               <td className="border px-4 py-2 w-[150px]">Gas</td>
               <td className="border px-4 py-2">
                 <input
-                  type="string"
+                  type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
                   value={txData.gas}
                   onChange={(e) =>
@@ -436,7 +439,7 @@ const EVMChain = ({
                 className="border px-4 py-2 text-center w-[100px]"
               >
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={ethSignTransactionHandler}
                 >
                   Send Request
@@ -495,7 +498,7 @@ const EVMChain = ({
                 className="border px-4 py-2 text-center w-[100px]"
               >
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={getTransactionByHash}
                 >
                   Send Request
@@ -546,7 +549,7 @@ const EVMChain = ({
             <tr>
               <td className="border px-4 py-2 text-center" colSpan={2}>
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={signTypedDataV4}
                 >
                   Sign Typed Data

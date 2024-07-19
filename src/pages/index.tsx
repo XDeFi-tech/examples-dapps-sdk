@@ -205,20 +205,18 @@ const DAppExample: NextPage = () => {
           <div className="col-span-3 text-center">
             No extension installed. Please{' '}
             <a
-              href="https://xdefi.io/"
+              href="https://ctrl.xyz/"
               target="_blank"
               className="text-blue-500 underline"
             >
-              install XDEFI wallet
+              install Ctrl Wallet
             </a>
           </div>
         )}
         {xfiObject && (
           <>
             <div className="col-span-3 md:col-span-1">
-              <DetectProvider
-                xfiObject={xfiObject}
-              />
+              <DetectProvider xfiObject={xfiObject} />
             </div>
             <div className="col-span-3 md:col-span-2">
               <div className="flex items-center gap-2">
@@ -242,10 +240,8 @@ const DAppExample: NextPage = () => {
               {selectedChain && (
                 <>
                   <div className="text-[16px] mt-2">
-                    - current account: <span className="italic">{account}</span>
-                  </div>
-                  <div className="text-[16px] mt-2">
-                    - current network: <span className="italic">{currentNetwork}</span>
+                    - current account:
+                    <span className="italic"> {account}</span>
                   </div>
                   {['bitcoin', 'bitcoincash', 'dogecoin', 'litecoin'].includes(
                     selectedChain
@@ -259,7 +255,19 @@ const DAppExample: NextPage = () => {
                   {chainsSupported.find(
                     (chain) =>
                       chain.chain === selectedChain && chain.baseChain === 'EVM'
-                  ) && <EVMChain account={account} token={selectedChain} currentNetwork={currentNetwork} />}
+                  ) && (
+                    <>
+                      <div className="text-[16px] mt-2">
+                        - current network:
+                        <span className="italic"> {currentNetwork}</span>
+                      </div>
+                      <EVMChain
+                        account={account}
+                        token={selectedChain}
+                        currentNetwork={currentNetwork}
+                      />
+                    </>
+                  )}
                   {chainsSupported.find(
                     (chain) =>
                       chain.chain === selectedChain &&

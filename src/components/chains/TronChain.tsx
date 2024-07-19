@@ -62,7 +62,7 @@ const TronChain = () => {
           <tr>
             <td className="border px-4 py-2 text-center" colSpan={2}>
               <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
+                className="bg-slate-800 text-white px-2 py-1 rounded"
                 onClick={connectTron}
               >
                 Submit
@@ -109,7 +109,7 @@ const TronChain = () => {
               </td>
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={submitSignMessageV2}
                 >
                   Sign
@@ -162,7 +162,7 @@ const TronChain = () => {
               </td>
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={getBlockNumber}
                 >
                   Get

@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 const SolanaChain = () => {
   const [account, setAccount] = useState<any>({});
 
-  const [signMessage, setSignMessage] = useState<string>('');
-  const [signMessageResponse, setSignMessageResponse] = useState<any>({});
+  const [message, setMessage] = useState<string>('');
+  const [signMessageResp, setSignMessageResp] = useState<any>({});
 
   const connectSolana = async () => {
     try {
@@ -17,11 +17,10 @@ const SolanaChain = () => {
 
   const submitSignMessage = async () => {
     try {
-      const signature = await window.xfi.solana.signMessage(signMessage);
-
-      setSignMessageResponse(signature);
+      const signature = await window.xfi.solana.signMessage(message);
+      setSignMessageResp(signature);
     } catch (error: any) {
-      setSignMessageResponse(error);
+      setSignMessageResp(error);
     }
   };
 
@@ -43,7 +42,7 @@ const SolanaChain = () => {
             <tr>
               <td className="border px-4 py-2 text-center" colSpan={2}>
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={connectSolana}
                 >
                   Submit
@@ -82,14 +81,14 @@ const SolanaChain = () => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={signMessage}
-                  onChange={(e) => setSignMessage(e.target.value)}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder="Message"
                 />
               </td>
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
                   onClick={submitSignMessage}
                 >
                   Sign
@@ -109,7 +108,7 @@ const SolanaChain = () => {
                   </span>
                 </div>
                 <pre className="p-5">
-                  {JSON.stringify(signMessageResponse, null, 2)}
+                  {JSON.stringify(signMessageResp, null, 2)}
                 </pre>
               </td>
             </tr>
