@@ -1,46 +1,46 @@
 import React, { useState, useEffect } from 'react';
 
 const TronChain = () => {
-  const [account, setAccount] = useState<any>({});
+  const [accounts, setAccounts] = useState<any>([]);
 
   const [messageV2, setMessageV2] = useState<string>('Hello, World!');
-  const [signMessageResponse, setSignMessageResponse] = useState<any>({});
+  const [signMessageResp, setSignMessageResp] = useState<any>({});
 
   const [blockNumber, setBlockNumber] = useState<any>(100);
-  const [blockNumberResponse, setBlockNumberResponse] = useState<any>({});
+  const [blockNumberResp, setBlockNumberResp] = useState<any>({});
 
   const connectTron = async () => {
     try {
-      const account = await window.xfi.tron.request({
+      const accounts = await window.xfi.tron.request({
         method: 'eth_requestAccounts',
       });
-      setAccount(account[0]);
+      setAccounts(accounts);
     } catch (error) {
-      setAccount('');
+      setAccounts([]);
     }
   };
 
-  const submitSignMessageV2 = async () => {
+  const signMessageV2 = async () => {
     try {
       const signature = await window.xfi.tron.tronWeb.trx.signMessageV2(
         messageV2
       );
 
-      setSignMessageResponse(signature);
+      setSignMessageResp(signature);
     } catch (error: any) {
-      setSignMessageResponse(error);
+      setSignMessageResp(error);
     }
   };
 
-  const getBlockNumber = async () => {
+  const getBlockByNumber = async () => {
     try {
       const response = await window.xfi.tron.tronWeb.trx.getBlockByNumber(
         Number(blockNumber)
       );
 
-      setBlockNumberResponse(response);
+      setBlockNumberResp(response);
     } catch (error: any) {
-      setBlockNumberResponse(error);
+      setBlockNumberResp(error);
     }
   };
 
@@ -65,7 +65,7 @@ const TronChain = () => {
                 className="bg-slate-800 text-white px-2 py-1 rounded"
                 onClick={connectTron}
               >
-                Submit
+                Send Request
               </button>
             </td>
           </tr>
@@ -78,7 +78,7 @@ const TronChain = () => {
                   Response
                 </span>
               </div>
-              <pre className="p-5">{JSON.stringify(account, null, 2)}</pre>
+              <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
             </td>
           </tr>
         </tfoot>
@@ -110,7 +110,7 @@ const TronChain = () => {
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
                   className="bg-slate-800 text-white px-2 py-1 rounded"
-                  onClick={submitSignMessageV2}
+                  onClick={signMessageV2}
                 >
                   Sign
                 </button>
@@ -129,7 +129,7 @@ const TronChain = () => {
                   </span>
                 </div>
                 <pre className="p-5">
-                  {JSON.stringify(signMessageResponse, null, 2)}
+                  {JSON.stringify(signMessageResp, null, 2)}
                 </pre>
               </td>
             </tr>
@@ -163,7 +163,7 @@ const TronChain = () => {
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
                   className="bg-slate-800 text-white px-2 py-1 rounded"
-                  onClick={getBlockNumber}
+                  onClick={getBlockByNumber}
                 >
                   Get
                 </button>
@@ -182,7 +182,7 @@ const TronChain = () => {
                   </span>
                 </div>
                 <pre className="p-5">
-                  {JSON.stringify(blockNumberResponse, null, 2)}
+                  {JSON.stringify(blockNumberResp, null, 2)}
                 </pre>
               </td>
             </tr>

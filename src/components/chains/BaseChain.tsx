@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
-  const [baseChainInput, setBaseChainInput] = useState({
+  const [txData, setTxData] = useState({
     from: '',
     to: '',
     feeRate: 5,
@@ -12,10 +12,10 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
     memo: 'memo',
   });
 
-  const [response, setResponse] = useState<Object>({});
+  const [transferResp, setTransferResp] = useState<Object>({});
 
-  const submitBaseChainInput = () => {
-    const { from, to, feeRate, amount, memo } = baseChainInput;
+  const requestTransfer = () => {
+    const { from, to, feeRate, amount, memo } = txData;
     window.xfi[chain].request(
       {
         method: 'transfer',
@@ -30,13 +30,13 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
         ],
       },
       (error: any, result: any) => {
-        setResponse({ error, result });
+        setTransferResp({ error, result });
       }
     );
   };
 
   useEffect(() => {
-    setBaseChainInput({
+    setTxData({
       from: '',
       to: '',
       feeRate: 5,
@@ -81,10 +81,10 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.to}
+                  value={txData.to}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       to: e.target.value,
                     })
                   }
@@ -98,10 +98,10 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.feeRate}
+                  value={txData.feeRate}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       feeRate: Number(e.target.value),
                     })
                   }
@@ -115,12 +115,12 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.amount.amount}
+                  value={txData.amount.amount}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...baseChainInput.amount,
+                        ...txData.amount,
                         amount: Number(e.target.value),
                       },
                     })
@@ -135,12 +135,12 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.amount.decimals}
+                  value={txData.amount.decimals}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...baseChainInput.amount,
+                        ...txData.amount,
                         decimals: Number(e.target.value),
                       },
                     })
@@ -155,10 +155,10 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.memo}
+                  value={txData.memo}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       memo: e.target.value,
                     })
                   }
@@ -169,7 +169,7 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             <tr>
               <td colSpan={2} className="border px-4 py-2 text-center">
                 <button
-                  onClick={submitBaseChainInput}
+                  onClick={requestTransfer}
                   className="bg-slate-800 text-white px-2 py-1 rounded"
                 >
                   Submit
@@ -188,7 +188,7 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
+                <pre className="p-5">{JSON.stringify(transferResp, null, 2)}</pre>
               </td>
             </tr>
           </tfoot>

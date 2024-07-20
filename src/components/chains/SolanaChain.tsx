@@ -3,24 +3,41 @@ import React, { useState, useEffect } from 'react';
 const SolanaChain = () => {
   const [account, setAccount] = useState<any>({});
 
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>('hello');
   const [signMessageResp, setSignMessageResp] = useState<any>({});
+  const [txData, setTxData] = useState<any>({
+    // sample tx data
+  });
+
+  const [signTxResp, setSignTxResp] = useState<any>({});
 
   const connectSolana = async () => {
     try {
-      const publicKey = await window.xfi.solana.connect();
-      setAccount(publicKey);
+      const response = await window.xfi.solana.connect();
+      setAccount(response);
     } catch (error: any) {
       setAccount(error);
     }
   };
 
-  const submitSignMessage = async () => {
+  const signMessage = async () => {
     try {
-      const signature = await window.xfi.solana.signMessage(message);
+      const signature = await window.xfi.solana.signMessage(
+        Buffer.from(message)
+      );
       setSignMessageResp(signature);
     } catch (error: any) {
       setSignMessageResp(error);
+    }
+  };
+
+  // TODO: Implement signTransaction
+  const signTransaction = async () => {
+    try {
+      const signature = await window.xfi.solana.signTransaction(txData);
+      setSignTxResp(signature);
+    } catch (error: any) {
+      setSignTxResp(error);
     }
   };
 
@@ -89,7 +106,7 @@ const SolanaChain = () => {
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
                   className="bg-slate-800 text-white px-2 py-1 rounded"
-                  onClick={submitSignMessage}
+                  onClick={signMessage}
                 >
                   Sign
                 </button>
@@ -110,6 +127,51 @@ const SolanaChain = () => {
                 <pre className="p-5">
                   {JSON.stringify(signMessageResp, null, 2)}
                 </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={3}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                signTransaction
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[160px]">tx Data (sample)</td>
+              <td className="border px-4 py-2">
+                <pre className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded">
+                  {JSON.stringify(txData, null, 2)}
+                </pre>
+              </td>
+              <td className="border px-4 py-2 text-center w-[80px]">
+                <button
+                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  onClick={signTransaction}
+                >
+                  Sign
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={3}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
+              >
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{JSON.stringify(signTxResp, null, 2)}</pre>
               </td>
             </tr>
           </tfoot>

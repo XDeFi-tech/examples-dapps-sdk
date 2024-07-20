@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
-  const [thorbasedInput, setThorbasedInput] = useState({
+  const [txData, setTxData] = useState({
     asset: {
       chain: 'THOR',
       symbol: 'RUNE',
@@ -17,12 +17,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
     memo: 'memo',
   });
 
-  const [response, setResponse] = useState<Object>({});
+  const [transferResp, setTransferResp] = useState<Object>({});
 
   useEffect(() => {
     if (chain === 'mayachain') {
-      setThorbasedInput({
-        ...thorbasedInput,
+      setTxData({
+        ...txData,
         asset: {
           chain: 'MAYA',
           symbol: 'MAYA',
@@ -30,8 +30,8 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
         },
       });
     } else {
-      setThorbasedInput({
-        ...thorbasedInput,
+      setTxData({
+        ...txData,
         asset: {
           chain: 'THOR',
           symbol: 'RUNE',
@@ -41,8 +41,8 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
     }
   }, [chain]);
 
-  const submitThorBased = () => {
-    const { from, amount, memo, asset, type, recipient } = thorbasedInput;
+  const requestTransfer = () => {
+    const { from, amount, memo, asset, type, recipient } = txData;
     window.xfi[chain].request(
       {
         method: recipient ? 'transfer' : 'deposit',
@@ -57,7 +57,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
         ],
       },
       (error: any, result: any) => {
-        setResponse(result);
+        setTransferResp(result);
       }
     );
   };
@@ -95,12 +95,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.asset.chain}
+                  value={txData.asset.chain}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       asset: {
-                        ...thorbasedInput.asset,
+                        ...txData.asset,
                         chain: e.target.value,
                       },
                     })
@@ -115,12 +115,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.asset.symbol}
+                  value={txData.asset.symbol}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       asset: {
-                        ...thorbasedInput.asset,
+                        ...txData.asset,
                         symbol: e.target.value,
                       },
                     })
@@ -135,12 +135,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.asset.ticker}
+                  value={txData.asset.ticker}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       asset: {
-                        ...thorbasedInput.asset,
+                        ...txData.asset,
                         ticker: e.target.value,
                       },
                     })
@@ -159,8 +159,8 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                   className="w-full bg-gray-200 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
                   value={account}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       from: e.target.value,
                     })
                   }
@@ -177,10 +177,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.recipient}
+                  value={txData.recipient}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       recipient: e.target.value,
                     })
                   }
@@ -196,12 +196,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.amount.amount}
+                  value={txData.amount.amount}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...thorbasedInput.amount,
+                        ...txData.amount,
                         amount: Number(e.target.value),
                       },
                     })
@@ -218,12 +218,12 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.amount.decimals}
+                  value={txData.amount.decimals}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...thorbasedInput.amount,
+                        ...txData.amount,
                         decimals: Number(e.target.value),
                       },
                     })
@@ -240,10 +240,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={thorbasedInput.memo}
+                  value={txData.memo}
                   onChange={(e) =>
-                    setThorbasedInput({
-                      ...thorbasedInput,
+                    setTxData({
+                      ...txData,
                       memo: e.target.value,
                     })
                   }
@@ -254,7 +254,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
             <tr>
               <td className="border px-4 py-2 text-center" colSpan={3}>
                 <button
-                  onClick={submitThorBased}
+                  onClick={requestTransfer}
                   className="bg-slate-800 text-white px-2 py-1 rounded"
                 >
                   Submit
@@ -273,7 +273,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
+                <pre className="p-5">{JSON.stringify(transferResp, null, 2)}</pre>
               </td>
             </tr>
           </tfoot>

@@ -92,6 +92,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
     setSignAminoResp(signResp);
   };
 
+  // TODO: Implement signDirect
   const signDirect = async () => {
     const response = await window.keplr?.signDirect();
 

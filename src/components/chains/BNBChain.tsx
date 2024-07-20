@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const BNBChain = ({ account }: { account: string }) => {
-  const [binanceInput, setBinanceInput] = useState({
+  const [txData, setTxData] = useState({
     asset: {
       chain: 'BNB',
       symbol: 'BNB',
@@ -16,9 +16,10 @@ const BNBChain = ({ account }: { account: string }) => {
     memo: 'memo',
   });
 
-  const submitBinance = () => {
-    const { from, to, asset, amount, memo } = binanceInput;
-    console.log({ from, to, asset, amount, memo });
+  const [transferResp, setTransferResp] = useState<Object>({});
+
+  const requestTransfer = () => {
+    const { from, to, asset, amount, memo } = txData;
     window.xfi.binance.request(
       {
         method: 'transfer',
@@ -33,12 +34,10 @@ const BNBChain = ({ account }: { account: string }) => {
         ],
       },
       (error: any, result: any) => {
-        setResponse({ error, result });
+        setTransferResp({ error, result });
       }
     );
   };
-
-  const [response, setResponse] = useState<Object>({});
 
   return (
     <div className="mt-3">
@@ -71,12 +70,12 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.asset.chain}
+                  value={txData.asset.chain}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       asset: {
-                        ...binanceInput.asset,
+                        ...txData.asset,
                         chain: e.target.value,
                       },
                     })
@@ -91,12 +90,12 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.asset.symbol}
+                  value={txData.asset.symbol}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       asset: {
-                        ...binanceInput.asset,
+                        ...txData.asset,
                         symbol: e.target.value,
                       },
                     })
@@ -111,12 +110,12 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.asset.ticker}
+                  value={txData.asset.ticker}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       asset: {
-                        ...binanceInput.asset,
+                        ...txData.asset,
                         ticker: e.target.value,
                       },
                     })
@@ -147,10 +146,10 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.to}
+                  value={txData.to}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       to: e.target.value,
                     })
                   }
@@ -166,12 +165,12 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.amount.amount}
+                  value={txData.amount.amount}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...binanceInput.amount,
+                        ...txData.amount,
                         amount: Number(e.target.value),
                       },
                     })
@@ -188,12 +187,12 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="number"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.amount.decimals}
+                  value={txData.amount.decimals}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...binanceInput.amount,
+                        ...txData.amount,
                         decimals: Number(e.target.value),
                       },
                     })
@@ -210,10 +209,10 @@ const BNBChain = ({ account }: { account: string }) => {
                 <input
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={binanceInput.memo}
+                  value={txData.memo}
                   onChange={(e) =>
-                    setBinanceInput({
-                      ...binanceInput,
+                    setTxData({
+                      ...txData,
                       memo: e.target.value,
                     })
                   }
@@ -225,7 +224,7 @@ const BNBChain = ({ account }: { account: string }) => {
               <td className="border px-4 py-2 text-center" colSpan={3}>
                 <button
                   className="bg-slate-800 text-white px-2 py-1 rounded"
-                  onClick={submitBinance}
+                  onClick={requestTransfer}
                 >
                   Submit
                 </button>
@@ -243,7 +242,7 @@ const BNBChain = ({ account }: { account: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
+                <pre className="p-5">{JSON.stringify(transferResp, null, 2)}</pre>
               </td>
             </tr>
           </tfoot>

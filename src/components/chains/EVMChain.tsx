@@ -296,9 +296,7 @@ const EVMChain = ({
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
                   value={message}
-                  onChange={(e) =>
-                    setMessage(e.target.value)
-                  }
+                  onChange={(e) => setMessage(e.target.value)}
                 />
               </td>
             </tr>
@@ -486,9 +484,7 @@ const EVMChain = ({
                   type="text"
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
                   value={txHash}
-                  onChange={(e) =>
-                    setTxHash(e.target.value,)
-                  }
+                  onChange={(e) => setTxHash(e.target.value)}
                 />
               </td>
             </tr>
@@ -539,9 +535,9 @@ const EVMChain = ({
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 w-[150px]">Data</td>
-              <td className="border px-4 py-2 bg-[#F6F6F7] text-[#24292E]">
-                <pre className="p-5">
+              <td className="border px-4 py-2 w-[150px]">Data (sample)</td>
+              <td className="border px-4 py-2">
+                <pre className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded">
                   {JSON.stringify(typedDataV4, null, 2)}
                 </pre>
               </td>
