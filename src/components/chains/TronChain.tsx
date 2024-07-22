@@ -62,7 +62,7 @@ const TronChain = () => {
           <tr>
             <td className="border px-4 py-2 text-center" colSpan={2}>
               <button
-                className="bg-slate-800 text-white px-2 py-1 rounded"
+                className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 onClick={connectTron}
               >
                 Send Request
@@ -74,7 +74,7 @@ const TronChain = () => {
           <tr>
             <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
               <div className="px-5 border-b border-[#e2e2e3]">
-                <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                   Response
                 </span>
               </div>
@@ -101,7 +101,7 @@ const TronChain = () => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={messageV2}
                   onChange={(e) => setMessageV2(e.target.value)}
                   placeholder="Message"
@@ -109,7 +109,7 @@ const TronChain = () => {
               </td>
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signMessageV2}
                 >
                   Sign
@@ -124,7 +124,7 @@ const TronChain = () => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -154,7 +154,7 @@ const TronChain = () => {
               <td className="border px-4 py-2">
                 <input
                   type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={blockNumber}
                   onChange={(e) => setBlockNumber(e.target.value)}
                   placeholder="Message"
@@ -162,7 +162,7 @@ const TronChain = () => {
               </td>
               <td className="border px-4 py-2 text-center w-[80px]">
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getBlockByNumber}
                 >
                   Get
@@ -177,7 +177,7 @@ const TronChain = () => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>

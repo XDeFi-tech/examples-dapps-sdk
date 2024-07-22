@@ -173,7 +173,7 @@ const DAppExample: NextPage = () => {
         <li>
           <span className="font-medium italic">* Repository: </span>
           <Link
-            className="text-blue-500 underline"
+            className="text-[#05C92F] underline"
             href="https://github.com/XDeFi-tech/examples-dapps-sdk"
           >
             GitHub
@@ -184,7 +184,7 @@ const DAppExample: NextPage = () => {
             * Reference documentation:{' '}
           </span>
           <Link
-            className="text-blue-500 underline"
+            className="text-[#05C92F] underline"
             href="https://developers.xdefi.io/developers/extension-wallet"
           >
             XDEFI Dev Docs
@@ -193,7 +193,7 @@ const DAppExample: NextPage = () => {
         <li>
           <span className="font-medium italic">* To get support: </span>
           <Link
-            className="text-blue-500 underline"
+            className="text-[#05C92F] underline"
             href="https://discord.com/channels/826110375639646228/837305087197315082"
           >
             Discord
@@ -207,7 +207,7 @@ const DAppExample: NextPage = () => {
             <a
               href="https://ctrl.xyz/"
               target="_blank"
-              className="text-blue-500 underline"
+              className="text-[#05C92F] underline"
             >
               install Ctrl Wallet
             </a>

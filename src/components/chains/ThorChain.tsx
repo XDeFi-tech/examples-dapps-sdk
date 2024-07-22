@@ -94,7 +94,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.asset.chain}
                   onChange={(e) =>
                     setTxData({
@@ -114,7 +114,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.asset.symbol}
                   onChange={(e) =>
                     setTxData({
@@ -134,7 +134,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.asset.ticker}
                   onChange={(e) =>
                     setTxData({
@@ -176,7 +176,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.recipient}
                   onChange={(e) =>
                     setTxData({
@@ -195,7 +195,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.amount.amount}
                   onChange={(e) =>
                     setTxData({
@@ -217,7 +217,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.amount.decimals}
                   onChange={(e) =>
                     setTxData({
@@ -239,7 +239,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.memo}
                   onChange={(e) =>
                     setTxData({
@@ -255,7 +255,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2 text-center" colSpan={3}>
                 <button
                   onClick={requestTransfer}
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
                   Submit
                 </button>
@@ -269,7 +269,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>

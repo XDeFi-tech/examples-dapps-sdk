@@ -219,7 +219,7 @@ const EVMChain = ({
             <tr>
               <td className="border px-4 py-2 text-center">
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={requestAccounts}
                 >
                   Send Request
@@ -231,7 +231,7 @@ const EVMChain = ({
             <tr>
               <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -254,7 +254,7 @@ const EVMChain = ({
             <tr>
               <td className="border px-4 py-2 text-center">
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={ethBalanceHandler}
                 >
                   Get Balance
@@ -266,7 +266,7 @@ const EVMChain = ({
             <tr>
               <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -294,7 +294,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
@@ -306,7 +306,7 @@ const EVMChain = ({
                 className="border px-4 py-2 text-center w-[100px]"
               >
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={personalSignHandler}
                 >
                   Sign
@@ -321,7 +321,7 @@ const EVMChain = ({
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -351,7 +351,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.to}
                   onChange={(e) => setTxData({ ...txData, to: e.target.value })}
                 />
@@ -362,7 +362,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.value}
                   onChange={(e) =>
                     setTxData({
@@ -378,7 +378,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.gasPrice}
                   onChange={(e) =>
                     setTxData({
@@ -394,7 +394,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.gas}
                   onChange={(e) =>
                     setTxData({
@@ -410,7 +410,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.nonce}
                   onChange={(e) =>
                     setTxData({ ...txData, nonce: e.target.value })
@@ -423,7 +423,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.data}
                   onChange={(e) =>
                     setTxData({ ...txData, data: e.target.value })
@@ -437,7 +437,7 @@ const EVMChain = ({
                 className="border px-4 py-2 text-center w-[100px]"
               >
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={ethSignTransactionHandler}
                 >
                   Send Request
@@ -452,7 +452,7 @@ const EVMChain = ({
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -482,7 +482,7 @@ const EVMChain = ({
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txHash}
                   onChange={(e) => setTxHash(e.target.value)}
                 />
@@ -494,7 +494,7 @@ const EVMChain = ({
                 className="border px-4 py-2 text-center w-[100px]"
               >
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getTransactionByHash}
                 >
                   Send Request
@@ -509,7 +509,7 @@ const EVMChain = ({
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -545,7 +545,7 @@ const EVMChain = ({
             <tr>
               <td className="border px-4 py-2 text-center" colSpan={2}>
                 <button
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signTypedDataV4}
                 >
                   Sign Typed Data
@@ -560,7 +560,7 @@ const EVMChain = ({
                 colSpan={2}
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>

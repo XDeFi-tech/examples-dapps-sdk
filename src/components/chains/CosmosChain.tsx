@@ -166,7 +166,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               <td className="border px-4 py-2 text-center">
                 <button
                   onClick={getKey}
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
                   Get
                 </button>
@@ -180,7 +180,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -207,7 +207,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               <td className="border px-4 py-2 text-center">
                 <button
                   onClick={getBalance}
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
                   Get
                 </button>
@@ -221,7 +221,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -248,7 +248,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               <td className="border px-4 py-2 text-center">
                 <button
                   onClick={signAmino}
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
                   Sign
                 </button>
@@ -262,7 +262,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -296,7 +296,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               <td className="border px-4 py-2 text-center">
                 <button
                   onClick={signDirect}
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
                   Sign
                 </button>
@@ -310,7 +310,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
@@ -344,7 +344,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
               <td className="border px-4 py-2 text-center">
                 <button
                   onClick={sendTx}
-                  className="bg-slate-800 text-white px-2 py-1 rounded"
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
                   Send Request
                 </button>
@@ -358,7 +358,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
