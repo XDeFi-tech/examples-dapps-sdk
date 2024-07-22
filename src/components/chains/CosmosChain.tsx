@@ -168,7 +168,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                   onClick={getKey}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
-                  Get
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -209,7 +209,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                   onClick={getBalance}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
-                  Get
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -250,7 +250,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                   onClick={signAmino}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
-                  Sign
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -298,7 +298,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                   onClick={signDirect}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
-                  Sign
+                  Send Request
                 </button>
               </td>
             </tr> */}

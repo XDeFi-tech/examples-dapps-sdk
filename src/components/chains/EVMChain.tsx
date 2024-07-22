@@ -257,7 +257,7 @@ const EVMChain = ({
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={ethBalanceHandler}
                 >
-                  Get Balance
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -309,7 +309,7 @@ const EVMChain = ({
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={personalSignHandler}
                 >
-                  Sign
+                  Send Request
                 </button>
               </td>
             </tr>

@@ -112,7 +112,7 @@ const TronChain = () => {
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signMessageV2}
                 >
-                  Sign
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -165,7 +165,7 @@ const TronChain = () => {
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getBlockByNumber}
                 >
-                  Get
+                  Send Request
                 </button>
               </td>
             </tr>
