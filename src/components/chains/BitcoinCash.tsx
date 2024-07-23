@@ -86,7 +86,7 @@ const BitcoinCashChain = ({ account }: { account: string }) => {
           <thead>
             <tr>
               <th className="border px-4 py-2 text-[18px] text-center font-semibold">
-                requestAccounts
+                Accounts request
               </th>
             </tr>
           </thead>
@@ -124,7 +124,7 @@ const BitcoinCashChain = ({ account }: { account: string }) => {
                 colSpan={2}
                 className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                signTransaction
+                Transfer request
               </th>
             </tr>
           </thead>

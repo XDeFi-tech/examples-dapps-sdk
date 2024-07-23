@@ -77,7 +77,7 @@ const BinanceChain = ({ account }: { account: string }) => {
           <thead>
             <tr>
               <th className="border px-4 py-2 text-[18px] text-center font-semibold">
-                request_accounts
+                Accounts request
               </th>
             </tr>
           </thead>
@@ -115,7 +115,7 @@ const BinanceChain = ({ account }: { account: string }) => {
                 colSpan={3}
                 className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                Transfer/Deposit Request
+                Transfer request
               </th>
             </tr>
           </thead>

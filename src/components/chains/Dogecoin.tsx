@@ -127,7 +127,7 @@ const DogecoinChain = ({ account }: { account: string }) => {
                 colSpan={2}
                 className="border px-4 py-2 text-[18px] text-center font-semibold"
               >
-                signTransaction (Transfer request)
+                Transfer request
               </th>
             </tr>
           </thead>
