@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-const EVMChain = ({
+const EVMs = ({
   account,
   token,
   currentNetwork,
@@ -160,7 +160,7 @@ const EVMChain = ({
     }
   };
 
-  const personalSignHandler = async () => {
+  const personalSign = async () => {
     try {
       const response = await window.xfi.ethereum.request({
         method: 'personal_sign',
@@ -307,7 +307,7 @@ const EVMChain = ({
               >
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
-                  onClick={personalSignHandler}
+                  onClick={personalSign}
                 >
                   Send Request
                 </button>
@@ -548,7 +548,7 @@ const EVMChain = ({
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signTypedDataV4}
                 >
-                  Sign Typed Data
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -570,9 +570,8 @@ const EVMChain = ({
           </tfoot>
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };
 
-export default EVMChain;
+export default EVMs;

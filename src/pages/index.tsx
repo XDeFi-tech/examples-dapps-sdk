@@ -4,13 +4,16 @@ import Link from 'next/link';
 
 import DefaultLayout from '@/layouts/default';
 import DetectProvider from '@/components/DetectProvider';
-import BNBChain from '@/components/chains/BNBChain';
-import BaseChain from '@/components/chains/BaseChain';
+import BinanceChain from '@/components/chains/Binance';
+import BitcoinChain from '@/components/chains/Bitcoin';
+import BitcoinCashChain from '@/components/chains/BitcoinCash';
+import CosmosChain from '@/components/chains/Cosmos';
+import DogecoinChain from '@/components/chains/Dogecoin';
+import EVMChain from '@/components/chains/EVMs';
+import LitecoinChain from '@/components/chains/Litecoin';
+import SolanaChain from '@/components/chains/Solana';
 import ThorChain from '@/components/chains/ThorChain';
-import EVMChain from '@/components/chains/EVMChain';
-import CosmosChain from '@/components/chains/CosmosChain';
-import SolanaChain from '@/components/chains/SolanaChain';
-import TronChain from '@/components/chains/TronChain';
+import TronChain from '@/components/chains/Tron';
 
 import chainsProvider from '@/utils/chainsProvider';
 import chainsSupported from '@/utils/chainsSupported';
@@ -187,7 +190,7 @@ const DAppExample: NextPage = () => {
             className="text-[#05C92F] underline"
             href="https://developers.xdefi.io/developers/extension-wallet"
           >
-            XDEFI Dev Docs
+            Ctrl Dev Docs
           </Link>
         </li>
         <li>
@@ -243,14 +246,22 @@ const DAppExample: NextPage = () => {
                     - current account:
                     <span className="italic"> {account}</span>
                   </div>
-                  {['bitcoin', 'bitcoincash', 'dogecoin', 'litecoin'].includes(
-                    selectedChain
-                  ) && <BaseChain account={account} chain={selectedChain} />}
                   {selectedChain === 'binance' && (
-                    <BNBChain account={account} />
+                    <BinanceChain account={account} />
                   )}
-                  {['thorchain', 'mayachain'].includes(selectedChain) && (
-                    <ThorChain account={account} chain={selectedChain} />
+                  {selectedChain === 'bitcoin' && (
+                    <BitcoinChain account={account} />
+                  )}
+                  {selectedChain === 'bitcoincash' && (
+                    <BitcoinCashChain account={account} />
+                  )}
+                  {chainsSupported.find(
+                    (chain) =>
+                      chain.chain === selectedChain &&
+                      chain.baseChain === 'CosmosChain'
+                  ) && <CosmosChain chain={selectedChain} />}
+                  {selectedChain === 'dogecoin' && (
+                    <DogecoinChain account={account} />
                   )}
                   {chainsSupported.find(
                     (chain) =>
@@ -268,16 +279,17 @@ const DAppExample: NextPage = () => {
                       />
                     </>
                   )}
-                  {chainsSupported.find(
-                    (chain) =>
-                      chain.chain === selectedChain &&
-                      chain.baseChain === 'CosmosChain'
-                  ) && <CosmosChain chain={selectedChain} />}
-                  {selectedChain === 'solana' && <SolanaChain />}
+                  {selectedChain === 'litecoin' && (
+                    <LitecoinChain account={account} />
+                  )}
                   {['near', 'terra'].includes(selectedChain) && (
                     <div className="mt-3 text-center italic">
                       To Deprecated in Summer 2024!
                     </div>
+                  )}
+                  {selectedChain === 'solana' && <SolanaChain />}
+                  {['thorchain', 'mayachain'].includes(selectedChain) && (
+                    <ThorChain account={account} chain={selectedChain} />
                   )}
                   {selectedChain === 'tron' && <TronChain />}
                 </>

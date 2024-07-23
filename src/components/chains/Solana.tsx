@@ -31,14 +31,15 @@ const SolanaChain = () => {
     }
   };
 
-  // TODO: Implement signTransaction
   const signTransaction = async () => {
-    try {
-      const signature = await window.xfi.solana.signTransaction(txData);
-      setSignTxResp(signature);
-    } catch (error: any) {
-      setSignTxResp(error);
-    }
+    // TODO: Implement signTransaction
+    // try {
+    //   const signature = await window.xfi.solana.signTransaction(txData);
+    //   setSignTxResp(signature);
+    // } catch (error: any) {
+    //   setSignTxResp(error);
+    // }
+    alert('Not implemented yet, coming soon!');
   };
 
   return (
@@ -62,7 +63,7 @@ const SolanaChain = () => {
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={connectSolana}
                 >
-                  Submit
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -103,7 +104,7 @@ const SolanaChain = () => {
                   placeholder="Message"
                 />
               </td>
-              <td className="border px-4 py-2 text-center w-[80px]">
+              <td className="border px-4 py-2 text-center w-[160px]">
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signMessage}
@@ -144,13 +145,13 @@ const SolanaChain = () => {
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 w-[160px]">tx Data (sample)</td>
+              <td className="border px-4 py-2 w-[170px]">tx Data (sample)</td>
               <td className="border px-4 py-2">
                 <pre className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded">
                   {JSON.stringify(txData, null, 2)}
                 </pre>
               </td>
-              <td className="border px-4 py-2 text-center w-[80px]">
+              <td className="border px-4 py-2 text-center w-[160px]">
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signTransaction}
@@ -177,7 +178,6 @@ const SolanaChain = () => {
           </tfoot>
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };

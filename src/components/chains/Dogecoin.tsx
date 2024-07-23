@@ -1,29 +1,58 @@
 import React, { useState, useEffect } from 'react';
 
-const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
+const DogecoinChain = ({ account }: { account: string }) => {
+  const [accounts, setAccounts] = useState<any>([]);
   const [txData, setTxData] = useState({
     from: '',
     to: '',
-    feeRate: 5,
     amount: {
       amount: 1234,
       decimals: 8,
     },
     memo: 'memo',
   });
-
+  const [message, setMessage] = useState('Hello, World!');
+  const [signMessageResp, setSignMessageResp] = useState<any>({});
   const [transferResp, setTransferResp] = useState<Object>({});
 
-  const requestTransfer = () => {
-    const { from, to, feeRate, amount, memo } = txData;
-    window.xfi[chain].request(
+  const getAccounts = async () => {
+    try {
+      await window.xfi.dogecoin.request(
+        {
+          method: 'request_accounts',
+          params: [],
+        },
+        (error: any, result: any) => {
+          if (error) {
+            console.warn(error);
+            setAccounts([]);
+          } else {
+            setAccounts(result);
+          }
+        }
+      );
+    } catch (error) {
+      console.warn(error);
+      setAccounts([]);
+    }
+  };
+
+  const signTransaction = () => {
+    const asset = {
+      chain: 'DOGE',
+      symbol: 'DOGE',
+      ticker: 'DOGE',
+    };
+    const { from, to, amount, memo } = txData;
+
+    window.xfi.dogecoin.request(
       {
         method: 'transfer',
         params: [
           {
+            asset,
             from: account,
             recipient: to,
-            feeRate,
             amount,
             memo,
           },
@@ -35,18 +64,23 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
     );
   };
 
+  const signMessage = () => {
+    // TODO: Implement signMessage
+    alert('Not implemented yet, coming soon!');
+  };
+
   useEffect(() => {
+    setAccounts([]);
     setTxData({
       from: '',
       to: '',
-      feeRate: 5,
       amount: {
         amount: 1234,
         decimals: 8,
       },
       memo: 'memo',
     });
-  }, [chain]);
+  }, [account]);
 
   return (
     <div className="mt-3">
@@ -54,17 +88,52 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th
-                colSpan={2}
-                className="border px-4 py-2 text-[18px] text-center font-semibold"
-              >
-                Transfer/Deposit Request
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                Accounts request
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2">From Address</td>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  onClick={getAccounts}
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={2}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                signTransaction (Transfer request)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">From Address</td>
               <td className="border px-4 py-2">
                 <input
                   type="text"
@@ -89,23 +158,6 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="To Address"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2">Fee Rate</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
-                  value={txData.feeRate}
-                  onChange={(e) =>
-                    setTxData({
-                      ...txData,
-                      feeRate: Number(e.target.value),
-                    })
-                  }
-                  placeholder="Fee Rate"
                 />
               </td>
             </tr>
@@ -169,10 +221,10 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             <tr>
               <td colSpan={2} className="border px-4 py-2 text-center">
                 <button
-                  onClick={requestTransfer}
+                  onClick={signTransaction}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
-                  Submit
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -188,15 +240,69 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(transferResp, null, 2)}</pre>
+                <pre className="p-5">
+                  {JSON.stringify(transferResp, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={3}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                signMessage
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">Message</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Message"
+                />
+              </td>
+              <td className="border px-4 py-2 text-center w-[160px]">
+                <button
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  onClick={signMessage}
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td
+                colSpan={3}
+                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
+              >
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">
+                  {JSON.stringify(signMessageResp, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default BaseChain;
+export default DogecoinChain;

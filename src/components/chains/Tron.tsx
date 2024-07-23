@@ -46,7 +46,10 @@ const TronChain = () => {
 
   return (
     <div className="mt-3">
-      <div className="mt-3 text-center italic">Tron support is currently not available. It will be available from v30 (end of Q3 2024).</div>
+      <div className="mt-3 text-center italic">
+        Tron support is currently not available. It will be available from v30
+        (end of Q3 2024).
+      </div>
       <table className="table-auto w-full mt-3">
         <thead>
           <tr>
@@ -107,7 +110,7 @@ const TronChain = () => {
                   placeholder="Message"
                 />
               </td>
-              <td className="border px-4 py-2 text-center w-[80px]">
+              <td className="border px-4 py-2 text-center w-[160px]">
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signMessageV2}
@@ -160,7 +163,7 @@ const TronChain = () => {
                   placeholder="Message"
                 />
               </td>
-              <td className="border px-4 py-2 text-center w-[80px]">
+              <td className="border px-4 py-2 text-center w-[160px]">
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getBlockByNumber}
@@ -189,7 +192,6 @@ const TronChain = () => {
           </tfoot>
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };

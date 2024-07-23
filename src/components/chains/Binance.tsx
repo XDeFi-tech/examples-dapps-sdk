@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-const BNBChain = ({ account }: { account: string }) => {
+const BinanceChain = ({ account }: { account: string }) => {
+  const [accounts, setAccounts] = useState<any>([]);
+
   const [txData, setTxData] = useState({
     asset: {
       chain: 'BNB',
@@ -17,6 +19,28 @@ const BNBChain = ({ account }: { account: string }) => {
   });
 
   const [transferResp, setTransferResp] = useState<Object>({});
+
+  const getAccounts = async () => {
+    try {
+      await window.xfi.binance.request(
+        {
+          method: 'request_accounts',
+          params: [],
+        },
+        (error: any, result: any) => {
+          if (error) {
+            console.warn(error);
+            setAccounts([]);
+          } else {
+            setAccounts(result);
+          }
+        }
+      );
+    } catch (error) {
+      console.warn(error);
+      setAccounts([]);
+    }
+  };
 
   const requestTransfer = () => {
     const { from, to, asset, amount, memo } = txData;
@@ -39,10 +63,52 @@ const BNBChain = ({ account }: { account: string }) => {
     );
   };
 
+  useEffect(() => {
+    setAccounts([]);
+  }, [account]);
+
   return (
     <div className="mt-3">
+      <div className="text-center italic">
+        Note: Binance won't be supported in Summer 2024
+      </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                request_accounts
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  onClick={getAccounts}
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
           <thead>
             <tr>
               <th
@@ -51,11 +117,6 @@ const BNBChain = ({ account }: { account: string }) => {
               >
                 Transfer/Deposit Request
               </th>
-            </tr>
-            <tr>
-              <td colSpan={3} className="border px-4 py-2 italic">
-                Note: Binance won't be supported in Summer 2024
-              </td>
             </tr>
           </thead>
           <tbody>
@@ -226,7 +287,7 @@ const BNBChain = ({ account }: { account: string }) => {
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={requestTransfer}
                 >
-                  Submit
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -242,15 +303,16 @@ const BNBChain = ({ account }: { account: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(transferResp, null, 2)}</pre>
+                <pre className="p-5">
+                  {JSON.stringify(transferResp, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };
 
-export default BNBChain;
+export default BinanceChain;

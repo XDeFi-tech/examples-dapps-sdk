@@ -288,9 +288,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 text-center">
-                Coming soon...
-              </td>
+              <td className="border px-4 py-2 text-center">Coming soon...</td>
             </tr>
             {/* <tr>
               <td className="border px-4 py-2 text-center">
@@ -336,9 +334,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 text-center">
-                Coming soon...
-              </td>
+              <td className="border px-4 py-2 text-center">Coming soon...</td>
             </tr>
             {/* <tr>
               <td className="border px-4 py-2 text-center">
@@ -368,7 +364,6 @@ const CosmosChain = ({ chain }: { chain: string }) => {
           </tfoot> */}
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };
