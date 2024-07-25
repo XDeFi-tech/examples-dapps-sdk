@@ -12,9 +12,7 @@ const BitcoinCashChain = ({ account }: { account: string }) => {
     },
     memo: 'memo',
   });
-  const [message, setMessage] = useState('Hello, World!');
 
-  const [signMessageResp, setSignMessageResp] = useState<any>({});
   const [transferResp, setTransferResp] = useState<Object>({});
 
   const getAccounts = async () => {
@@ -58,11 +56,6 @@ const BitcoinCashChain = ({ account }: { account: string }) => {
         setTransferResp({ error, result });
       }
     );
-  };
-
-  const signMessage = () => {
-    // TODO: Implement signMessage
-    alert('Not implemented yet, coming soon!');
   };
 
   useEffect(() => {
@@ -256,59 +249,6 @@ const BitcoinCashChain = ({ account }: { account: string }) => {
                 </div>
                 <pre className="p-5">
                   {JSON.stringify(transferResp, null, 2)}
-                </pre>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
-          <thead>
-            <tr>
-              <th
-                colSpan={3}
-                className="border px-4 py-2 text-[18px] text-center font-semibold"
-              >
-                signMessage
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-4 py-2 w-[150px]">Message</td>
-              <td className="border px-4 py-2">
-                <input
-                  type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Message"
-                />
-              </td>
-              <td className="border px-4 py-2 text-center w-[160px]">
-                <button
-                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
-                  onClick={signMessage}
-                >
-                  Send Request
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td
-                colSpan={3}
-                className="border my-4 bg-[#F6F6F7] text-[#24292E]"
-              >
-                <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
-                    Response
-                  </span>
-                </div>
-                <pre className="p-5">
-                  {JSON.stringify(signMessageResp, null, 2)}
                 </pre>
               </td>
             </tr>

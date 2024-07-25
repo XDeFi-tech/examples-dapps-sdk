@@ -39,8 +39,8 @@ const EVMs = ({
 
   const [accounts, setAccounts] = useState<any>({});
   const [ethBalance, setEthBalance] = useState<any>(null);
-  const [personalSignResp, setPersonalSignResp] = useState<any>({});
-  const [signTransactionResp, setSignTransactionResp] = useState<any>({});
+  const [personalSignResp, setPersonalSignResp] = useState<any>('');
+  const [signTransactionResp, setSignTransactionResp] = useState<any>('');
   const [transactionByHashResp, setTransactionByHashResp] = useState<any>({});
   const [signDataV4Resp, setSignDataV4Resp] = useState<string>('');
 
@@ -49,9 +49,9 @@ const EVMs = ({
 
     setAccounts([]);
     setEthBalance(null);
-    setPersonalSignResp({});
+    setPersonalSignResp('');
     setTxHash('');
-    setSignTransactionResp({});
+    setSignTransactionResp('');
     setTransactionByHashResp({});
     setSignDataV4Resp('');
 
@@ -564,7 +564,7 @@ const EVMs = ({
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{signDataV4Resp}</pre>
+                <pre className="p-5">{JSON.stringify(signDataV4Resp, null, 2)}</pre>
               </td>
             </tr>
           </tfoot>
