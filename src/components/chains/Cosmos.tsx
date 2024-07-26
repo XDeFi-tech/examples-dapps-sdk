@@ -3,7 +3,7 @@ import { Window as KeplrWindow } from '@keplr-wallet/types';
 
 import chainsSupported from '@/utils/chainsSupported';
 import { COSMOS_MANIFESTS } from '@/utils/cosmosManifest';
-import { sign } from 'crypto';
+import bs58 from 'bs58';
 
 declare global {
   interface Window extends KeplrWindow {
@@ -24,11 +24,16 @@ const CosmosChain = ({ chain }: { chain: string }) => {
   const getKey = async () => {
     if (window.xfi && window.xfi.keplr) {
       const key = await window.keplr?.getKey(chainId);
-      setKey(key);
+      setKey({
+        ...key,
+        pubKey: bs58.encode(Buffer.from(key.pubKey)),
+      });
       // or
-      const offlineSigner = window.xfi.keplr.getOfflineSigner(chainId);
-      const accounts = await offlineSigner.getAccounts();
-      setKey(accounts[0]);
+      // const offlineSigner = window.xfi.keplr.getOfflineSigner(chainId);
+      // const accounts = await offlineSigner.getAccounts();
+      // setKey({
+      //   ...accounts[0],
+      // });
     }
   };
 
