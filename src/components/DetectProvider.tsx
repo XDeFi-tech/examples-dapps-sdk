@@ -4,10 +4,8 @@ import chainsProvider from '@/utils/chainsProvider';
 
 const DetectProvider = ({
   xfiObject,
-  currentNetwork,
 }: {
   xfiObject: any;
-  currentNetwork: string;
 }) => {
   return (
     <>
@@ -23,9 +21,6 @@ const DetectProvider = ({
           <div className="text-[16px]">
             -<span className="mx-1 italic">window.xfi</span>{' '}
             {xfiObject ? 'detected' : 'not detected'}
-          </div>
-          <div className="text-[16px]">
-            - network: <span className="italic">{currentNetwork}</span>
           </div>
           <table className="table-auto w-full mt-3">
             <thead>

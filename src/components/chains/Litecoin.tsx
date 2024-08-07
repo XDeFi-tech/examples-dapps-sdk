@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
-  const [baseChainInput, setBaseChainInput] = useState({
+const LitecoinChain = ({ account }: { account: string }) => {
+  const [accounts, setAccounts] = useState<any>([]);
+  const [txData, setTxData] = useState({
     from: '',
     to: '',
     feeRate: 5,
@@ -11,12 +12,33 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
     },
     memo: 'memo',
   });
+  const [transferResp, setTransferResp] = useState<Object>({});
 
-  const [response, setResponse] = useState<Object>({});
+  const getAccounts = async () => {
+    try {
+      await window.xfi.litecoin.request(
+        {
+          method: 'request_accounts',
+          params: [],
+        },
+        (error: any, result: any) => {
+          if (error) {
+            console.warn(error);
+            setAccounts([]);
+          } else {
+            setAccounts(result);
+          }
+        }
+      );
+    } catch (error) {
+      console.warn(error);
+      setAccounts([]);
+    }
+  };
 
-  const submitBaseChainInput = () => {
-    const { from, to, feeRate, amount, memo } = baseChainInput;
-    window.xfi[chain].request(
+  const signTransaction = () => {
+    const { from, to, feeRate, amount, memo } = txData;
+    window.xfi.litecoin.request(
       {
         method: 'transfer',
         params: [
@@ -30,13 +52,14 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
         ],
       },
       (error: any, result: any) => {
-        setResponse({ error, result });
+        setTransferResp({ error, result });
       }
     );
   };
 
   useEffect(() => {
-    setBaseChainInput({
+    setAccounts([]);
+    setTxData({
       from: '',
       to: '',
       feeRate: 5,
@@ -46,7 +69,7 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
       },
       memo: 'memo',
     });
-  }, [chain]);
+  }, [account]);
 
   return (
     <div className="mt-3">
@@ -54,17 +77,52 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
         <table className="table-auto w-full">
           <thead>
             <tr>
-              <th
-                colSpan={2}
-                className="border px-4 py-2 text-[18px] text-center font-semibold"
-              >
-                Transfer/Deposit Request
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                requestAccounts
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2">From Address</td>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  onClick={getAccounts}
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table className="table-auto w-full mt-3">
+          <thead>
+            <tr>
+              <th
+                colSpan={2}
+                className="border px-4 py-2 text-[18px] text-center font-semibold"
+              >
+                signTransaction
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 w-[150px]">From Address</td>
               <td className="border px-4 py-2">
                 <input
                   type="text"
@@ -80,11 +138,11 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.to}
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={txData.to}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       to: e.target.value,
                     })
                   }
@@ -97,11 +155,11 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.feeRate}
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={txData.feeRate}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       feeRate: Number(e.target.value),
                     })
                   }
@@ -114,13 +172,13 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.amount.amount}
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={txData.amount.amount}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...baseChainInput.amount,
+                        ...txData.amount,
                         amount: Number(e.target.value),
                       },
                     })
@@ -134,13 +192,13 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="number"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.amount.decimals}
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={txData.amount.decimals}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       amount: {
-                        ...baseChainInput.amount,
+                        ...txData.amount,
                         decimals: Number(e.target.value),
                       },
                     })
@@ -154,11 +212,11 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
               <td className="border px-4 py-2">
                 <input
                   type="text"
-                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none"
-                  value={baseChainInput.memo}
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={txData.memo}
                   onChange={(e) =>
-                    setBaseChainInput({
-                      ...baseChainInput,
+                    setTxData({
+                      ...txData,
                       memo: e.target.value,
                     })
                   }
@@ -169,10 +227,10 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
             <tr>
               <td colSpan={2} className="border px-4 py-2 text-center">
                 <button
-                  onClick={submitBaseChainInput}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={signTransaction}
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                 >
-                  Submit
+                  Send Request
                 </button>
               </td>
             </tr>
@@ -184,19 +242,20 @@ const BaseChain = ({ account, chain }: { account: string; chain: string }) => {
                 className="border my-4 bg-[#F6F6F7] text-[#24292E]"
               >
                 <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-blue-600 text-[14px] leading-[48px]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(response, null, 2)}</pre>
+                <pre className="p-5">
+                  {JSON.stringify(transferResp, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
-      <div className="mt-3 text-center">More features coming soon...</div>
     </div>
   );
 };
 
-export default BaseChain;
+export default LitecoinChain;

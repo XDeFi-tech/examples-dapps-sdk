@@ -4,13 +4,16 @@ import Link from 'next/link';
 
 import DefaultLayout from '@/layouts/default';
 import DetectProvider from '@/components/DetectProvider';
-import BNBChain from '@/components/chains/BNBChain';
-import BaseChain from '@/components/chains/BaseChain';
+import BinanceChain from '@/components/chains/Binance';
+import BitcoinChain from '@/components/chains/Bitcoin';
+import BitcoinCashChain from '@/components/chains/BitcoinCash';
+import CosmosChain from '@/components/chains/Cosmos';
+import DogecoinChain from '@/components/chains/Dogecoin';
+import EVMChain from '@/components/chains/EVMs';
+import LitecoinChain from '@/components/chains/Litecoin';
+import SolanaChain from '@/components/chains/Solana';
 import ThorChain from '@/components/chains/ThorChain';
-import EVMChain from '@/components/chains/EVMChain';
-import CosmosChain from '@/components/chains/CosmosChain';
-import SolanaChain from '@/components/chains/SolanaChain';
-import TronChain from '@/components/chains/TronChain';
+import TronChain from '@/components/chains/Tron';
 
 import chainsProvider from '@/utils/chainsProvider';
 import chainsSupported from '@/utils/chainsSupported';
@@ -35,7 +38,7 @@ const DAppExample: NextPage = () => {
         setXfiObject(window.xfi);
 
         try {
-          setCurrentNetwork(window.xfi.bitcoin?.network);
+          setCurrentNetwork(window.xfi.ethereum.chainId);
         } catch (e) {
           console.error(e);
         }
@@ -45,11 +48,11 @@ const DAppExample: NextPage = () => {
             const provider = window.xfi[chain];
             if (provider.on) {
               provider.on('chainChanged', (obj: any) => {
-                setCurrentNetwork(obj.network || obj._network);
+                setCurrentNetwork(obj);
               });
 
               provider.on('accountsChanged', (obj: any) => {
-                console.log(`accountsChanged::${chain}`, obj);
+                setAccount(obj[0]);
               });
             }
           }
@@ -173,7 +176,7 @@ const DAppExample: NextPage = () => {
         <li>
           <span className="font-medium italic">* Repository: </span>
           <Link
-            className="text-blue-500 underline"
+            className="text-[#05C92F] underline"
             href="https://github.com/XDeFi-tech/examples-dapps-sdk"
           >
             GitHub
@@ -184,16 +187,16 @@ const DAppExample: NextPage = () => {
             * Reference documentation:{' '}
           </span>
           <Link
-            className="text-blue-500 underline"
+            className="text-[#05C92F] underline"
             href="https://developers.xdefi.io/developers/extension-wallet"
           >
-            XDEFI Dev Docs
+            Ctrl Dev Docs
           </Link>
         </li>
         <li>
           <span className="font-medium italic">* To get support: </span>
           <Link
-            className="text-blue-500 underline"
+            className="text-[#05C92F] underline"
             href="https://discord.com/channels/826110375639646228/837305087197315082"
           >
             Discord
@@ -205,21 +208,18 @@ const DAppExample: NextPage = () => {
           <div className="col-span-3 text-center">
             No extension installed. Please{' '}
             <a
-              href="https://xdefi.io/"
+              href="https://ctrl.xyz/"
               target="_blank"
-              className="text-blue-500 underline"
+              className="text-[#05C92F] underline"
             >
-              install XDEFI wallet
+              install Ctrl Wallet
             </a>
           </div>
         )}
         {xfiObject && (
           <>
             <div className="col-span-3 md:col-span-1">
-              <DetectProvider
-                xfiObject={xfiObject}
-                currentNetwork={currentNetwork}
-              />
+              <DetectProvider xfiObject={xfiObject} />
             </div>
             <div className="col-span-3 md:col-span-2">
               <div className="flex items-center gap-2">
@@ -243,31 +243,53 @@ const DAppExample: NextPage = () => {
               {selectedChain && (
                 <>
                   <div className="text-[16px] mt-2">
-                    - account: <span className="italic">{account}</span>
+                    - current account:
+                    <span className="italic"> {account}</span>
                   </div>
-                  {['bitcoin', 'bitcoincash', 'dogecoin', 'litecoin'].includes(
-                    selectedChain
-                  ) && <BaseChain account={account} chain={selectedChain} />}
                   {selectedChain === 'binance' && (
-                    <BNBChain account={account} />
+                    <BinanceChain account={account} />
                   )}
-                  {['thorchain', 'mayachain'].includes(selectedChain) && (
-                    <ThorChain account={account} chain={selectedChain} />
+                  {selectedChain === 'bitcoin' && (
+                    <BitcoinChain account={account} />
                   )}
-                  {chainsSupported.find(
-                    (chain) =>
-                      chain.chain === selectedChain && chain.baseChain === 'EVM'
-                  ) && <EVMChain account={account} token={selectedChain} />}
+                  {selectedChain === 'bitcoincash' && (
+                    <BitcoinCashChain account={account} />
+                  )}
                   {chainsSupported.find(
                     (chain) =>
                       chain.chain === selectedChain &&
                       chain.baseChain === 'CosmosChain'
                   ) && <CosmosChain chain={selectedChain} />}
-                  {selectedChain === 'solana' && <SolanaChain />}
+                  {selectedChain === 'dogecoin' && (
+                    <DogecoinChain account={account} />
+                  )}
+                  {chainsSupported.find(
+                    (chain) =>
+                      chain.chain === selectedChain && chain.baseChain === 'EVM'
+                  ) && (
+                    <>
+                      <div className="text-[16px] mt-2">
+                        - current network:
+                        <span className="italic"> {currentNetwork}</span>
+                      </div>
+                      <EVMChain
+                        account={account}
+                        token={selectedChain}
+                        currentNetwork={currentNetwork}
+                      />
+                    </>
+                  )}
+                  {selectedChain === 'litecoin' && (
+                    <LitecoinChain account={account} />
+                  )}
                   {['near', 'terra'].includes(selectedChain) && (
                     <div className="mt-3 text-center italic">
                       To Deprecated in Summer 2024!
                     </div>
+                  )}
+                  {selectedChain === 'solana' && <SolanaChain />}
+                  {['thorchain', 'mayachain'].includes(selectedChain) && (
+                    <ThorChain account={account} chain={selectedChain} />
                   )}
                   {selectedChain === 'tron' && <TronChain />}
                 </>
