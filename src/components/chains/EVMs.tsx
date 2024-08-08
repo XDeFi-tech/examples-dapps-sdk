@@ -38,7 +38,6 @@ const EVMs = ({
   const [typedDataV4, setTypedDataV4] = useState<any>({});
 
   const [accounts, setAccounts] = useState<any>({});
-  const [ethBalance, setEthBalance] = useState<any>(null);
   const [personalSignResp, setPersonalSignResp] = useState<any>('');
   const [signTransactionResp, setSignTransactionResp] = useState<any>('');
   const [transactionByHashResp, setTransactionByHashResp] = useState<any>({});
@@ -48,7 +47,6 @@ const EVMs = ({
     const data = chainsSupported.find((c) => c.chain === token);
 
     setAccounts([]);
-    setEthBalance(null);
     setPersonalSignResp('');
     setTxHash('');
     setSignTransactionResp('');
@@ -68,7 +66,7 @@ const EVMs = ({
 
       setTypedDataV4({
         domain: {
-          chainId: window.xfi.ethereum.chainId,
+          chainId: 1, // mainnet
           name: 'Ether Mail',
           verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
           version: '1',
@@ -143,11 +141,6 @@ const EVMs = ({
     }
   }, [account, token, currentNetwork]);
 
-  const ethBalanceHandler = async () => {
-    const balance = await web3.eth.getBalance(account);
-    setEthBalance(new BigNumber(balance || 0).toString());
-  };
-
   const requestAccounts = async () => {
     try {
       const accounts = await window.ethereum.request({
@@ -164,7 +157,7 @@ const EVMs = ({
     try {
       const response = await window.xfi.ethereum.request({
         method: 'personal_sign',
-        params: [account, message],
+        params: [message, account],
       });
       setPersonalSignResp(response);
     } catch (error) {
@@ -172,7 +165,7 @@ const EVMs = ({
     }
   };
 
-  const ethSignTransactionHandler = async () => {
+  const ethSignTransaction = async () => {
     try {
       const response = await window.ethereum.request({
         method: 'eth_sendTransaction',
@@ -236,41 +229,6 @@ const EVMs = ({
                   </span>
                 </div>
                 <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
-          <thead>
-            <tr>
-              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
-                eth_getBalance
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border px-4 py-2 text-center">
-                <button
-                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
-                  onClick={ethBalanceHandler}
-                >
-                  Send Request
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
-                <div className="px-5 border-b border-[#e2e2e3]">
-                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
-                    Response
-                  </span>
-                </div>
-                <pre className="p-5">{ethBalance}</pre>
               </td>
             </tr>
           </tfoot>
@@ -438,7 +396,7 @@ const EVMs = ({
               >
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
-                  onClick={ethSignTransactionHandler}
+                  onClick={ethSignTransaction}
                 >
                   Send Request
                 </button>
