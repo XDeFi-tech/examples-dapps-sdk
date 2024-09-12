@@ -57,7 +57,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
 
     try {
       await window.xfi.bitcoin
-        .connect(JSON.stringify(endcodedPayload))
+        .connect(endcodedPayload)
         .then((res: any) => {
           console.log('Response:', res);
           setConnectResp(res);
