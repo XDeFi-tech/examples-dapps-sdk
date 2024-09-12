@@ -19,6 +19,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
     broadcast: false, // a boolean flag that specifies whether to broadcast the signed transaction after signature
   });
 
+  const [connectResp, setConnectResp] = useState<Object>({});
   const [transferResp, setTransferResp] = useState<Object>({});
   const [signPsbtResp, setSignPsbtResp] = useState<Object>({});
 
@@ -44,6 +45,30 @@ const BitcoinChain = ({ account }: { account: string }) => {
     }
   };
 
+  const connect = async () => {
+    const requestPayload = {
+      network: {
+        type: 'Mainnet' // or 'Testnet' depending on your needs
+      },
+      purposes: ['sign', 'verify'] // Example purposes
+    };
+
+    const endcodedPayload = JSON.stringify(requestPayload);
+
+    try {
+      await window.xfi.bitcoin
+        .connect(endcodedPayload)
+        .then((res: any) => {
+          console.log('Response:', res);
+          setConnectResp(res);
+        })
+        .catch((error: any) => {
+          console.error('Error connecting to Bitcoin provider:', error);
+          setConnectResp({ error });
+        });
+    } catch (error) {}
+  };
+
   const signTransaction = () => {
     const { from, to, feeRate, amount, memo } = txData;
     window.xfi.bitcoin.request(
@@ -65,8 +90,14 @@ const BitcoinChain = ({ account }: { account: string }) => {
     );
   };
 
+  const signMessage = () => {
+    // TODO: Implement signMessage
+    // https://github.com/XDeFi-tech/xdefi-extension/blob/99a514086683d7d6a5fd3149feb08686fafb4262/source/config/InPage/providers/bitcoin/index.ts#L116C24-L116C38
+  };
+
   const signPsbt = () => {
     // TODO: Implement signPsbt
+    // https://github.com/XDeFi-tech/xdefi-extension/blob/99a514086683d7d6a5fd3149feb08686fafb4262/source/config/InPage/providers/bitcoin/index.ts#L123
     alert('Not implemented yet, coming soon!');
   };
 
@@ -87,6 +118,41 @@ const BitcoinChain = ({ account }: { account: string }) => {
   return (
     <div className="mt-3">
       <div className="overflow-auto">
+        <table className="table-auto w-full">
+          <thead>
+            <tr>
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                Connect
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  onClick={connect}
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5">{JSON.stringify(connectResp, null, 2)}</pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto mt-3">
         <table className="table-auto w-full">
           <thead>
             <tr>
