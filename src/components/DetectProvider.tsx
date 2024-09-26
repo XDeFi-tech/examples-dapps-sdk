@@ -16,11 +16,15 @@ const DetectProvider = ({
         <>
           <div className="text-[16px]">
             -<span className="mx-1 italic">window.ethereum</span>{' '}
-            {xfiObject ? 'detected' : 'not detected'}
+            <span data-testid="window.ethereum-detect-status">
+              {xfiObject ? 'detected' : 'not detected'}
+            </span>
           </div>
           <div className="text-[16px]">
             -<span className="mx-1 italic">window.xfi</span>{' '}
-            {xfiObject ? 'detected' : 'not detected'}
+            <span data-testid="window.xfi-detect-status">
+              {xfiObject ? 'detected' : 'not detected'}
+            </span>
           </div>
           <table className="table-auto w-full mt-3">
             <thead>
@@ -30,18 +34,23 @@ const DetectProvider = ({
               </tr>
             </thead>
             <tbody>
-              {chainsProvider.map((chain) => (
-                <tr key={chain}>
-                  <td className="border px-4 py-2">
-                    {chain === 'ethereum'
-                      ? 'window.ethereum'
-                      : `window.xfi.${chain}`}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {xfiObject[chain] ? 'detected' : 'not detected'}
-                  </td>
-                </tr>
-              ))}
+              {chainsProvider.map((chain) => {
+                const provider = chain === 'ethereum'
+                  ? 'window.ethereum'
+                  : `window.xfi.${chain}`;
+                return (
+                  <tr key={chain}>
+                    <td className="border px-4 py-2">
+                      {provider}
+                    </td>
+                    <td
+                      className="border px-4 py-2"
+                      data-testid={`${provider}-detect-status`}>
+                      {xfiObject[chain] ? 'detected' : 'not detected'}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </>

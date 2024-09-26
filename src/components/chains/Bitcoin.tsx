@@ -87,7 +87,10 @@ const BitcoinChain = ({ account }: { account: string }) => {
   return (
     <div className="mt-3">
       <div className="overflow-auto">
-        <table className="table-auto w-full">
+        <table
+          className="table-auto w-full"
+          data-testid="accounts-request-table"
+        >
           <thead>
             <tr>
               <th className="border px-4 py-2 text-[18px] text-center font-semibold">
@@ -101,6 +104,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getAccounts}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -115,14 +119,22 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(accounts, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="transfer-request-table"
+        >
           <thead>
             <tr>
               <th
@@ -143,6 +155,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                   value={account}
                   placeholder="From Address"
                   disabled
+                  data-testid="from-address-input"
                 />
               </td>
             </tr>
@@ -160,6 +173,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     })
                   }
                   placeholder="To Address"
+                  data-testid="to-address-input"
                 />
               </td>
             </tr>
@@ -177,6 +191,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     })
                   }
                   placeholder="Fee Rate"
+                  data-testid="fee-rate-input"
                 />
               </td>
             </tr>
@@ -197,6 +212,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     })
                   }
                   placeholder="Amount (smallest unit value)"
+                  data-testid="amount-input"
                 />
               </td>
             </tr>
@@ -217,6 +233,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     })
                   }
                   placeholder="Decimals"
+                  data-testid="decimals-input"
                 />
               </td>
             </tr>
@@ -234,6 +251,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     })
                   }
                   placeholder="Memo (optional)"
+                  data-testid="memo-input"
                 />
               </td>
             </tr>
@@ -242,6 +260,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                 <button
                   onClick={signTransaction}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -259,7 +278,10 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(transferResp, null, 2)}
                 </pre>
               </td>

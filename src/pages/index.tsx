@@ -243,8 +243,13 @@ const DAppExample: NextPage = () => {
               {selectedChain && (
                 <>
                   <div className="text-[16px] mt-2">
-                    - current account:
-                    <span className="italic"> {account}</span>
+                    - current account:{' '}
+                    <span
+                      className="italic"
+                      data-testid="current-account"
+                    >
+                      {account}
+                    </span>
                   </div>
                   {selectedChain === 'binance' && (
                     <BinanceChain account={account} />
@@ -269,8 +274,13 @@ const DAppExample: NextPage = () => {
                   ) && (
                     <>
                       <div className="text-[16px] mt-2">
-                        - current network:
-                        <span className="italic"> {currentNetwork}</span>
+                        - current network:{' '}
+                        <span
+                          className="italic"
+                          data-testid="current-network"
+                        >
+                          {currentNetwork}
+                        </span>
                       </div>
                       <EVMChain
                         account={account}
