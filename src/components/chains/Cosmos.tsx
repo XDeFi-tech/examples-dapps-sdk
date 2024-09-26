@@ -155,7 +155,10 @@ const CosmosChain = ({ chain }: { chain: string }) => {
   return (
     <div className="mt-3">
       <div className="overflow-auto">
-        <table className="table-auto w-full">
+        <table
+          className="table-auto w-full"
+          data-testid="get-address-table"
+        >
           <thead>
             <tr>
               <th
@@ -172,6 +175,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 <button
                   onClick={getKey}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -189,14 +193,22 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(key, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(key, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="get-balance-table"
+        >
           <thead>
             <tr>
               <th
@@ -213,6 +225,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 <button
                   onClick={getBalance}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -230,14 +243,22 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5 uppercase">{balance}</pre>
+                <pre
+                  className="p-5 uppercase"
+                  data-testid="response-data"
+                >
+                  {balance}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="sign-amino-table"
+        >
           <thead>
             <tr>
               <th
@@ -254,6 +275,7 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                 <button
                   onClick={signAmino}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -271,7 +293,10 @@ const CosmosChain = ({ chain }: { chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(signAminoResp, null, 2)}
                 </pre>
               </td>

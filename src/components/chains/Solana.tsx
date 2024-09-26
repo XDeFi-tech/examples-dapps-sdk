@@ -136,7 +136,10 @@ const SolanaChain = () => {
   return (
     <div className="mt-3">
       <div className="overflow-auto">
-        <table className="table-auto w-full">
+        <table
+          className="table-auto w-full"
+          data-testid="connect-get-public-key-table"
+        >
           <thead>
             <tr>
               <th
@@ -153,6 +156,7 @@ const SolanaChain = () => {
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={connectSolana}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -167,12 +171,20 @@ const SolanaChain = () => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(account, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(account, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="sign-message-table"
+        >
           <thead>
             <tr>
               <th
@@ -193,12 +205,14 @@ const SolanaChain = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Message"
+                  data-testid="message-input"
                 />
               </td>
               <td className="border px-4 py-2 text-center w-[160px]">
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signMessage}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -216,14 +230,20 @@ const SolanaChain = () => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(signMessageResp, null, 2)}
                 </pre>
               </td>
             </tr>
           </tfoot>
         </table>
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="sign-transaction-table"
+        >
           <thead>
             <tr>
               <th
@@ -246,6 +266,7 @@ const SolanaChain = () => {
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signTransaction}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -263,7 +284,12 @@ const SolanaChain = () => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(signTxResp, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(signTxResp, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>

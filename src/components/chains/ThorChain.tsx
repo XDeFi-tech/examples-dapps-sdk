@@ -89,7 +89,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
   return (
     <div className="mt-3">
       <div className="overflow-auto">
-        <table className="table-auto w-full">
+        <table
+          className="table-auto w-full"
+          data-testid="accounts-request-table"
+        >
           <thead>
             <tr>
               <th className="border px-4 py-2 text-[18px] text-center font-semibold">
@@ -103,6 +106,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getAccounts}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -117,14 +121,22 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(accounts, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="transfer-deposit-request-table"
+        >
           <thead>
             <tr>
               <th
@@ -165,6 +177,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="chain"
+                  data-testid="chain-input"
                 />
               </td>
             </tr>
@@ -185,6 +198,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="Symbol"
+                  data-testid="symbol-input"
                 />
               </td>
             </tr>
@@ -205,6 +219,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="Ticker"
+                  data-testid="ticker-input"
                 />
               </td>
             </tr>
@@ -225,6 +240,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                   }
                   placeholder="From Address"
                   disabled
+                  data-testid="from-address-input"
                 />
               </td>
             </tr>
@@ -244,6 +260,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="To Address (optional)"
+                  data-testid="to-address-input"
                 />
               </td>
             </tr>
@@ -266,6 +283,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="Amount (smallest unit value)"
+                  data-testid="amount-input"
                 />
               </td>
             </tr>
@@ -288,6 +306,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="Decimals"
+                  data-testid="decimals-input"
                 />
               </td>
             </tr>
@@ -307,6 +326,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     })
                   }
                   placeholder="Memo (optional)"
+                  data-testid="memo-input"
                 />
               </td>
             </tr>
@@ -315,6 +335,7 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                 <button
                   onClick={requestTransfer}
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -332,7 +353,10 @@ const ThorChain = ({ account, chain }: { account: string; chain: string }) => {
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(transferResp, null, 2)}
                 </pre>
               </td>

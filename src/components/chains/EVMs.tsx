@@ -200,7 +200,10 @@ const EVMs = ({
   return (
     <div className="mt-3">
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="accounts-request-table"
+        >
           <thead>
             <tr>
               <th className="border px-4 py-2 text-[18px] text-center font-semibold">
@@ -214,6 +217,7 @@ const EVMs = ({
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={requestAccounts}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -228,14 +232,22 @@ const EVMs = ({
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(accounts, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(accounts, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="personal-sign-request-table"
+        >
           <thead>
             <tr>
               <th
@@ -255,6 +267,7 @@ const EVMs = ({
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  data-testid="message-input"
                 />
               </td>
             </tr>
@@ -266,6 +279,7 @@ const EVMs = ({
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={personalSign}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -283,7 +297,10 @@ const EVMs = ({
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(personalSignResp, null, 2)}
                 </pre>
               </td>
@@ -292,7 +309,10 @@ const EVMs = ({
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="send-transaction-table"
+        >
           <thead>
             <tr>
               <th
@@ -312,6 +332,7 @@ const EVMs = ({
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txData.to}
                   onChange={(e) => setTxData({ ...txData, to: e.target.value })}
+                  data-testid="to-address-input"
                 />
               </td>
             </tr>
@@ -328,6 +349,7 @@ const EVMs = ({
                       value: e.target.value,
                     })
                   }
+                  data-testid="value-input"
                 />
               </td>
             </tr>
@@ -344,6 +366,7 @@ const EVMs = ({
                       gasPrice: e.target.value,
                     })
                   }
+                  data-testid="gas-price-input"
                 />
               </td>
             </tr>
@@ -360,6 +383,7 @@ const EVMs = ({
                       gas: e.target.value,
                     })
                   }
+                  data-testid="gas-input"
                 />
               </td>
             </tr>
@@ -373,6 +397,7 @@ const EVMs = ({
                   onChange={(e) =>
                     setTxData({ ...txData, nonce: e.target.value })
                   }
+                  data-testid="nonce-input"
                 />
               </td>
             </tr>
@@ -386,6 +411,7 @@ const EVMs = ({
                   onChange={(e) =>
                     setTxData({ ...txData, data: e.target.value })
                   }
+                  data-testid="data-input"
                 />
               </td>
             </tr>
@@ -397,6 +423,7 @@ const EVMs = ({
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={ethSignTransaction}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -414,7 +441,10 @@ const EVMs = ({
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(signTransactionResp, null, 2)}
                 </pre>
               </td>
@@ -423,7 +453,10 @@ const EVMs = ({
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="get-transaction-by-hash-table"
+        >
           <thead>
             <tr>
               <th
@@ -443,6 +476,7 @@ const EVMs = ({
                   className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
                   value={txHash}
                   onChange={(e) => setTxHash(e.target.value)}
+                  data-testid="transaction-hash-input"
                 />
               </td>
             </tr>
@@ -454,6 +488,7 @@ const EVMs = ({
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={getTransactionByHash}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -471,7 +506,10 @@ const EVMs = ({
                     Response
                   </span>
                 </div>
-                <pre className="p-5">
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
                   {JSON.stringify(transactionByHashResp, null, 2)}
                 </pre>
               </td>
@@ -480,7 +518,10 @@ const EVMs = ({
         </table>
       </div>
       <div className="overflow-auto">
-        <table className="table-auto w-full mt-3">
+        <table
+          className="table-auto w-full mt-3"
+          data-testid="eth-sign-typed-data-v4-table"
+        >
           <thead>
             <tr>
               <th
@@ -505,6 +546,7 @@ const EVMs = ({
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signTypedDataV4}
+                  data-testid="send-request-button"
                 >
                   Send Request
                 </button>
@@ -522,7 +564,12 @@ const EVMs = ({
                     Response
                   </span>
                 </div>
-                <pre className="p-5">{JSON.stringify(signDataV4Resp, null, 2)}</pre>
+                <pre
+                  className="p-5"
+                  data-testid="response-data"
+                >
+                  {JSON.stringify(signDataV4Resp, null, 2)}
+                </pre>
               </td>
             </tr>
           </tfoot>
