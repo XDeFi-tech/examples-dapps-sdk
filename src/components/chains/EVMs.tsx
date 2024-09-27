@@ -66,7 +66,7 @@ const EVMs = ({
 
       setTypedDataV4({
         domain: {
-          chainId: 1, // mainnet
+          chainId: Number(data.chainId),
           name: 'Ether Mail',
           verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
           version: '1',
@@ -536,7 +536,10 @@ const EVMs = ({
             <tr>
               <td className="border px-4 py-2 w-[150px]">Data (sample)</td>
               <td className="border px-4 py-2">
-                <pre className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded">
+                <pre
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded"
+                  data-testid="data-sample"
+                >
                   {JSON.stringify(typedDataV4, null, 2)}
                 </pre>
               </td>
