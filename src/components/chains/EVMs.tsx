@@ -66,7 +66,7 @@ const EVMs = ({
 
       setTypedDataV4({
         domain: {
-          chainId: 1, // mainnet
+          chainId: Number(data.chainId),
           name: 'Ether Mail',
           verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
           version: '1',
