@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { AddressPurpose, request } from "sats-connect";
 
 const BitcoinChain = ({ account }: { account: string }) => {
   const [accounts, setAccounts] = useState<any>([]);
+  const [addresses, setAddresses] = useState<any>([]); // getAddresses sats-connect
   const [txData, setTxData] = useState({
-    from: '',
-    to: '',
+    from: "",
+    to: "",
     feeRate: 5,
     amount: {
       amount: 1234,
       decimals: 8,
     },
-    memo: 'memo',
+    memo: "memo",
   });
   const [psbtData, setPsbtData] = useState({
-    psbt: '', // string base64
+    psbt: "", // string base64
     signInputs: [], // array of sign inputs
     allowedSignHash: 0, // a number representing the sigHash type to use for signing. will default to the sighash type of the input if not provided.
     broadcast: false, // a boolean flag that specifies whether to broadcast the signed transaction after signature
@@ -22,11 +24,56 @@ const BitcoinChain = ({ account }: { account: string }) => {
   const [transferResp, setTransferResp] = useState<Object>({});
   const [signPsbtResp, setSignPsbtResp] = useState<Object>({});
 
+  const getAddresses = async () => {
+    // try {
+    //   const response = await window.xfi.bitcoin.request({
+    //     method: "request_accounts_and_keys",
+    //     params: {
+    //       purposes: [AddressPurpose.Ordinals, AddressPurpose.Payment],
+    //       message: "Requesting Bitcoin and Ordinals addresses",
+    //     },
+    //   });
+
+    //   if (response?.status === "success") {
+    //     setAddresses(response.result);
+    //   } else {
+    //     console.warn("Error fetching addresses:", response);
+    //   }
+    // } catch (err) {
+    //   console.error("Error:", err);
+    // }
+    try {
+      const response: any = await request("getAddresses", {
+        purposes: [AddressPurpose.Payment],
+      });
+      console.log("getAccounts ~ response:", response);
+      if (response.status === "success") {
+        console.debug({ response });
+        setAddresses(response.result);
+        // const paymentAddressItem = response.result.find(
+        //   (address: any) => address.purpose === AddressPurpose.Payment
+        // );
+        // const ordinalsAddressItem = response.result.find(
+        //   (address: any) => address.purpose === AddressPurpose.Ordinals
+        // );
+        // const stacksAddressItem = response.result.find(
+        //   (address: any) => address.purpose === AddressPurpose.Stacks
+        // );
+        // console.log("getAccounts ~ paymentAddressItem:", paymentAddressItem);
+      } else {
+        console.warn("Error fetching addresses:", response);
+        setAddresses([]);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setAddresses([]);
+    }
+  };
   const getAccounts = async () => {
     try {
       await window.xfi.bitcoin.request(
         {
-          method: 'request_accounts',
+          method: "request_accounts",
           params: [],
         },
         (error: any, result: any) => {
@@ -48,7 +95,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
     const { from, to, feeRate, amount, memo } = txData;
     window.xfi.bitcoin.request(
       {
-        method: 'transfer',
+        method: "transfer",
         params: [
           {
             from: account,
@@ -67,20 +114,20 @@ const BitcoinChain = ({ account }: { account: string }) => {
 
   const signPsbt = () => {
     // TODO: Implement signPsbt
-    alert('Not implemented yet, coming soon!');
+    alert("Not implemented yet, coming soon!");
   };
 
   useEffect(() => {
     setAccounts([]);
     setTxData({
-      from: '',
-      to: '',
+      from: "",
+      to: "",
       feeRate: 5,
       amount: {
         amount: 1234,
         decimals: 8,
       },
-      memo: 'memo',
+      memo: "memo",
     });
   }, [account]);
 
@@ -119,11 +166,49 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     Response
                   </span>
                 </div>
-                <pre
-                  className="p-5"
-                  data-testid="response-data"
-                >
+                <pre className="p-5" data-testid="response-data">
                   {JSON.stringify(accounts, null, 2)}
+                </pre>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div className="overflow-auto">
+        <table
+          className="table-auto w-full"
+          data-testid="accounts-request-table"
+        >
+          <thead>
+            <tr>
+              <th className="border px-4 py-2 text-[18px] text-center font-semibold">
+                getAddresses (sats-connect)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border px-4 py-2 text-center">
+                <button
+                  className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
+                  onClick={getAddresses}
+                  data-testid="send-request-button"
+                >
+                  Send Request
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="border my-4 bg-[#F6F6F7] text-[#24292E]">
+                <div className="px-5 border-b border-[#e2e2e3]">
+                  <span className="inline-block border-b-2 border-[#05C92F] text-[14px] leading-[48px]">
+                    Response
+                  </span>
+                </div>
+                <pre className="p-5" data-testid="response-data">
+                  {JSON.stringify(addresses, null, 2)}
                 </pre>
               </td>
             </tr>
@@ -278,10 +363,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
                     Response
                   </span>
                 </div>
-                <pre
-                  className="p-5"
-                  data-testid="response-data"
-                >
+                <pre className="p-5" data-testid="response-data">
                   {JSON.stringify(transferResp, null, 2)}
                 </pre>
               </td>
