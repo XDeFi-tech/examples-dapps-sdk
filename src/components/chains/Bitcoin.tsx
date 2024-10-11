@@ -14,15 +14,37 @@ const BitcoinChain = ({ account }: { account: string }) => {
     },
     memo: "memo",
   });
-  const [psbtData, setPsbtData] = useState({
-    psbt: "", // string base64
-    signInputs: [], // array of sign inputs
-    allowedSignHash: 0, // a number representing the sigHash type to use for signing. will default to the sighash type of the input if not provided.
-    broadcast: false, // a boolean flag that specifies whether to broadcast the signed transaction after signature
-  });
 
   const [transferResp, setTransferResp] = useState<Object>({});
   const [signPsbtResp, setSignPsbtResp] = useState<Object>({});
+
+  const [psbtData, setPsbtData] = useState({
+    psbt: "", // Base64 encoded PSBT
+    signInputs: { "1ef9...Jn1r": [0], "bc1p...ra4w": [1, 2] },
+    allowedSignHash: 1, // Example SigHash type
+    broadcast: false,
+  });
+
+  const signPsbt = async () => {
+    try {
+      const response = await request("signPsbt", {
+        psbt: psbtData.psbt,
+        signInputs: psbtData.signInputs,
+        allowedSignHash: psbtData.allowedSignHash,
+        broadcast: psbtData.broadcast,
+      });
+
+      if (response.status === "success") {
+        setSignPsbtResp(response.result);
+      } else {
+        console.warn("Error signing PSBT:", response);
+        setSignPsbtResp({});
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setSignPsbtResp({});
+    }
+  };
 
   const getAddresses = async () => {
     // try {
@@ -110,11 +132,6 @@ const BitcoinChain = ({ account }: { account: string }) => {
         setTransferResp({ error, result });
       }
     );
-  };
-
-  const signPsbt = () => {
-    // TODO: Implement signPsbt
-    alert("Not implemented yet, coming soon!");
   };
 
   useEffect(() => {
@@ -385,14 +402,72 @@ const BitcoinChain = ({ account }: { account: string }) => {
           </thead>
           <tbody>
             <tr>
-              <td className="border px-4 py-2 w-[150px]">Data</td>
-              <td className="border px-4 py-2 text-center">Coming soon...</td>
-              <td className="border px-4 py-2 text-center w-[160px]">
+              <td className="border px-4 py-2 w-[150px]">PSBT (Base64)</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="text"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={psbtData.psbt}
+                  onChange={(e) =>
+                    setPsbtData({ ...psbtData, psbt: e.target.value })
+                  }
+                  placeholder="Enter Base64 PSBT"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2">Sign Inputs</td>
+              <td className="border px-4 py-2">
+                <textarea
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={JSON.stringify(psbtData.signInputs, null, 2)}
+                  onChange={(e) =>
+                    setPsbtData({
+                      ...psbtData,
+                      signInputs: JSON.parse(e.target.value),
+                    })
+                  }
+                  placeholder='{"1ef9...Jn1r": [0], "bc1p...ra4w": [1, 2]}'
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2">Allowed Sign Hash</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="number"
+                  className="w-full bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  value={psbtData.allowedSignHash}
+                  onChange={(e) =>
+                    setPsbtData({
+                      ...psbtData,
+                      allowedSignHash: Number(e.target.value),
+                    })
+                  }
+                  placeholder="Enter SigHash type"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2">Broadcast</td>
+              <td className="border px-4 py-2">
+                <input
+                  type="checkbox"
+                  className="bg-gray-50 text-gray-900 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:border-[#05C92F]"
+                  checked={psbtData.broadcast}
+                  onChange={(e) =>
+                    setPsbtData({ ...psbtData, broadcast: e.target.checked })
+                  }
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-4 py-2 text-center" colSpan={2}>
                 <button
                   className="bg-[#05C92F] text-[#001405] px-2 py-1 rounded-full border-[1px] border-[#001405]"
                   onClick={signPsbt}
                 >
-                  Send Request
+                  Sign PSBT
                 </button>
               </td>
             </tr>
@@ -414,7 +489,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
               </td>
             </tr>
           </tfoot>
-        </table>
+        </table>{" "}
       </div>
     </div>
   );
