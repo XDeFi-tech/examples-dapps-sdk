@@ -141,12 +141,15 @@ const BitcoinChain = ({ account }: { account: string }) => {
 
   // Generate a random PSBT using fetched UTXO and same address for recipient & change
   const generateRandomPsbt = async () => {
-    if (!addresses.length) {
-      alert("No addresses found. Please fetch addresses first.");
+    if (!addresses.length) return;
+
+    const addressObj = addresses.find((addr) => addr.purpose === "payment"); // Find the payment address
+    if (!addressObj) {
+      console.error("No payment address found.");
       return;
     }
 
-    const address = addresses[0].address; // Assuming we use the first address from state
+    const { address, publicKey } = addressObj; // Use the public key from the response
 
     try {
       const utxos = await getUnspentOutputs(address); // Fetch UTXOs for this address
@@ -160,24 +163,33 @@ const BitcoinChain = ({ account }: { account: string }) => {
       // Use the first UTXO from the fetched list
       const output = utxos[0];
 
-      // Adding input
-      const publicKey = hex.encode(
-        Uint8Array.from(
-          Buffer.from(
-            "02818b7ff740a40f311d002123087053d5d9e0e1546674aedb10e15a5b57fd3985",
-            "hex"
-          )
-        )
+      // Ensure the value is in satoshis (integer)
+      const utxoValue = BigInt(output.value); // This should be in satoshis
+
+      // Define a simple fee (e.g., 10000 satoshis) - adjust this as needed
+      const fee = BigInt(10000);
+
+      // Calculate the amount to send (subtracting fee from the UTXO value)
+      const recipientAmount = utxoValue - fee;
+
+      if (recipientAmount <= 0) {
+        throw new Error("Insufficient UTXO balance to cover fee.");
+      }
+
+      // Use the public key from the address response
+      const bytesPublicKey = Uint8Array.from(
+        Buffer.from(publicKey as string, "hex")
       );
-      const p2wpkh = btc.p2wpkh(publicKey, bitcoinMainnet);
+      const p2wpkh = btc.p2wpkh(bytesPublicKey, bitcoinMainnet);
       const p2sh = btc.p2sh(p2wpkh, bitcoinMainnet);
 
+      // Adding input
       tx.addInput({
         txid: output.txid,
         index: output.vout,
         witnessUtxo: {
           script: p2sh.script,
-          amount: BigInt(output.value),
+          amount: utxoValue, // Ensure amount is a BigInt
         },
         redeemScript: p2sh.redeemScript,
       });
@@ -186,9 +198,8 @@ const BitcoinChain = ({ account }: { account: string }) => {
       const recipient = address;
       const changeAddress = address;
 
-      const recipientAmount = BigInt(output.value) - BigInt(10000); // Deducting a fee of 10000 satoshis
       tx.addOutputAddress(recipient, recipientAmount, bitcoinMainnet);
-      tx.addOutputAddress(changeAddress, BigInt(10000), bitcoinMainnet); // Change amount
+      tx.addOutputAddress(changeAddress, fee, bitcoinMainnet); // Assign the fee as change output
 
       // Generate PSBT and set the state
       const psbt = tx.toPSBT(0);
@@ -204,6 +215,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
       });
     } catch (error) {
       console.error("Error generating random PSBT:", error);
+      alert("Error generating random PSBT. Check the console for details.");
     }
   };
 
@@ -305,18 +317,6 @@ const BitcoinChain = ({ account }: { account: string }) => {
           </tfoot>
         </table>
       </div>
-
-      {/* Generate Random PSBT button */}
-      {addresses.length > 0 && (
-        <div className="text-center mt-4">
-          <button
-            className="bg-[#05C92F] text-[#001405] px-4 py-2 rounded-full border-[1px] border-[#001405]"
-            onClick={generateRandomPsbt}
-          >
-            Generate Random PSBT
-          </button>
-        </div>
-      )}
 
       <div className="overflow-auto">
         <table
@@ -487,6 +487,21 @@ const BitcoinChain = ({ account }: { account: string }) => {
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td className="border px-4 py-2 text-center" colSpan={2}>
+                {/* Generate Random PSBT button */}
+                {addresses.length > 0 && (
+                  <div className="text-center mt-4">
+                    <button
+                      className="bg-[#05C92F] text-[#001405] px-4 py-2 rounded-full border-[1px] border-[#001405]"
+                      onClick={generateRandomPsbt}
+                    >
+                      Generate Random PSBT
+                    </button>
+                  </div>
+                )}
+              </td>
+            </tr>
             <tr>
               <td className="border px-4 py-2 w-[150px]">PSBT (Base64)</td>
               <td className="border px-4 py-2">
