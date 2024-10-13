@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@keplr-wallet/types": "^0.12.90",
+    "@scure/base": "^1.1.9",
     "@solana/web3.js": "^1.95.1",
     "bignumber.js": "4.0.4",
     "bs58": "^6.0.0",
+    "micro-btc-signer": "^0.4.2",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
