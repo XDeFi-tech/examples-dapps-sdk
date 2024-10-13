@@ -166,8 +166,8 @@ const BitcoinChain = ({ account }: { account: string }) => {
       // Ensure the value is in satoshis (integer)
       const utxoValue = BigInt(output.value); // This should be in satoshis
 
-      // Define a simple fee (e.g., 10000 satoshis) - adjust this as needed
-      const fee = BigInt(10000);
+      // Define a simple fee (e.g., 1000 satoshis) - adjust this as needed
+      const fee = BigInt(1000);
 
       // Calculate the amount to send (subtracting fee from the UTXO value)
       const recipientAmount = utxoValue - fee;
