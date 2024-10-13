@@ -143,7 +143,9 @@ const BitcoinChain = ({ account }: { account: string }) => {
   const generateRandomPsbt = async () => {
     if (!addresses.length) return;
 
-    const addressObj = addresses.find((addr) => addr.purpose === "payment"); // Find the payment address
+    const addressObj = addresses.find(
+      (addr: any) => addr.purpose === "payment"
+    ); // Find the payment address
     if (!addressObj) {
       console.error("No payment address found.");
       return;
