@@ -1,9 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { AddressPurpose, request } from "sats-connect";
+import * as btc from "micro-btc-signer";
+import { hex, base64 } from "@scure/base";
+
+// Bitcoin mainnet parameters
+const bitcoinMainnet = {
+  bech32: "bc",
+  pubKeyHash: 0x00,
+  scriptHash: 0x05,
+  wif: 0x80,
+};
+
+// Blockbook API to fetch unspent outputs
+const getUnspentOutputs = async (address: string) => {
+  const url = `https://rpc.ankr.com/http/btc_blockbook/api/v2/utxo/${address}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+};
 
 const BitcoinChain = ({ account }: { account: string }) => {
   const [accounts, setAccounts] = useState<any>([]);
-  const [addresses, setAddresses] = useState<any>([]); // getAddresses sats-connect
+  const [addresses, setAddresses] = useState<any>([]);
   const [txData, setTxData] = useState({
     from: "",
     to: "",
@@ -17,14 +35,14 @@ const BitcoinChain = ({ account }: { account: string }) => {
 
   const [transferResp, setTransferResp] = useState<Object>({});
   const [signPsbtResp, setSignPsbtResp] = useState<Object>({});
-
   const [psbtData, setPsbtData] = useState({
-    psbt: "", // Base64 encoded PSBT
-    signInputs: { "1ef9...Jn1r": [0], "bc1p...ra4w": [1, 2] },
-    allowedSignHash: 1, // Example SigHash type
+    psbt: "",
+    signInputs: {},
+    allowedSignHash: 1,
     broadcast: false,
   });
 
+  // Sign PSBT
   const signPsbt = async () => {
     try {
       const response = await request("signPsbt", {
@@ -46,24 +64,8 @@ const BitcoinChain = ({ account }: { account: string }) => {
     }
   };
 
+  // Fetch addresses (sats-connect)
   const getAddresses = async () => {
-    // try {
-    //   const response = await window.xfi.bitcoin.request({
-    //     method: "request_accounts_and_keys",
-    //     params: {
-    //       purposes: [AddressPurpose.Ordinals, AddressPurpose.Payment],
-    //       message: "Requesting Bitcoin and Ordinals addresses",
-    //     },
-    //   });
-
-    //   if (response?.status === "success") {
-    //     setAddresses(response.result);
-    //   } else {
-    //     console.warn("Error fetching addresses:", response);
-    //   }
-    // } catch (err) {
-    //   console.error("Error:", err);
-    // }
     try {
       const response: any = await request("getAddresses", {
         purposes: [AddressPurpose.Payment],
@@ -91,6 +93,8 @@ const BitcoinChain = ({ account }: { account: string }) => {
       setAddresses([]);
     }
   };
+
+  // Fetch accounts (request_accounts)
   const getAccounts = async () => {
     try {
       await window.xfi.bitcoin.request(
@@ -113,6 +117,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
     }
   };
 
+  // Sign a Bitcoin transaction
   const signTransaction = () => {
     const { from, to, feeRate, amount, memo } = txData;
     window.xfi.bitcoin.request(
@@ -132,6 +137,74 @@ const BitcoinChain = ({ account }: { account: string }) => {
         setTransferResp({ error, result });
       }
     );
+  };
+
+  // Generate a random PSBT using fetched UTXO and same address for recipient & change
+  const generateRandomPsbt = async () => {
+    if (!addresses.length) {
+      alert("No addresses found. Please fetch addresses first.");
+      return;
+    }
+
+    const address = addresses[0].address; // Assuming we use the first address from state
+
+    try {
+      const utxos = await getUnspentOutputs(address); // Fetch UTXOs for this address
+      if (!utxos.length) {
+        console.warn("No unspent outputs found for address:", address);
+        return;
+      }
+
+      const tx = new btc.Transaction();
+
+      // Use the first UTXO from the fetched list
+      const output = utxos[0];
+
+      // Adding input
+      const publicKey = hex.encode(
+        Uint8Array.from(
+          Buffer.from(
+            "02818b7ff740a40f311d002123087053d5d9e0e1546674aedb10e15a5b57fd3985",
+            "hex"
+          )
+        )
+      );
+      const p2wpkh = btc.p2wpkh(publicKey, bitcoinMainnet);
+      const p2sh = btc.p2sh(p2wpkh, bitcoinMainnet);
+
+      tx.addInput({
+        txid: output.txid,
+        index: output.vout,
+        witnessUtxo: {
+          script: p2sh.script,
+          amount: BigInt(output.value),
+        },
+        redeemScript: p2sh.redeemScript,
+      });
+
+      // Adding outputs (same address as sender for both recipient and change)
+      const recipient = address;
+      const changeAddress = address;
+
+      const recipientAmount = BigInt(output.value) - BigInt(10000); // Deducting a fee of 10000 satoshis
+      tx.addOutputAddress(recipient, recipientAmount, bitcoinMainnet);
+      tx.addOutputAddress(changeAddress, BigInt(10000), bitcoinMainnet); // Change amount
+
+      // Generate PSBT and set the state
+      const psbt = tx.toPSBT(0);
+      const psbtB64 = base64.encode(psbt);
+
+      setPsbtData({
+        psbt: psbtB64,
+        signInputs: {
+          [output.txid]: [0],
+        },
+        allowedSignHash: 1,
+        broadcast: false,
+      });
+    } catch (error) {
+      console.error("Error generating random PSBT:", error);
+    }
   };
 
   useEffect(() => {
@@ -232,6 +305,19 @@ const BitcoinChain = ({ account }: { account: string }) => {
           </tfoot>
         </table>
       </div>
+
+      {/* Generate Random PSBT button */}
+      {addresses.length > 0 && (
+        <div className="text-center mt-4">
+          <button
+            className="bg-[#05C92F] text-[#001405] px-4 py-2 rounded-full border-[1px] border-[#001405]"
+            onClick={generateRandomPsbt}
+          >
+            Generate Random PSBT
+          </button>
+        </div>
+      )}
+
       <div className="overflow-auto">
         <table
           className="table-auto w-full mt-3"
