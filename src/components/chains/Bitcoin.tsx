@@ -51,7 +51,6 @@ const BitcoinChain = ({ account }: { account: string }) => {
         allowedSignHash: psbtData.allowedSignHash,
         broadcast: psbtData.broadcast,
       });
-
       if (response.status === "success") {
         setSignPsbtResp(response.result);
       } else {
@@ -169,7 +168,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
       const utxoValue = BigInt(output.value); // This should be in satoshis
 
       // Define a simple fee (e.g., 1000 satoshis) - adjust this as needed
-      const fee = BigInt(1000);
+      const fee = BigInt(500);
 
       // Calculate the amount to send (subtracting fee from the UTXO value)
       const recipientAmount = utxoValue - fee;
@@ -182,18 +181,19 @@ const BitcoinChain = ({ account }: { account: string }) => {
       const bytesPublicKey = Uint8Array.from(
         Buffer.from(publicKey as string, "hex")
       );
+      // use p2wpkh for derivation path m/84/0/0/0
       const p2wpkh = btc.p2wpkh(bytesPublicKey, bitcoinMainnet);
-      const p2sh = btc.p2sh(p2wpkh, bitcoinMainnet);
+      // const p2sh = btc.p2sh(p2wpkh, bitcoinMainnet);
 
       // Adding input
       tx.addInput({
         txid: output.txid,
         index: output.vout,
         witnessUtxo: {
-          script: p2sh.script,
+          script: p2wpkh.script,
           amount: utxoValue, // Ensure amount is a BigInt
         },
-        redeemScript: p2sh.redeemScript,
+        redeemScript: p2wpkh.redeemScript,
       });
 
       // Adding outputs (same address as sender for both recipient and change)
@@ -201,7 +201,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
       const changeAddress = address;
 
       tx.addOutputAddress(recipient, recipientAmount, bitcoinMainnet);
-      tx.addOutputAddress(changeAddress, fee, bitcoinMainnet); // Assign the fee as change output
+      // tx.addOutputAddress(changeAddress, fee, bitcoinMainnet); // Assign the fee as change output
 
       // Generate PSBT and set the state
       const psbt = tx.toPSBT(0);
@@ -210,7 +210,7 @@ const BitcoinChain = ({ account }: { account: string }) => {
       setPsbtData({
         psbt: psbtB64,
         signInputs: {
-          [output.txid]: [0],
+          [address]: [0],
         },
         allowedSignHash: 1,
         broadcast: false,
